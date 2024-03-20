@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "245016133",
+    "project_id": "reaad-app",
+    "storage_bucket": "reaad-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245016133:android:394daa481ce3e352b5e52c",
+        "android_client_info": {
+          "package_name": "io.berson.reaad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKtR3LK67qMq9UyWuROls6iBvMGtoW8II"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
