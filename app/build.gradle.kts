@@ -2,8 +2,6 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -64,10 +62,9 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("com.google.firebase:firebase-auth:22.3.1")
     implementation ("androidx.navigation:navigation-compose:2.7.5")
-    implementation ("com.google.dagger:hilt-android:2.48")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
     implementation("com.google.firebase:firebase-inappmessaging-ktx:20.4.0")
-    kapt ("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.firebase:firebase-database:20.3.1")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.10.3")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

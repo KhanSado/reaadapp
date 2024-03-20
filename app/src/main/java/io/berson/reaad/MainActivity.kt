@@ -12,11 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import dagger.hilt.android.AndroidEntryPoint
 import io.berson.reaad.ui.navigation.ReaadNavigation
 import io.berson.reaad.ui.theme.ReaadTheme
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalComposeUiApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {

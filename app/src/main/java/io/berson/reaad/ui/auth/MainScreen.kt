@@ -25,10 +25,10 @@ import androidx.navigation.NavController
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
-import io.berson.reaad.ui.viewmodel.FirebaseViewModel
+import io.berson.reaad.ui.viewmodel.AuthViewModel
 
 @Composable
-fun MainScreen(navController: NavController, vm: FirebaseViewModel) {
+fun MainScreen(navController: NavController) {
     GradientSurface {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -46,30 +48,23 @@ import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
-import io.berson.reaad.ui.viewmodel.FirebaseViewModel
+import io.berson.reaad.ui.viewmodel.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController, vm: FirebaseViewModel) {
+fun LoginScreen(
+    vm: AuthViewModel,
+    onNavToHomePage:() -> Unit,
+) {
 
     val emty by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
-    var errorEmail by remember { mutableStateOf(false) }
-    var errorPassword by remember { mutableStateOf(false) }
-    var errorLogin by remember { mutableStateOf(false) }
+
+    val loginUiState = vm.loginUiState
+    val isError = loginUiState.loginError != null
+    val context = LocalContext.current
 
     GradientSurface {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            if (vm.inProgress.value) {
-                CircularProgressIndicator()
-            }
-        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -79,9 +74,9 @@ fun LoginScreen(navController: NavController, vm: FirebaseViewModel) {
                     rememberScrollState()
                 )
         ) {
-            if (vm.error.value) {
+            if (isError){
                 Text(
-                    text = "não foi possivel realizar o login, verifique as credenciais e tente novamente",
+                    text = loginUiState?.loginError ?: "unknown error",
                     color = Color.Red,
                 )
             }
@@ -93,18 +88,12 @@ fun LoginScreen(navController: NavController, vm: FirebaseViewModel) {
                 fontSize = 30.sp,
                 color = Color.White
             )
+
             Spacer(modifier = Modifier.height(50.dp))
-            if (errorEmail) {
-                Text(
-                    text = "você precisa entrar com email",
-                    color = Color.Red,
-                )
-            }
+
             TextField(
-                value = email,
-                onValueChange = {
-                    email = it
-                },
+                value = loginUiState?.userName ?: "",
+                onValueChange = { vm?.onUserNameChange(it) },
                 label = {
                     Text(text = "email")
                 },
@@ -115,13 +104,13 @@ fun LoginScreen(navController: NavController, vm: FirebaseViewModel) {
                     )
                 },
                 trailingIcon = {
-                    if (email.isNotEmpty()) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_close_24),
-                            contentDescription = null,
-                            Modifier.clickable { email = emty }
-                        )
-                    }
+                    if (loginUiState.userName.isNotEmpty()) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_close_24),
+                                contentDescription = null,
+                                Modifier.clickable { loginUiState.userName = emty }
+                            )
+                        }
                 },
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
@@ -140,20 +129,13 @@ fun LoginScreen(navController: NavController, vm: FirebaseViewModel) {
                     focusedIndicatorColor = Color.Transparent,
                     containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Green
-                )
+                ),
+                isError = isError
             )
             Spacer(modifier = Modifier.height(30.dp))
-            if (errorPassword) {
-                Text(
-                    text = "insira sua senha",
-                    color = Color.Red,
-                )
-            }
             TextField(
-                value = password,
-                onValueChange = {
-                    password = it
-                },
+                value = loginUiState?.password ?: "",
+                onValueChange = { vm.onPasswordNameChange(it) },
                 label = {
                     Text(text = "senha")
                 },
@@ -164,7 +146,7 @@ fun LoginScreen(navController: NavController, vm: FirebaseViewModel) {
                     )
                 },
                 trailingIcon = {
-                    if (password.isNotEmpty()) {
+                    if (loginUiState?.password!!.isNotEmpty()) {
                         val visibilityIcon = if (passwordVisibility) {
                             painterResource(id = R.drawable.baseline_visibility_24)
                         } else {
@@ -202,7 +184,8 @@ fun LoginScreen(navController: NavController, vm: FirebaseViewModel) {
                     focusedIndicatorColor = Color.Transparent,
                     containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Green
-                )
+                ),
+                isError = isError
             )
             Spacer(modifier = Modifier.height(50.dp))
 
@@ -212,22 +195,7 @@ fun LoginScreen(navController: NavController, vm: FirebaseViewModel) {
                     .background(Color(0xB9FFFFFF))
             ) {
                 Button(
-                    onClick = {
-                        if (email.isNotEmpty()) {
-                            errorEmail = false
-                            if (password.isNotEmpty()) {
-                                errorPassword = false
-                                vm.login(
-                                    email,
-                                    password
-                                )
-                            } else {
-                                errorPassword = true
-                            }
-                        } else {
-                            errorEmail = true
-                        }
-                    },
+                    onClick = { vm.loginUser(context) },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),
@@ -239,12 +207,19 @@ fun LoginScreen(navController: NavController, vm: FirebaseViewModel) {
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Thin
                     )
-                    if (vm.signedIn.value) {
-                        navController.navigate(DestinationScreen.HomeScreen.name)
-                    }
-                    vm.signedIn.value = false
                 }
             }
+
+            if (loginUiState.isLoading){
+                CircularProgressIndicator()
+            }
+
+            LaunchedEffect(key1 = vm.hasUser){
+                if (vm.hasUser){
+                    onNavToHomePage.invoke()
+                }
+            }
+
         }
     }
 }

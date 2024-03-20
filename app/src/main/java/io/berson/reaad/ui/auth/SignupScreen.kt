@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -46,37 +48,28 @@ import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
-import io.berson.reaad.ui.viewmodel.FirebaseViewModel
+import io.berson.reaad.ui.viewmodel.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
+fun SignupScreen(
+    vm: AuthViewModel,
+    onNavToHomePage:() -> Unit,
+    onNavToLoginPage:() -> Unit
+) {
     val emty by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var cpassword by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
     var cpasswordVisibility by remember { mutableStateOf(false) }
-    var errorEmail by remember { mutableStateOf(false) }
-    var errorPassword by remember { mutableStateOf(false) }
     var errorConfirmPassword by remember { mutableStateOf(false) }
-    var errorConfirm by remember { mutableStateOf(false) }
     var plength by remember { mutableStateOf(false) }
+
+    val loginUiState = vm.loginUiState
+    val isErrorSignup = loginUiState.signUpError != null
+    val context = LocalContext.current
 
     GradientSurface {
 
-        //Loading ao cadastrar
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            if (vm.inProgress.value) {
-                CircularProgressIndicator()
-            }
-        }
-
-        //Tela de cadastro com os fields
         Column(
             horizontalAlignment = CenterHorizontally,
             modifier = Modifier
@@ -86,9 +79,10 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
                     rememberScrollState()
                 )
         ) {
-            if (vm.error.value) {
+
+            if (isErrorSignup){
                 Text(
-                    text = "não foi possivel realizar o cadastro, verifique os dados informados e tente novamente",
+                    text = loginUiState.signUpError ?: "unknown error",
                     color = Color.Red,
                 )
             }
@@ -103,18 +97,9 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
 
             Spacer(modifier = Modifier.height(50.dp))
 
-            if (errorEmail) {
-                Text(
-                    text = "você precisa informar seu email",
-                    color = Color.Red,
-                )
-            }
-
             TextField(
-                value = email,
-                onValueChange = {
-                    email = it
-                },
+                value = loginUiState.userNameSignUp,
+                onValueChange = {vm.onUserNameChangeSignup(it)},
                 label = {
                     Text(text = "email")
                 },
@@ -125,7 +110,7 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
                     )
                 },
                 trailingIcon = {
-                    if (email.isNotEmpty()) {
+                    if (loginUiState.userNameSignUp.isNotEmpty()) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_close_24),
                             contentDescription = null,
@@ -150,19 +135,13 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
                     focusedIndicatorColor = Color.Transparent,
                     containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Red,
-                )
+                ),
+                isError = isErrorSignup
             )
 
 
             Spacer(modifier = Modifier.height(30.dp))
 
-
-            if (errorPassword) {
-                Text(
-                    text = "você precisa criar uma senha",
-                    color = Color.Red,
-                )
-            }
             if (plength) {
                 Text(
                     text = "sua senha deve ter mais de 6 caracteres",
@@ -171,11 +150,12 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
             }
 
             TextField(
-                value = password,
+                value = loginUiState.passwordSignUp,
                 onValueChange = {
-                    password = it
+                    vm.onPasswordChangeSignup(it)
                     plength = it.length < 6
                 },
+
                 label = {
                     Text(text = "senha")
                 },
@@ -186,7 +166,7 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
                     )
                 },
                 trailingIcon = {
-                    if (password.isNotEmpty()) {
+                    if (loginUiState.passwordSignUp.isNotEmpty()) {
                         val visibilityIcon = if (passwordVisibility) {
                             painterResource(id = R.drawable.baseline_visibility_24)
                         } else {
@@ -224,7 +204,8 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
                     focusedIndicatorColor = Color.Transparent,
                     containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Red
-                )
+                ),
+                isError = isErrorSignup
             )
             Spacer(modifier = Modifier.height(30.dp))
             if (errorConfirmPassword) {
@@ -233,17 +214,10 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
                     color = Color.Red,
                 )
             }
-            if (errorConfirm) {
-                Text(
-                    text = "insira a confirmação de senha",
-                    color = Color.Red,
-                )
-            }
+
             TextField(
-                value = cpassword,
-                onValueChange = {
-                    cpassword = it
-                },
+                value = loginUiState.confirmPasswordSignUp,
+                onValueChange = { vm.onConfirmPasswordChange(it) },
                 label = {
                     Text(text = "confirmação de senha")
                 },
@@ -254,7 +228,7 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
                     )
                 },
                 trailingIcon = {
-                    if (cpassword.isNotEmpty()) {
+                    if (loginUiState.confirmPasswordSignUp.isNotEmpty()) {
                         val visibilityIcon = if (cpasswordVisibility) {
                             painterResource(id = R.drawable.baseline_visibility_24)
                         } else {
@@ -292,7 +266,8 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
                     focusedIndicatorColor = Color.Transparent,
                     containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Red,
-                )
+                ),
+                isError = isErrorSignup
             )
 
 
@@ -306,32 +281,7 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
                     .background(Color(0xB9FFFFFF))
             ) {
                 Button(
-                    onClick = {
-                        if (email.isNotEmpty()) {
-                            errorEmail = false
-                            if (password.isNotEmpty()) {
-                                errorPassword = false
-                                if (cpassword.isNotEmpty()) {
-                                    errorConfirm = false
-                                    if (password == cpassword) {
-                                        errorConfirmPassword = false
-                                        vm.onSignup(
-                                            email,
-                                            password
-                                        )
-                                    } else {
-                                        errorConfirmPassword = true
-                                    }
-                                } else {
-                                    errorConfirm = true
-                                }
-                            } else {
-                                errorPassword = true
-                            }
-                        } else {
-                            errorEmail = true
-                        }
-                    },
+                    onClick = { vm.createUser(context) },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),
@@ -343,10 +293,16 @@ fun SignupScreen(navController: NavController, vm: FirebaseViewModel) {
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Thin
                     )
-                    if (vm.signedIn.value) {
-                        navController.navigate(DestinationScreen.HomeScreen.name)
-                    }
-                    vm.signedIn.value = false
+                }
+            }
+
+            if (loginUiState.isLoading){
+                CircularProgressIndicator()
+            }
+
+            LaunchedEffect(key1 = vm.hasUser){
+                if (vm.hasUser){
+                    onNavToHomePage.invoke()
                 }
             }
         }
