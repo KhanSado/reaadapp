@@ -12,8 +12,7 @@ import io.berson.reaad.ui.repositories.AuthRepository
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
-    private val repository: AuthRepository = AuthRepository(),
-    navController: NavController,
+    private val repository: AuthRepository = AuthRepository()
     ) : ViewModel() {
     val currentUser = repository.currentUser
 

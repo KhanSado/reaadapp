@@ -14,7 +14,7 @@ import io.berson.reaad.ui.viewmodel.AuthorViewModel
 @Composable
 fun ReaadNavigation(){
     val navController = rememberNavController()
-    val authVm = AuthViewModel(navController = navController)
+    val authVm = AuthViewModel()
     val authorVm = AuthorViewModel()
 
     NavHost(navController = navController, startDestination = DestinationScreen.MainScreen.name) {
@@ -31,7 +31,7 @@ fun ReaadNavigation(){
         }
 
         composable(DestinationScreen.HomeScreen.name){
-            HomeScreen(navController = navController, vm = authorVm)
+            HomeScreen(vm = authorVm)
         }
     }
 }

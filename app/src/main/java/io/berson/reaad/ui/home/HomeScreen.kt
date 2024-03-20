@@ -5,13 +5,17 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.viewmodel.AuthViewModel
+import io.berson.reaad.ui.viewmodel.AuthorUiState
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
 
 @Composable
-fun HomeScreen(navController: NavController, vm: AuthorViewModel) {
+fun HomeScreen(vm: AuthorViewModel) {
 
-    GradientSurface {
-        Text(text = "Home")
-    }
-    
+    vm.onFirstNameChange("Jhon")
+    vm.onLastNameChange("Pipe")
+
+    vm.addAuthor()
+
+
+
 }
