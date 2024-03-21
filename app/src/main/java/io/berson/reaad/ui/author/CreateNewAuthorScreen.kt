@@ -1,8 +1,7 @@
-package io.berson.reaad.ui.auth
+package io.berson.reaad.ui.author
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,10 +23,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,26 +38,19 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
-import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
-import io.berson.reaad.ui.viewmodel.AuthViewModel
+import io.berson.reaad.ui.viewmodel.AuthorViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(
-    vm: AuthViewModel,
-    onNavToHomePage:() -> Unit,
+fun CreateNewAuthorScreen(
+    vm: AuthorViewModel,
+    onNavToMainAuthorsPage: () -> Unit,
 ) {
 
-    val emty by remember { mutableStateOf("") }
-    var passwordVisibility by remember { mutableStateOf(false) }
-
-    val loginUiState = vm.loginUiState
-    val isError = loginUiState.loginError != null
-    val context = LocalContext.current
+    val authorUiState = vm.authorUiState
 
     GradientSurface {
         Column(
@@ -74,15 +62,9 @@ fun LoginScreen(
                     rememberScrollState()
                 )
         ) {
-            if (isError){
-                Text(
-                    text = loginUiState?.loginError ?: "unknown error",
-                    color = Color.Red,
-                )
-            }
 
             Text(
-                text = "vamos entrar para aproveitar",
+                text = "que legal, vamos add um novo autor na nossa biblioteca :D",
                 fontWeight = FontWeight.Thin,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
@@ -92,25 +74,16 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(50.dp))
 
             TextField(
-                value = loginUiState?.userName ?: "",
-                onValueChange = { vm?.onUserNameChange(it) },
+                value = authorUiState.firstName,
+                onValueChange = { vm.onFirstNameChange(it) },
                 label = {
-                    Text(text = "email")
+                    Text(text = "nome do autor")
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_outline_24),
+                        painter = painterResource(id = R.drawable.baseline_person_24),
                         contentDescription = null
                     )
-                },
-                trailingIcon = {
-                    if (loginUiState.userName.isNotEmpty()) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.baseline_close_24),
-                                contentDescription = null,
-                                Modifier.clickable { loginUiState.userName = emty }
-                            )
-                        }
                 },
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
@@ -129,46 +102,26 @@ fun LoginScreen(
                     focusedIndicatorColor = Color.Transparent,
                     containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Green
-                ),
-                isError = isError
+                )
             )
+
             Spacer(modifier = Modifier.height(30.dp))
+
+
             TextField(
-                value = loginUiState?.password ?: "",
-                onValueChange = { vm.onPasswordNameChange(it) },
+                value = authorUiState.lastName,
+                onValueChange = { vm.onLastNameChange(it) },
                 label = {
-                    Text(text = "senha")
+                    Text(text = "sobrenome do autor")
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_lock_person_24),
+                        painter = painterResource(id = R.drawable.baseline_person_24),
                         contentDescription = null
                     )
                 },
-                trailingIcon = {
-                    if (loginUiState?.password!!.isNotEmpty()) {
-                        val visibilityIcon = if (passwordVisibility) {
-                            painterResource(id = R.drawable.baseline_visibility_24)
-                        } else {
-                            painterResource(id = R.drawable.baseline_disabled_visible_24)
-                        }
-                        Icon(
-                            painter = visibilityIcon,
-                            contentDescription = if (passwordVisibility) "esconder senha" else "mostrar senha",
-                            Modifier.clickable {
-                                passwordVisibility = !passwordVisibility
-                            }
-                        )
-                    }
-                },
-                visualTransformation = if (passwordVisibility) {
-                    VisualTransformation.None
-                } else {
-                    PasswordVisualTransformation()
-                },
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done,
-                    keyboardType = KeyboardType.Password
+                    imeAction = ImeAction.Done
                 ),
                 singleLine = true,
                 textStyle = TextStyle(
@@ -185,7 +138,6 @@ fun LoginScreen(
                     containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Green
                 ),
-                isError = isError
             )
             Spacer(modifier = Modifier.height(50.dp))
 
@@ -195,14 +147,16 @@ fun LoginScreen(
                     .background(Color(0xB9FFFFFF))
             ) {
                 Button(
-                    onClick = { vm.loginUser(context) },
+                    onClick = {
+                        vm.addAuthor()
+                        onNavToMainAuthorsPage.invoke() },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "vamos lá",
+                        text = "novo autor",
                         color = PrimaryColor,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Thin
@@ -210,16 +164,9 @@ fun LoginScreen(
                 }
             }
 
-            if (loginUiState.isLoading){
+            if (authorUiState.isLoading) {
                 CircularProgressIndicator()
             }
-
-            LaunchedEffect(key1 = vm.hasUser){
-                if (vm.hasUser){
-                    onNavToHomePage.invoke()
-                }
-            }
-
         }
     }
 }

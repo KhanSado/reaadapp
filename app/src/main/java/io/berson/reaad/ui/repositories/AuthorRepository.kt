@@ -7,12 +7,12 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.berson.reaad.ui.models.Author
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 const val AUTHOR_COLLECTION_REF = "authors"
+
 class AuthorRepository {
     fun user() = Firebase.auth.currentUser
     fun hasUser(): Boolean = Firebase.auth.currentUser != null
@@ -22,7 +22,7 @@ class AuthorRepository {
     private val authorsRef: CollectionReference = Firebase
         .firestore.collection(AUTHOR_COLLECTION_REF)
 
-    fun getUserNotes(
+    fun getUserAuthors(
         userId: String,
     ): Flow<Resources<List<Author>>> = callbackFlow {
         var snapshotStateListener: ListenerRegistration? = null
@@ -51,21 +51,19 @@ class AuthorRepository {
     }
 
     fun getAuthor(
-        authorId:String,
-        onError:(Throwable?) -> Unit,
+        authorId: String,
+        onError: (Throwable?) -> Unit,
         onSuccess: (Author?) -> Unit
-    ){
+    ) {
         authorsRef
             .document(authorId)
             .get()
             .addOnSuccessListener {
                 onSuccess.invoke(it?.toObject(Author::class.java))
             }
-            .addOnFailureListener {result ->
+            .addOnFailureListener { result ->
                 onError.invoke(result.cause)
             }
-
-
     }
 
     fun addAuthor(
@@ -74,7 +72,7 @@ class AuthorRepository {
         lastName: String,
         timestamp: Timestamp,
         onComplete: (Boolean) -> Unit
-    ){
+    ) {
         val documentId = authorsRef.document().id
         val author = Author(
             userId = userId,
@@ -89,11 +87,9 @@ class AuthorRepository {
             .addOnCompleteListener { result ->
                 onComplete.invoke(result.isSuccessful)
             }
-
-
     }
 
-    fun deleteAuthor(authorId: String,onComplete: (Boolean) -> Unit){
+    fun deleteAuthor(authorId: String, onComplete: (Boolean) -> Unit) {
         authorsRef.document(authorId)
             .delete()
             .addOnCompleteListener {
@@ -106,12 +102,12 @@ class AuthorRepository {
         lastName: String,
         authorId: String,
         updateAt: Timestamp,
-        onResult:(Boolean) -> Unit
-    ){
-        val updateData = hashMapOf<String,Any>(
+        onResult: (Boolean) -> Unit
+    ) {
+        val updateData = hashMapOf<String, Any>(
             "firstName" to firstName,
             "lastName" to lastName,
-            "updateAt" to Timestamp.now(),
+            "updateAt" to updateAt,
         )
 
         authorsRef.document(authorId)
@@ -121,7 +117,6 @@ class AuthorRepository {
             }
     }
 }
-
 
 sealed class Resources<T>(
     val data: T? = null,

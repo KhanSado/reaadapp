@@ -105,7 +105,7 @@ fun SignupScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
+                        painter = painterResource(id = R.drawable.baseline_person_outline_24),
                         contentDescription = null
                     )
                 },

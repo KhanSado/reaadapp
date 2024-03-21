@@ -18,6 +18,9 @@ class AuthorViewModel(
     val hasUser: Boolean
         get() = repository.hasUser()
 
+    val userId: String
+        get() = repository.getUserId()
+
     private val user: FirebaseUser?
         get() = repository.user()
 
@@ -30,6 +33,7 @@ class AuthorViewModel(
     }
 
     fun addAuthor(){
+        authorUiState = authorUiState.copy(isLoading = true)
         if (hasUser){
             repository.addAuthor(
                 userId = user!!.uid,
@@ -38,6 +42,8 @@ class AuthorViewModel(
                 timestamp = Timestamp.now()
             ){
                 authorUiState = authorUiState.copy(authorAddedStatus = it)
+                authorUiState = authorUiState.copy(isLoading = false)
+                authorUiState.copy(isSuccessCreate = true)
             }
         }
     }
@@ -50,8 +56,13 @@ class AuthorViewModel(
 
     }
 
+    fun getAuthors(){
+        repository.getUserAuthors(
+            userId = userId
+        )
+    }
 
-    fun getAuthors(authorId:String){
+    fun getAuthorById(authorId:String){
         repository.getAuthor(
             authorId = authorId,
             onError = {},
@@ -91,5 +102,7 @@ data class AuthorUiState(
     val firstName: String = "",
     val authorAddedStatus: Boolean = false,
     val updateAuthorStatus: Boolean = false,
-    val selectedAuthor: Author? = null
-)
+    val selectedAuthor: Author? = null,
+    val isLoading: Boolean = false,
+    val isSuccessCreate: Boolean = false,
+    )

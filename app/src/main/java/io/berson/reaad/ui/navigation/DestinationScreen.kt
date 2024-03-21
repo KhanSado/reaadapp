@@ -5,6 +5,8 @@ enum class DestinationScreen {
     MainScreen,
     SignupScreen,
     HomeScreen,
+    MainAuthorsScreen,
+    CreateNewAuthorScreen,
     LoginScreen;
 
     companion object {
@@ -15,6 +17,8 @@ enum class DestinationScreen {
             SignupScreen.name -> SignupScreen
             LoginScreen.name -> LoginScreen
             HomeScreen.name -> HomeScreen
+            MainAuthorsScreen.name -> MainAuthorsScreen
+            CreateNewAuthorScreen.name -> CreateNewAuthorScreen
             null -> MainScreen
             else -> throw IllegalArgumentException("Route $route is not recognized")
         }
