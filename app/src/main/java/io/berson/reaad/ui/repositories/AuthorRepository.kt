@@ -5,6 +5,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.toObjects
 import com.google.firebase.ktx.Firebase
 import io.berson.reaad.ui.models.Author
 import kotlinx.coroutines.channels.awaitClose
@@ -19,35 +20,26 @@ class AuthorRepository {
 
     fun getUserId(): String = Firebase.auth.currentUser?.uid.orEmpty()
 
+    val authorList: List<Author?> = mutableListOf()
+
     private val authorsRef: CollectionReference = Firebase
         .firestore.collection(AUTHOR_COLLECTION_REF)
 
-    fun getUserAuthors(
+
+    fun getAuthorsListToUser(
         userId: String,
-    ): Flow<Resources<List<Author>>> = callbackFlow {
-        var snapshotStateListener: ListenerRegistration? = null
-
-        try {
-            snapshotStateListener = authorsRef
-                .orderBy("timestamp")
-                .whereEqualTo("userId", userId)
-                .addSnapshotListener { snapshot, e ->
-                    val response = if (snapshot != null) {
-                        val authors = snapshot.toObjects(Author::class.java)
-                        Resources.Success(data = authors)
-                    } else {
-                        Resources.Error(throwable = e?.cause)
-                    }
-                    trySend(response)
-
-                }
-        } catch (e: Exception) {
-            trySend(Resources.Error(e.cause))
-            e.printStackTrace()
-        }
-        awaitClose {
-            snapshotStateListener?.remove()
-        }
+        onError: (Throwable?) -> Unit,
+        onSuccess: (List<Author>?) -> Unit
+    ){
+        authorsRef
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener {
+                onSuccess.invoke(it.toObjects(Author::class.java))
+            }
+            .addOnFailureListener { result ->
+                onError.invoke(result.cause)
+            }
     }
 
     fun getAuthor(
