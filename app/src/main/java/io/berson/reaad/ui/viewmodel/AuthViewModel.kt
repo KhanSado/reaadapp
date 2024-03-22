@@ -26,6 +26,11 @@ class AuthViewModel(
     val hasUser: Boolean
         get() = repository.hasUser()
 
+    fun logout(): Unit {
+        repository.logout()
+        loginUiState.copy(isLogoutSuccess = true)
+    }
+
     var loginUiState by mutableStateOf(LoginUiState())
         private set
 
@@ -169,4 +174,6 @@ data class LoginUiState(
     val signUpError: String? = null,
     val loginError: String? = null,
     val loginSignupError: String? = null,
+
+    val isLogoutSuccess: Boolean = false,
 )

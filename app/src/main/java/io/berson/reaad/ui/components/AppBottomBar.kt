@@ -51,7 +51,7 @@ fun AppBottomBar(navController: NavController) {
 
                     IconButton(
                         onClick = {
-                            navController.navigate("${DestinationScreen.MainAuthorsScreen.name}")
+                            navController.navigate("${DestinationScreen.ProfileUserScreen.name}")
                         }
                     ) {
                         Icon(

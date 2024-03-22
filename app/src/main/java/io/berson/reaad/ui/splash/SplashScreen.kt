@@ -1,4 +1,4 @@
-package io.berson.reaad.splash
+package io.berson.reaad.ui.splash
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
@@ -46,7 +46,7 @@ fun SplashScreen(navController: NavController, vm: AuthViewModel) {
         if (vm.hasUser) {
             navController.navigate(DestinationScreen.HomeScreen.name)
         } else {
-            navController.navigate(DestinationScreen.LoginScreen.name)
+            navController.navigate(DestinationScreen.MainScreen.name)
         }
     }
 

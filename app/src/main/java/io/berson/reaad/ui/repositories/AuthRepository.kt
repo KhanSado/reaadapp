@@ -1,6 +1,7 @@
 package io.berson.reaad.ui.repositories
 
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
@@ -19,6 +20,8 @@ class AuthRepository {
     fun hasUser(): Boolean = Firebase.auth.currentUser != null
 
     fun getUserId(): String = Firebase.auth.currentUser?.uid.orEmpty()
+
+    fun logout(): Unit = FirebaseAuth.getInstance().signOut()
 
     private val userRef: CollectionReference = Firebase
         .firestore.collection(USER_COLLECTION_REF)

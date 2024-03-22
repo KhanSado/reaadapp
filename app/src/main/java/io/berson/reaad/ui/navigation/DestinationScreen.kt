@@ -8,7 +8,8 @@ enum class DestinationScreen {
     MainAuthorsScreen,
     CreateNewAuthorScreen,
     AuthorDetailScreen,
-    LoginScreen;
+    LoginScreen,
+    ProfileUserScreen;
 
     companion object {
         fun fromRoute(route: String?): DestinationScreen
@@ -21,6 +22,7 @@ enum class DestinationScreen {
             MainAuthorsScreen.name -> MainAuthorsScreen
             CreateNewAuthorScreen.name -> CreateNewAuthorScreen
             AuthorDetailScreen.name -> AuthorDetailScreen
+            ProfileUserScreen.name -> ProfileUserScreen
             null -> MainScreen
             else -> throw IllegalArgumentException("Route $route is not recognized")
         }
