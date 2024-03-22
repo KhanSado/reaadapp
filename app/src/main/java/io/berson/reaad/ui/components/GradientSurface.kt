@@ -12,9 +12,9 @@ import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.theme.SecundaryColor
 
 @Composable
-fun GradientSurface(content: @Composable () -> Unit) {
+fun GradientSurface(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(
                 Brush.linearGradient(
