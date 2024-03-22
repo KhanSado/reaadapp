@@ -8,7 +8,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import io.berson.reaad.ui.models.User
+import io.berson.reaad.ui.repositories.AUTHOR_COLLECTION_REF
 import io.berson.reaad.ui.repositories.AuthRepository
+import io.berson.reaad.ui.repositories.USER_COLLECTION_REF
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
@@ -22,16 +29,16 @@ class AuthViewModel(
     var loginUiState by mutableStateOf(LoginUiState())
         private set
 
-    fun onUserNameChange(userName: String) {
-        loginUiState = loginUiState.copy(userName = userName)
+    fun onEmailChange(userName: String) {
+        loginUiState = loginUiState.copy(email = userName)
     }
 
     fun onPasswordNameChange(password: String) {
         loginUiState = loginUiState.copy(password = password)
     }
 
-    fun onUserNameChangeSignup(userName: String) {
-        loginUiState = loginUiState.copy(userNameSignUp = userName)
+    fun onEmailChangeSignup(userName: String) {
+        loginUiState = loginUiState.copy(emailSignUp = userName)
     }
 
     fun onPasswordChangeSignup(password: String) {
@@ -42,17 +49,27 @@ class AuthViewModel(
         loginUiState = loginUiState.copy(confirmPasswordSignUp = password)
     }
 
+    fun onFirstNameChangeSignup(firstName: String) {
+        loginUiState = loginUiState.copy(firstname = firstName)
+    }
+
+    fun onLastNameChangeSignup(lastname: String) {
+        loginUiState = loginUiState.copy(lastname = lastname)
+    }
+
     private fun validateLoginForm() =
-        loginUiState.userName.isNotBlank() &&
+        loginUiState.email.isNotBlank() &&
                 loginUiState.password.isNotBlank()
 
     private fun validateSignupForm() =
-        loginUiState.userNameSignUp.isNotBlank() &&
+        loginUiState.emailSignUp.isNotBlank() &&
                 loginUiState.passwordSignUp.isNotBlank() &&
-                loginUiState.confirmPasswordSignUp.isNotBlank()
+                loginUiState.confirmPasswordSignUp.isNotBlank() &&
+                loginUiState.firstname.isNotBlank() &&
+                loginUiState.lastname.isNotBlank()
 
 
-    fun createUser(context: Context) = viewModelScope.launch {
+    fun createUser() = viewModelScope.launch {
         try {
             if (!validateSignupForm()) {
                 throw IllegalArgumentException("email and password can not be empty")
@@ -67,18 +84,17 @@ class AuthViewModel(
             }
             loginUiState = loginUiState.copy(signUpError = null)
             repository.createUser(
-                loginUiState.userNameSignUp,
+                loginUiState.emailSignUp,
                 loginUiState.passwordSignUp
             ) { isSuccessful ->
                 loginUiState = if (isSuccessful) {
+                    addUserFull()
                     loginUiState.copy(isSuccessSignup = true)
                 } else {
                     loginUiState.copy(isSuccessSignup = false)
                 }
 
             }
-
-
         } catch (e: Exception) {
             loginUiState = loginUiState.copy(signUpError = "verifique suas credenciais e tente novamente!")
             e.printStackTrace()
@@ -89,7 +105,7 @@ class AuthViewModel(
 
     }
 
-    fun loginUser(context: Context) = viewModelScope.launch {
+    fun loginUser() = viewModelScope.launch {
         try {
             if (!validateLoginForm()) {
                 throw IllegalArgumentException("email e/ou senha não podem ficar vazios")
@@ -97,7 +113,7 @@ class AuthViewModel(
             loginUiState = loginUiState.copy(isLoading = true)
             loginUiState = loginUiState.copy(loginError = null)
             repository.loginUser(
-                loginUiState.userName,
+                loginUiState.email,
                 loginUiState.password
             ) { isSuccessful ->
                 loginUiState = if (isSuccessful) {
@@ -115,19 +131,38 @@ class AuthViewModel(
         } finally {
             loginUiState = loginUiState.copy(isLoading = false)
         }
-
-
     }
+
+
+    private fun addUserFull(){
+        if (hasUser){
+            repository.createFullUser(
+                firstName = loginUiState.firstname,
+                lastName = loginUiState.lastname,
+                email = loginUiState.emailSignUp
+            ){
+                loginUiState = loginUiState.copy(userAddedStatus = it)
+                loginUiState.copy(isSuccessCreate = true)
+            }
+        }
+    }
+
 
 
 }
 
 data class LoginUiState(
-    var userName: String = "",
+    var email: String = "",
     val password: String = "",
-    val userNameSignUp: String = "",
+    val firstname: String = "",
+    val lastname: String = "",
+
+    val emailSignUp: String = "",
     val passwordSignUp: String = "",
     val confirmPasswordSignUp: String = "",
+
+    val isSuccessCreate: Boolean = false,
+    val userAddedStatus: Boolean = false,
     val isLoading: Boolean = false,
     val isSuccessLogin: Boolean = false,
     val isSuccessSignup: Boolean = false,

@@ -2,7 +2,6 @@ package io.berson.reaad.ui.auth
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +31,6 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -43,10 +41,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
-import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthViewModel
 
@@ -59,6 +55,8 @@ fun SignupScreen(
 ) {
     val emty by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var firstname by remember { mutableStateOf("") }
+    var lastname by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
     var cpasswordVisibility by remember { mutableStateOf(false) }
     var errorConfirmPassword by remember { mutableStateOf(false) }
@@ -66,7 +64,6 @@ fun SignupScreen(
 
     val loginUiState = vm.loginUiState
     val isErrorSignup = loginUiState.signUpError != null
-    val context = LocalContext.current
 
     GradientSurface {
 
@@ -74,7 +71,7 @@ fun SignupScreen(
             horizontalAlignment = CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 150.dp, start = 24.dp, end = 24.dp)
+                .padding(top = 45.dp, start = 24.dp, end = 24.dp)
                 .verticalScroll(
                     rememberScrollState()
                 )
@@ -98,10 +95,10 @@ fun SignupScreen(
             Spacer(modifier = Modifier.height(50.dp))
 
             TextField(
-                value = loginUiState.userNameSignUp,
-                onValueChange = {vm.onUserNameChangeSignup(it)},
+                value = loginUiState.firstname,
+                onValueChange = {vm.onFirstNameChangeSignup(it)},
                 label = {
-                    Text(text = "email")
+                    Text(text = "nome")
                 },
                 leadingIcon = {
                     Icon(
@@ -110,7 +107,96 @@ fun SignupScreen(
                     )
                 },
                 trailingIcon = {
-                    if (loginUiState.userNameSignUp.isNotEmpty()) {
+                    if (loginUiState.firstname.isNotEmpty()) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_close_24),
+                            contentDescription = null,
+                            Modifier.clickable { firstname = emty }
+                        )
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                ),
+                singleLine = true,
+                textStyle = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                ),
+                shape = RoundedCornerShape(50.dp),
+                modifier = Modifier
+                    .width(300.dp)
+                    .height(60.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    containerColor = Color(0xB9FFFFFF),
+                    cursorColor = Color.Red,
+                ),
+                isError = isErrorSignup
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            TextField(
+                value = loginUiState.lastname,
+                onValueChange = {vm.onLastNameChangeSignup(it)},
+                label = {
+                    Text(text = "sobrenome")
+                },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_person_outline_24),
+                        contentDescription = null
+                    )
+                },
+                trailingIcon = {
+                    if (loginUiState.lastname.isNotEmpty()) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_close_24),
+                            contentDescription = null,
+                            Modifier.clickable { lastname = emty }
+                        )
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                ),
+                singleLine = true,
+                textStyle = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                ),
+                shape = RoundedCornerShape(50.dp),
+                modifier = Modifier
+                    .width(300.dp)
+                    .height(60.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    containerColor = Color(0xB9FFFFFF),
+                    cursorColor = Color.Red,
+                ),
+                isError = isErrorSignup
+            )
+
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            TextField(
+                value = loginUiState.emailSignUp,
+                onValueChange = {vm.onEmailChangeSignup(it)},
+                label = {
+                    Text(text = "email")
+                },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.twotone_mark_email_read_24),
+                        contentDescription = null
+                    )
+                },
+                trailingIcon = {
+                    if (loginUiState.emailSignUp.isNotEmpty()) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_close_24),
                             contentDescription = null,
@@ -281,7 +367,7 @@ fun SignupScreen(
                     .background(Color(0xB9FFFFFF))
             ) {
                 Button(
-                    onClick = { vm.createUser(context) },
+                    onClick = { vm.createUser() },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),

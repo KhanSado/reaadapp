@@ -2,7 +2,6 @@ package io.berson.reaad.ui.auth
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -62,7 +61,6 @@ fun LoginScreen(
 
     val loginUiState = vm.loginUiState
     val isError = loginUiState.loginError != null
-    val context = LocalContext.current
 
     GradientSurface {
         Column(
@@ -92,8 +90,8 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(50.dp))
 
             TextField(
-                value = loginUiState?.userName ?: "",
-                onValueChange = { vm?.onUserNameChange(it) },
+                value = loginUiState?.email ?: "",
+                onValueChange = { vm?.onEmailChange(it) },
                 label = {
                     Text(text = "email")
                 },
@@ -104,11 +102,11 @@ fun LoginScreen(
                     )
                 },
                 trailingIcon = {
-                    if (loginUiState.userName.isNotEmpty()) {
+                    if (loginUiState.email.isNotEmpty()) {
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_close_24),
                                 contentDescription = null,
-                                Modifier.clickable { loginUiState.userName = emty }
+                                Modifier.clickable { loginUiState.email = emty }
                             )
                         }
                 },
@@ -195,7 +193,7 @@ fun LoginScreen(
                     .background(Color(0xB9FFFFFF))
             ) {
                 Button(
-                    onClick = { vm.loginUser(context) },
+                    onClick = { vm.loginUser() },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),

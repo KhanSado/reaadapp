@@ -32,7 +32,7 @@ fun ReaadNavigation(){
         }
 
         composable(DestinationScreen.LoginScreen.name){
-            LoginScreen(vm = authVm, onNavToHomePage = {navController.navigate(DestinationScreen.MainAuthorsScreen.name)})
+            LoginScreen(vm = authVm, onNavToHomePage = {navController.navigate(DestinationScreen.CreateNewAuthorScreen.name)})
         }
 
         composable(DestinationScreen.HomeScreen.name){
