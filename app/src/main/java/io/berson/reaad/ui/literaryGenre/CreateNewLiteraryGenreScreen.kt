@@ -1,4 +1,4 @@
-package io.berson.reaad.ui.publishingCo
+package io.berson.reaad.ui.literaryGenre
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -35,16 +35,16 @@ import androidx.compose.ui.unit.sp
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.theme.PrimaryColor
-import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
+import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateNewPublishingCoScreen(
-    vm: PublishingCoViewModel,
+fun CreateNewLiteraryGenreScreen(
+    vm: LiteraryGenreViewModel,
     onNavToMainAuthorsPage: () -> Unit,
 ) {
 
-    val publisingCoUiState = vm.publisingCoUiState
+    val literaryGenreUiState = vm.literaryGenreUiState
 
     GradientSurface {
         Column(
@@ -58,7 +58,7 @@ fun CreateNewPublishingCoScreen(
         ) {
 
             Text(
-                text = "wow, que legal, vamos adicionar uma nova editora para nossos livros",
+                text = "Oba oba, vamos adicionar os generos literários que você mais curte",
                 fontWeight = FontWeight.Thin,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
@@ -68,10 +68,10 @@ fun CreateNewPublishingCoScreen(
             Spacer(modifier = Modifier.height(50.dp))
 
             TextField(
-                value = publisingCoUiState.name,
+                value = literaryGenreUiState.name,
                 onValueChange = { vm.onNameChange(it) },
                 label = {
-                    Text(text = "Nome da editora")
+                    Text(text = "gênero")
                 },
                 leadingIcon = {
                     Icon(
@@ -103,10 +103,10 @@ fun CreateNewPublishingCoScreen(
 
 
             TextField(
-                value = publisingCoUiState.logo,
-                onValueChange = { vm.onLogoChange(it) },
+                value = literaryGenreUiState.description,
+                onValueChange = { vm.onDescriptionChange(it) },
                 label = {
-                    Text(text = "logo")
+                    Text(text = "descriçao do genero")
                 },
                 leadingIcon = {
                     Icon(
@@ -117,7 +117,7 @@ fun CreateNewPublishingCoScreen(
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done
                 ),
-                singleLine = true,
+                singleLine = false,
                 textStyle = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
@@ -142,7 +142,7 @@ fun CreateNewPublishingCoScreen(
             ) {
                 Button(
                     onClick = {
-                        vm.addPublishingCo()
+                        vm.addLiteraryGenre()
                         onNavToMainAuthorsPage.invoke() },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
@@ -150,7 +150,7 @@ fun CreateNewPublishingCoScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "nova editora",
+                        text = "novo genero",
                         color = PrimaryColor,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Thin
@@ -158,7 +158,7 @@ fun CreateNewPublishingCoScreen(
                 }
             }
 
-            if (publisingCoUiState.isLoading) {
+            if (literaryGenreUiState.isLoading) {
                 CircularProgressIndicator()
             }
         }

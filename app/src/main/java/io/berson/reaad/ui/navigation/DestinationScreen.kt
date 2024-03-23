@@ -11,6 +11,9 @@ enum class DestinationScreen {
     MainPublishingCoScreen,
     CreateNewPublishingCoScreen,
     PublishingCoDetailScreen,
+    MainLiteraryGenreScreen,
+    CreateNewLiteraryGenreScreen,
+    LiteraryGenreDetailScreen,
     LoginScreen,
     ProfileUserScreen;
 
@@ -28,6 +31,9 @@ enum class DestinationScreen {
             MainPublishingCoScreen.name -> MainPublishingCoScreen
             CreateNewPublishingCoScreen.name -> CreateNewPublishingCoScreen
             PublishingCoDetailScreen.name -> PublishingCoDetailScreen
+            MainLiteraryGenreScreen.name -> MainLiteraryGenreScreen
+            CreateNewLiteraryGenreScreen.name -> CreateNewLiteraryGenreScreen
+            LiteraryGenreDetailScreen.name -> LiteraryGenreDetailScreen
             ProfileUserScreen.name -> ProfileUserScreen
             null -> MainScreen
             else -> throw IllegalArgumentException("Route $route is not recognized")

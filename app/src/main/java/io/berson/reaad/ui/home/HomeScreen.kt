@@ -29,19 +29,29 @@ import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.HeaderSections
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.utils.mountAuthorList
+import io.berson.reaad.ui.utils.mountLiteraryGenreList
 import io.berson.reaad.ui.utils.mountPublishingCoList
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
+import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
 import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(publishingCoVm: PublishingCoViewModel, authorVm: AuthorViewModel, navController: NavController) {
+fun HomeScreen(
+    publishingCoVm: PublishingCoViewModel,
+    authorVm: AuthorViewModel,
+    literaryGenreVm: LiteraryGenreViewModel,
+    navController: NavController
+) {
 
     val authorUiState = authorVm.authorUiState
     val publishingCoUiState = publishingCoVm.publisingCoUiState
+    val literaryGenreUiState = literaryGenreVm.literaryGenreUiState
+
     authorVm.getAuthorsList()
     publishingCoVm.getPublishingCoList()
+    literaryGenreVm.getLiteraryGenreList()
 
     Scaffold (
         bottomBar = {
@@ -103,6 +113,31 @@ fun HomeScreen(publishingCoVm: PublishingCoViewModel, authorVm: AuthorViewModel,
                         Spacer(modifier = Modifier.width(12.dp))
                     })
                 }
+
+                HeaderSections(
+                    viewMoreIsVisible = true,
+                    title = "Gêneros Literários"
+                ) {
+                    navController.navigate(DestinationScreen.MainLiteraryGenreScreen.name)
+                }
+
+
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(start = 23.dp, end = 23.dp),
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    items(items = mountLiteraryGenreList(literaryGenreUiState.literaryGenreList).take(4), itemContent = { item ->
+                        CardItem(
+                            item.name,
+                        ){
+                            navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${item.documentId}")
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                    })
+                }
             }
             }
         }
@@ -140,8 +175,8 @@ fun ItemScreen(
 @Composable
 @Preview
 fun CardItem(
-    name: String = "Jhon",
-    logo: String = "Pipe",
+    text1: String = "Jhon",
+    text2: String = "Pipe",
     onItemClick: () -> Unit = {}
 ){
     Surface(
@@ -158,7 +193,7 @@ fun CardItem(
             modifier = Modifier
                 .padding(all = 16.dp)
         ) {
-            Text(text = name)
+            Text(text = text1)
         }
     }
 }
