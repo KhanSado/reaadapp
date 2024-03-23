@@ -20,8 +20,6 @@ class AuthorRepository {
 
     fun getUserId(): String = Firebase.auth.currentUser?.uid.orEmpty()
 
-    val authorList: List<Author?> = mutableListOf()
-
     private val authorsRef: CollectionReference = Firebase
         .firestore.collection(AUTHOR_COLLECTION_REF)
 
@@ -108,14 +106,4 @@ class AuthorRepository {
                 onResult(it.isSuccessful)
             }
     }
-}
-
-sealed class Resources<T>(
-    val data: T? = null,
-    val throwable: Throwable? = null,
-) {
-    class Loading<T> : Resources<T>()
-    class Success<T>(data: T?) : Resources<T>(data = data)
-    class Error<T>(throwable: Throwable?) : Resources<T>(throwable = throwable)
-
 }

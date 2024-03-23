@@ -3,16 +3,11 @@ package io.berson.reaad.ui.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseUser
 import io.berson.reaad.ui.models.Author
 import io.berson.reaad.ui.repositories.AuthorRepository
-import io.berson.reaad.ui.repositories.Resources
-import kotlinx.coroutines.launch
 
 class AuthorViewModel(
     private val repository: AuthorRepository = AuthorRepository(),

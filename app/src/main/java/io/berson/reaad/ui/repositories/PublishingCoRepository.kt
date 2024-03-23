@@ -15,8 +15,6 @@ class PublishingCoRepository {
 
     fun getUserId(): String = Firebase.auth.currentUser?.uid.orEmpty()
 
-    val publishingCoList: List<PublishingCo?> = mutableListOf()
-
     private val publishingCoRef: CollectionReference = Firebase
         .firestore.collection(PUBLISHING_CO_COLLECTION_REF)
 
