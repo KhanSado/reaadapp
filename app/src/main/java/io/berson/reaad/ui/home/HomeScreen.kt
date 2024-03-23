@@ -71,7 +71,9 @@ fun HomeScreen(publishingCoVm: PublishingCoViewModel, authorVm: AuthorViewModel,
                         ItemScreen(
                             item.firstname,
                             item.lastname
-                        )
+                        ){
+                            navController.navigate("${DestinationScreen.AuthorDetailScreen.name}/${item.documentId}")
+                        }
                         Spacer(modifier = Modifier.width(12.dp))
                     })
                 }
@@ -97,7 +99,9 @@ fun HomeScreen(publishingCoVm: PublishingCoViewModel, authorVm: AuthorViewModel,
                     items(items = mountPublishingCoList(publishingCoUiState.publishingCoList).take(4), itemContent = { item ->
                         CardItem(
                             item.name,
-                        )
+                        ){
+                            navController.navigate("${DestinationScreen.PublishingCoDetailScreen.name}/${item.documentId}")
+                        }
                         Spacer(modifier = Modifier.width(12.dp))
                     })
                 }
@@ -106,20 +110,26 @@ fun HomeScreen(publishingCoVm: PublishingCoViewModel, authorVm: AuthorViewModel,
         }
     }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun ItemScreen(name: String = "Jhon", lastname: String = "Pipe"){
+fun ItemScreen(
+    name: String = "Jhon",
+    lastname: String = "Pipe",
+    onItemClick: () -> Unit = {}
+    ){
     Surface(
         modifier = Modifier
             .background(Color.Transparent)
             .height(100.dp)
             .width(120.dp),
+        onClick = onItemClick
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
-                .padding(all = 16.dp)
+                .padding(all = 16.dp),
         ) {
             Text(text = name)
             Text(text = lastname)
@@ -127,14 +137,20 @@ fun ItemScreen(name: String = "Jhon", lastname: String = "Pipe"){
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun CardItem(name: String = "Jhon", logo: String = "Pipe"){
+fun CardItem(
+    name: String = "Jhon",
+    logo: String = "Pipe",
+    onItemClick: () -> Unit = {}
+){
     Surface(
         modifier = Modifier
             .background(Color.Transparent)
             .height(100.dp)
             .width(120.dp),
+        onClick = onItemClick
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

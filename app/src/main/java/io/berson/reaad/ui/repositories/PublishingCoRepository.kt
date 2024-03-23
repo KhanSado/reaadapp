@@ -38,12 +38,12 @@ class PublishingCoRepository {
     }
 
     fun getPublishingCo(
-        authorId: String,
+        publishingCoId: String,
         onError: (Throwable?) -> Unit,
         onSuccess: (PublishingCo?) -> Unit
     ) {
         publishingCoRef
-            .document(authorId)
+            .document(publishingCoId)
             .get()
             .addOnSuccessListener {
                 onSuccess.invoke(it?.toObject(PublishingCo::class.java))

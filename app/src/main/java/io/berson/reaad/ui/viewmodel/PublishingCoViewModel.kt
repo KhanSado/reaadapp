@@ -67,7 +67,7 @@ class PublishingCoViewModel(
 
     fun getPublishingCoById(publishingCoId:String){
         repository.getPublishingCo(
-            authorId = publishingCoId,
+            publishingCoId = publishingCoId,
             onError = {},
         ){
             publisingCoUiState = publisingCoUiState.copy(selectedPublishingCo = it)
