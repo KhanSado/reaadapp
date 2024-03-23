@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -81,6 +82,8 @@ fun ItemScreen(name: String = "Jhon", lastname: String = "Pipe"){
     Surface(
         modifier = Modifier
             .background(Color.Transparent)
+            .height(100.dp)
+            .width(120.dp),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
