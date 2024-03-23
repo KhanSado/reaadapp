@@ -15,11 +15,11 @@ import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
 
 @Composable
-fun FloatingActionButton(navController: NavController) {
+fun FloatingActionButton(navController: NavController, destination: String) {
     Surface {
         FloatingActionButton(
             onClick = {
-                navController.navigate(DestinationScreen.CreateNewAuthorScreen.name)
+                navController.navigate(destination)
             },
             containerColor = PrimaryColor,
             contentColor = Color.White,

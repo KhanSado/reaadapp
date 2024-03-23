@@ -25,11 +25,11 @@ class PublishingCoViewModel(
         get() = repository.user()
 
 
-    fun onFirstNameChange(name: String) {
+    fun onNameChange(name: String) {
         publisingCoUiState = publisingCoUiState.copy(name = name)
     }
 
-    fun onLastNameChange(logo: String) {
+    fun onLogoChange(logo: String) {
         publisingCoUiState = publisingCoUiState.copy(logo = logo)
     }
 

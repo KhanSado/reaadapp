@@ -1,4 +1,4 @@
-package io.berson.reaad.ui.author
+package io.berson.reaad.ui.publishingCo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -36,15 +36,16 @@ import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
+import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateNewAuthorScreen(
-    vm: AuthorViewModel,
+fun CreateNewPublishingCoScreen(
+    vm: PublishingCoViewModel,
     onNavToMainAuthorsPage: () -> Unit,
 ) {
 
-    val authorUiState = vm.authorUiState
+    val publisingCoUiState = vm.publisingCoUiState
 
     GradientSurface {
         Column(
@@ -58,7 +59,7 @@ fun CreateNewAuthorScreen(
         ) {
 
             Text(
-                text = "que legal, vamos add um novo autor na nossa biblioteca :D",
+                text = "wow, que legal, vamos adicionar uma nova editora para nossos livros",
                 fontWeight = FontWeight.Thin,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
@@ -68,14 +69,14 @@ fun CreateNewAuthorScreen(
             Spacer(modifier = Modifier.height(50.dp))
 
             TextField(
-                value = authorUiState.firstName,
-                onValueChange = { vm.onFirstNameChange(it) },
+                value = publisingCoUiState.name,
+                onValueChange = { vm.onNameChange(it) },
                 label = {
-                    Text(text = "nome do autor")
+                    Text(text = "Nome da editora")
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
+                        painter = painterResource(id = R.drawable.twotone_business_24),
                         contentDescription = null
                     )
                 },
@@ -103,10 +104,10 @@ fun CreateNewAuthorScreen(
 
 
             TextField(
-                value = authorUiState.lastName,
-                onValueChange = { vm.onLastNameChange(it) },
+                value = publisingCoUiState.logo,
+                onValueChange = { vm.onLogoChange(it) },
                 label = {
-                    Text(text = "sobrenome do autor")
+                    Text(text = "logo")
                 },
                 leadingIcon = {
                     Icon(
@@ -142,7 +143,7 @@ fun CreateNewAuthorScreen(
             ) {
                 Button(
                     onClick = {
-                        vm.addAuthor()
+                        vm.addPublishingCo()
                         onNavToMainAuthorsPage.invoke() },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
@@ -150,7 +151,7 @@ fun CreateNewAuthorScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "novo autor",
+                        text = "nova editora",
                         color = PrimaryColor,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Thin
@@ -158,7 +159,7 @@ fun CreateNewAuthorScreen(
                 }
             }
 
-            if (authorUiState.isLoading) {
+            if (publisingCoUiState.isLoading) {
                 CircularProgressIndicator()
             }
         }

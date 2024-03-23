@@ -1,4 +1,4 @@
-package io.berson.reaad.ui.author
+package io.berson.reaad.ui.publishingCo
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import io.berson.reaad.ui.components.GradientSurface
-import io.berson.reaad.ui.utils.mountAuthorList
-import io.berson.reaad.ui.viewmodel.AuthorViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,21 +28,24 @@ import io.berson.reaad.ui.components.AppBottomBar
 import io.berson.reaad.ui.components.FloatingActionButton
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
+import io.berson.reaad.ui.utils.mountPublishingCoList
+import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainAuthorsScreen(navController: NavController, vm: AuthorViewModel) {
+fun MainPublishingCoScreen(navController: NavController, vm: PublishingCoViewModel) {
     
-    val authorUiState = vm.authorUiState
-    vm.getAuthorsList()
+    val publishingCoUiState = vm.publisingCoUiState
+    vm.getPublishingCoList()
+
     Scaffold (
         bottomBar = {
             AppBottomBar(navController = navController)
         },
         floatingActionButton = {
-            FloatingActionButton(navController = navController, destination = DestinationScreen.CreateNewAuthorScreen.name)
+            FloatingActionButton(navController = navController, DestinationScreen.CreateNewPublishingCoScreen.name)
         }
     ) {
         GradientSurface {
@@ -55,12 +56,12 @@ fun MainAuthorsScreen(navController: NavController, vm: AuthorViewModel) {
                     .padding(bottom = 90.dp, top = 45.dp),
                 verticalArrangement = Arrangement.Top
             ) {
-                items(items = mountAuthorList(authorUiState.authorList), itemContent = { item ->
-                    AuthorView(
-                        firstname = item.firstname,
-                        lastname = item.lastname,
+                items(items = mountPublishingCoList(publishingCoUiState.publishingCoList), itemContent = { item ->
+                    PublishingCoView(
+                        name = item.name,
+                        logo = item.logo,
                         clickOnItem = {
-                            navController.navigate("${DestinationScreen.AuthorDetailScreen.name}/${item.documentId}")
+                            navController.navigate("${DestinationScreen.PublishingCoDetailScreen.name}/${item.documentId}")
                         }
                     )
                     Divider(
@@ -78,9 +79,9 @@ fun MainAuthorsScreen(navController: NavController, vm: AuthorViewModel) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun AuthorView(
-    firstname: String = "Jhon",
-    lastname: String = "Piper",
+fun PublishingCoView(
+    name: String = "Intrinseca",
+    logo: String = "caminho da logo",
     clickOnItem: () -> Unit = {}
 ){
     Surface(
@@ -93,7 +94,7 @@ fun AuthorView(
     ) {
         Column {
             Text(
-                text = "$firstname $lastname",
+                text = name,
                 color = Color.Black,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.SemiBold

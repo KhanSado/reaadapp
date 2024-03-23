@@ -8,6 +8,9 @@ enum class DestinationScreen {
     MainAuthorsScreen,
     CreateNewAuthorScreen,
     AuthorDetailScreen,
+    MainPublishingCoScreen,
+    CreateNewPublishingCoScreen,
+    PublishingCoDetailScreen,
     LoginScreen,
     ProfileUserScreen;
 
@@ -22,6 +25,9 @@ enum class DestinationScreen {
             MainAuthorsScreen.name -> MainAuthorsScreen
             CreateNewAuthorScreen.name -> CreateNewAuthorScreen
             AuthorDetailScreen.name -> AuthorDetailScreen
+            MainPublishingCoScreen.name -> MainPublishingCoScreen
+            CreateNewPublishingCoScreen.name -> CreateNewPublishingCoScreen
+            PublishingCoDetailScreen.name -> PublishingCoDetailScreen
             ProfileUserScreen.name -> ProfileUserScreen
             null -> MainScreen
             else -> throw IllegalArgumentException("Route $route is not recognized")

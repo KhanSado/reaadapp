@@ -31,15 +31,19 @@ import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.HeaderSections
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.utils.mountAuthorList
+import io.berson.reaad.ui.utils.mountPublishingCoList
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
+import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(vm: AuthorViewModel, navController: NavController) {
+fun HomeScreen(publishingCoVm: PublishingCoViewModel, authorVm: AuthorViewModel, navController: NavController) {
 
-    val authorUiState = vm.authorUiState
-    vm.getAuthorsList()
+    val authorUiState = authorVm.authorUiState
+    val publishingCoUiState = publishingCoVm.publisingCoUiState
+    authorVm.getAuthorsList()
+    publishingCoVm.getPublishingCoList()
 
     Scaffold (
         bottomBar = {
@@ -71,6 +75,32 @@ fun HomeScreen(vm: AuthorViewModel, navController: NavController) {
                         Spacer(modifier = Modifier.width(12.dp))
                     })
                 }
+
+
+
+
+                HeaderSections(
+                    viewMoreIsVisible = true,
+                    title = "Editoras"
+                ) {
+                    navController.navigate(DestinationScreen.MainPublishingCoScreen.name)
+                }
+
+
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(start = 23.dp, end = 23.dp),
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    items(items = mountPublishingCoList(publishingCoUiState.publishingCoList).take(4), itemContent = { item ->
+                        CardItem(
+                            item.name,
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                    })
+                }
             }
             }
         }
@@ -93,6 +123,26 @@ fun ItemScreen(name: String = "Jhon", lastname: String = "Pipe"){
         ) {
             Text(text = name)
             Text(text = lastname)
+        }
+    }
+}
+
+@Composable
+@Preview
+fun CardItem(name: String = "Jhon", logo: String = "Pipe"){
+    Surface(
+        modifier = Modifier
+            .background(Color.Transparent)
+            .height(100.dp)
+            .width(120.dp),
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier
+                .padding(all = 16.dp)
+        ) {
+            Text(text = name)
         }
     }
 }
