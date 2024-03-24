@@ -37,12 +37,22 @@ class BookViewModel(
         bookUiState = bookUiState.copy(authorId = authorid)
     }
 
+    fun onLiteraryGenreIdChange(literaryGenreId: String) {
+        bookUiState = bookUiState.copy(literaryGenreId = literaryGenreId)
+    }
+
+    fun onublishingCoIdChange(publishingCoId: String) {
+        bookUiState = bookUiState.copy(publishingCoId = publishingCoId)
+    }
+
     fun addBook(){
         bookUiState = bookUiState.copy(isLoading = true)
         if (hasUser){
             repository.addBook(
                 userId = user!!.uid,
                 authorId = bookUiState.authorId,
+                literaryGenreId = bookUiState.literaryGenreId,
+                publishingCoId = bookUiState.publishingCoId,
                 title = bookUiState.title,
                 subtitle = bookUiState.subtitle,
                 timestamp = Timestamp.now()
@@ -61,9 +71,38 @@ class BookViewModel(
 //        )
 //    }
 
-    fun getBooksList(authorid: String? = null){
-        repository.getBookbyAuthorListToUser(
-            authorId = authorid,
+    fun getAllBooks(){
+        repository.getAllBookToUser(
+            userId,
+            onError = {}
+        ){
+            bookUiState = bookUiState.copy(bookList = it)
+        }
+    }
+
+    fun getBooksListByAuthor(authorId: String){
+        repository.getBookByAuthorListToUser(
+            authorId = authorId,
+            userId,
+            onError = {}
+        ){
+            bookUiState = bookUiState.copy(bookList = it)
+        }
+    }
+
+    fun getBooksListByLiteraryGenre(literaryGenreId: String){
+        repository.getBookByLiteraryGenreListToUser(
+            literaryGenreId = literaryGenreId,
+            userId,
+            onError = {}
+        ){
+            bookUiState = bookUiState.copy(bookList = it)
+        }
+    }
+
+    fun getBooksListByPublishingCo(publishingCoId: String){
+        repository.getBookByPublishingCoListToUser(
+            publishingCoId = publishingCoId,
             userId,
             onError = {}
         ){
@@ -110,6 +149,8 @@ data class BookUiState(
     val title: String = "",
     val subtitle: String = "",
     val authorId: String = "",
+    val literaryGenreId: String = "",
+    val publishingCoId: String = "",
     val bookAddedStatus: Boolean = false,
     val updateBookStatus: Boolean = false,
     val selectedBook: Book? = null,

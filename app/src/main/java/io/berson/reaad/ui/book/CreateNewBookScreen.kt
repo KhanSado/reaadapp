@@ -52,20 +52,29 @@ import androidx.compose.ui.unit.sp
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.models.Author
+import io.berson.reaad.ui.models.LiteraryGenre
+import io.berson.reaad.ui.models.PublishingCo
+import io.berson.reaad.ui.publishingCo.PublishingCoLazyGridList
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
 import io.berson.reaad.ui.viewmodel.BookViewModel
+import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
+import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateNewBookScreen(
     vm: BookViewModel,
     authorVm: AuthorViewModel,
+    publishingCoVm: PublishingCoViewModel,
+    literaryGenreVm: LiteraryGenreViewModel,
     onNavToMainAuthorsPage: () -> Unit,
 ) {
 
     val bookUiState = vm.bookUiState
     val authorUiState = authorVm.authorUiState
+    val publishingCoUiState = publishingCoVm.publisingCoUiState
+    val literaryGenreUiState = literaryGenreVm.literaryGenreUiState
 
     GradientSurface {
         Column(
@@ -161,7 +170,21 @@ fun CreateNewBookScreen(
                 value = bookUiState.authorId,
                 onValueChange = { vm.onAuthorIdChange(it)}
             )
+            Spacer(modifier = Modifier.height(50.dp))
 
+            PublishingCoExposedDropdownMenuBox(
+                publishingCoUiState.publishingCoList,
+                value = bookUiState.publishingCoId,
+                onValueChange = { vm.onublishingCoIdChange(it)}
+            )
+
+            Spacer(modifier = Modifier.height(50.dp))
+
+            LiteraryGenreExposedDropdownMenuBox(
+                literaryGenreUiState.literaryGenreList,
+                value = bookUiState.literaryGenreId,
+                onValueChange = { vm.onLiteraryGenreIdChange(it)}
+            )
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
@@ -192,54 +215,6 @@ fun CreateNewBookScreen(
     }
 }
 
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun AuthorExposedDropdownMenuBox(
-//    authorsList: List<Author>?,
-//    value: String,
-//    onValueChange: (String) -> Unit,
-//) {
-//    var expanded by remember { mutableStateOf(false) }
-//    var selectedText by remember { mutableStateOf(authorsList!![0]) }
-//
-//    Box(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(32.dp)
-//    ) {
-//        ExposedDropdownMenuBox(
-//            expanded = expanded,
-//            onExpandedChange = {
-//                expanded = !expanded
-//            }
-//        ) {
-//            TextField(
-//                value = value,
-//                onValueChange = { onValueChange(it) },
-//                readOnly = true,
-//                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-//                modifier = Modifier.menuAnchor()
-//            )
-//
-//            ExposedDropdownMenu(
-//                expanded = expanded,
-//                onDismissRequest = { expanded = false }
-//            ) {
-//                authorsList?.forEach { item ->
-//                    DropdownMenuItem(
-//                        text = { Text(text = item.firstname) },
-//                        onClick = {
-//                            onValueChange(item.documentId)
-//                            selectedText = item
-//                            expanded = false
-//                        }
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthorExposedDropdownMenuBox(
@@ -249,7 +224,6 @@ fun AuthorExposedDropdownMenuBox(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    // Use documentId to track the selected author internally
     var selectedAuthorDocumentId by remember { mutableStateOf("") }
 
     Box(
@@ -262,7 +236,7 @@ fun AuthorExposedDropdownMenuBox(
             onExpandedChange = { expanded = !expanded }
         ) {
             TextField(
-                value = getValueToDisplay(authorsList, selectedAuthorDocumentId),
+                value = getValueAuthorToDisplay(authorsList, selectedAuthorDocumentId),
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -277,8 +251,8 @@ fun AuthorExposedDropdownMenuBox(
                     DropdownMenuItem(
                         text = { Text(text = item.firstname) },
                         onClick = {
-                            onValueChange(item.documentId) // Send documentId
-                            selectedAuthorDocumentId = item.documentId // Update internal state
+                            onValueChange(item.documentId)
+                            selectedAuthorDocumentId = item.documentId
                             expanded = false
                         }
                     )
@@ -287,6 +261,106 @@ fun AuthorExposedDropdownMenuBox(
         }
     }
 }
-private fun getValueToDisplay(authorsList: List<Author>?, documentId: String): String {
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LiteraryGenreExposedDropdownMenuBox(
+    literaryGenreList: List<LiteraryGenre>?,
+    value: String,
+    onValueChange: (String) -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    var selectedAuthorDocumentId by remember { mutableStateOf("") }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(32.dp)
+    ) {
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }
+        ) {
+            TextField(
+                value = getValueLiteraryGenreToDisplay(literaryGenreList, selectedAuthorDocumentId),
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                modifier = Modifier.menuAnchor()
+            )
+
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                literaryGenreList?.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(text = item.name) },
+                        onClick = {
+                            onValueChange(item.documentId)
+                            selectedAuthorDocumentId = item.documentId
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PublishingCoExposedDropdownMenuBox(
+    publishingCoList: List<PublishingCo>?,
+    value: String,
+    onValueChange: (String) -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    var selectedAuthorDocumentId by remember { mutableStateOf("") }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(32.dp)
+    ) {
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = !expanded }
+        ) {
+            TextField(
+                value = getValuePublishingCoToDisplay(publishingCoList, selectedAuthorDocumentId),
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                modifier = Modifier.menuAnchor()
+            )
+
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                publishingCoList?.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(text = item.name) },
+                        onClick = {
+                            onValueChange(item.documentId)
+                            selectedAuthorDocumentId = item.documentId
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+private fun getValueAuthorToDisplay(authorsList: List<Author>?, documentId: String): String {
     return authorsList?.find { it.documentId == documentId }?.firstname ?: ""
+}
+private fun getValueLiteraryGenreToDisplay(literaryGenreList: List<LiteraryGenre>?, documentId: String): String {
+    return literaryGenreList?.find { it.documentId == documentId }?.name ?: ""
+}
+private fun getValuePublishingCoToDisplay(publishingCoList: List<PublishingCo>?, documentId: String): String {
+    return publishingCoList?.find { it.documentId == documentId }?.name ?: ""
 }

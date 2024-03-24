@@ -7,6 +7,8 @@ data class Book(
     val title: String = "",
     val subtitle: String = "",
     val authorId: String? = null,
+    val literaryGenreId: String? = null,
+    val publishingCoId: String? = null,
     val createAt: Timestamp = Timestamp.now(),
     val updateAt: Timestamp = Timestamp.now(),
     val documentId: String = "",

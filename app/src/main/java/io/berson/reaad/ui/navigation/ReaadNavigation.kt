@@ -30,7 +30,7 @@ import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
 import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
 @Composable
-fun ReaadNavigation(){
+fun ReaadNavigation() {
     val navController = rememberNavController()
     val authVm = AuthViewModel()
     val authorVm = AuthorViewModel()
@@ -43,39 +43,50 @@ fun ReaadNavigation(){
             SplashScreen(navController = navController, vm = authVm)
         }
 
-        composable(DestinationScreen.MainScreen.name){
+        composable(DestinationScreen.MainScreen.name) {
             MainScreen(navController = navController)
         }
 
-        composable(DestinationScreen.SignupScreen.name){
-            SignupScreen(vm = authVm, onNavToHomePage = {navController.navigate(DestinationScreen.HomeScreen.name)}, onNavToLoginPage = {})
+        composable(DestinationScreen.SignupScreen.name) {
+            SignupScreen(
+                vm = authVm,
+                onNavToHomePage = { navController.navigate(DestinationScreen.HomeScreen.name) },
+                onNavToLoginPage = {})
         }
 
-        composable(DestinationScreen.LoginScreen.name){
-            LoginScreen(vm = authVm, onNavToHomePage = {navController.navigate(DestinationScreen.HomeScreen.name)})
+        composable(DestinationScreen.LoginScreen.name) {
+            LoginScreen(
+                vm = authVm,
+                onNavToHomePage = { navController.navigate(DestinationScreen.HomeScreen.name) })
         }
 
-        composable(DestinationScreen.HomeScreen.name){
-            HomeScreen(publishingCoVm = publishingCoVm, authorVm = authorVm, literaryGenreVm = literaryGenreVm, bookVm = bookVm, navController = navController)
+        composable(DestinationScreen.HomeScreen.name) {
+            HomeScreen(
+                publishingCoVm = publishingCoVm,
+                authorVm = authorVm,
+                literaryGenreVm = literaryGenreVm,
+                bookVm = bookVm,
+                navController = navController
+            )
         }
 
-        composable(DestinationScreen.MainAuthorsScreen.name){
+        composable(DestinationScreen.MainAuthorsScreen.name) {
             MainAuthorsScreen(navController = navController, vm = authorVm)
         }
 
-        composable(DestinationScreen.MainPublishingCoScreen.name){
+        composable(DestinationScreen.MainPublishingCoScreen.name) {
             MainPublishingCoScreen(navController = navController, vm = publishingCoVm)
         }
 
-        composable(DestinationScreen.MainLiteraryGenreScreen.name){
+        composable(DestinationScreen.MainLiteraryGenreScreen.name) {
             MainLiteraryGenreScreen(navController = navController, vm = literaryGenreVm)
         }
 
-        composable(DestinationScreen.MainBookScreen.name){
+        composable(DestinationScreen.MainBookScreen.name) {
             MainBookScreen(navController = navController, vm = bookVm)
         }
 
-        composable(DestinationScreen.ProfileUserScreen.name){
+        composable(DestinationScreen.ProfileUserScreen.name) {
             ProfileUserScreen(navController = navController, vm = authVm)
         }
 
@@ -84,12 +95,18 @@ fun ReaadNavigation(){
             listOf(
                 navArgument("authorId") { type = NavType.StringType },
             )
-        ){
-            AuthorDetailScreen(vm = authorVm, authorId = "${it.arguments?.getString("authorId")}", bookVm = bookVm)
+        ) {
+            AuthorDetailScreen(
+                vm = authorVm,
+                authorId = "${it.arguments?.getString("authorId")}",
+                bookVm = bookVm
+            )
         }
-        
-        composable(DestinationScreen.CreateNewAuthorScreen.name){
-            CreateNewAuthorScreen(vm = authorVm, onNavToMainAuthorsPage = {navController.navigate(DestinationScreen.MainAuthorsScreen.name)})
+
+        composable(DestinationScreen.CreateNewAuthorScreen.name) {
+            CreateNewAuthorScreen(
+                vm = authorVm,
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainAuthorsScreen.name) })
         }
 
         composable(
@@ -97,12 +114,17 @@ fun ReaadNavigation(){
             listOf(
                 navArgument("publishingCoId") { type = NavType.StringType },
             )
-        ){
-            PublishingCoDetailScreen(vm = publishingCoVm, publishingCoId = "${it.arguments?.getString("publishingCoId")}")
+        ) {
+            PublishingCoDetailScreen(
+                vm = publishingCoVm,
+                publishingCoId = "${it.arguments?.getString("publishingCoId")}"
+            )
         }
 
-        composable(DestinationScreen.CreateNewPublishingCoScreen.name){
-            CreateNewPublishingCoScreen(vm = publishingCoVm, onNavToMainAuthorsPage = {navController.navigate(DestinationScreen.MainPublishingCoScreen.name)})
+        composable(DestinationScreen.CreateNewPublishingCoScreen.name) {
+            CreateNewPublishingCoScreen(
+                vm = publishingCoVm,
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainPublishingCoScreen.name) })
         }
 
         composable(
@@ -110,18 +132,28 @@ fun ReaadNavigation(){
             listOf(
                 navArgument("literaryGenreId") { type = NavType.StringType },
             )
-        ){
-            LiteraryGenreDetailScreen(vm = literaryGenreVm, literaryGenreId = "${it.arguments?.getString("literaryGenreId")}")
+        ) {
+            LiteraryGenreDetailScreen(
+                vm = literaryGenreVm,
+                literaryGenreId = "${it.arguments?.getString("literaryGenreId")}"
+            )
         }
 
-        composable(DestinationScreen.CreateNewLiteraryGenreScreen.name){
-            CreateNewLiteraryGenreScreen(vm = literaryGenreVm, onNavToMainAuthorsPage = {navController.navigate(DestinationScreen.MainLiteraryGenreScreen.name)})
+        composable(DestinationScreen.CreateNewLiteraryGenreScreen.name) {
+            CreateNewLiteraryGenreScreen(
+                vm = literaryGenreVm,
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainLiteraryGenreScreen.name) })
         }
 
 
 
-        composable(DestinationScreen.CreateNewBookScreen.name){
-            CreateNewBookScreen(vm = bookVm, authorVm = authorVm, onNavToMainAuthorsPage = {navController.navigate(DestinationScreen.MainBookScreen.name)})
+        composable(DestinationScreen.CreateNewBookScreen.name) {
+            CreateNewBookScreen(
+                vm = bookVm,
+                authorVm = authorVm,
+                publishingCoVm = publishingCoVm,
+                literaryGenreVm = literaryGenreVm,
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) })
         }
     }
 }

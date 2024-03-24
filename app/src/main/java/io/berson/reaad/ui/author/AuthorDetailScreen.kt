@@ -26,7 +26,7 @@ fun AuthorDetailScreen(vm: AuthorViewModel, bookVm: BookViewModel, authorId: Str
     val bookUiState = bookVm.bookUiState
 
     vm.getAuthorById(authorId)
-    bookVm.getBooksList(authorId)
+    bookVm.getBooksListByAuthor(authorId)
 
     GradientSurface {
         

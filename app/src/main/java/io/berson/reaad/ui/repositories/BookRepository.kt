@@ -24,36 +24,82 @@ class BookRepository {
     private val bookRef: CollectionReference = Firebase
         .firestore.collection(BOOK_COLLECTION_REF)
 
-    fun getBookbyAuthorListToUser(
+    fun getAllBookToUser(
+        userId: String,
+        onError: (Throwable?) -> Unit,
+        onSuccess: (List<Book>?) -> Unit
+    ) {
+        bookRef
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener {
+                onSuccess.invoke(
+                    it.toObjects(Book::class.java)
+                )
+            }
+            .addOnFailureListener { result ->
+                onError.invoke(result.cause)
+            }
+    }
+
+    fun getBookByAuthorListToUser(
         authorId: String?,
         userId: String,
         onError: (Throwable?) -> Unit,
         onSuccess: (List<Book>?) -> Unit
-    ){
-        if (authorId == null) {
-            bookRef
-                .whereEqualTo("userId", userId)
-                .get()
-                .addOnSuccessListener {
-                    onSuccess.invoke(
-                        it.toObjects(Book::class.java))
-                }
-                .addOnFailureListener { result ->
-                    onError.invoke(result.cause)
-                }
-        } else {
-            bookRef
-                .whereEqualTo("userId", userId)
-                .whereEqualTo("authorId", authorId)
-                .get()
-                .addOnSuccessListener {
-                    onSuccess.invoke(
-                        it.toObjects(Book::class.java))
-                }
-                .addOnFailureListener { result ->
-                    onError.invoke(result.cause)
-                }
-        }
+    ) {
+        bookRef
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("authorId", authorId)
+            .get()
+            .addOnSuccessListener {
+                onSuccess.invoke(
+                    it.toObjects(Book::class.java)
+                )
+            }
+            .addOnFailureListener { result ->
+                onError.invoke(result.cause)
+            }
+    }
+
+    fun getBookByLiteraryGenreListToUser(
+        literaryGenreId: String?,
+        userId: String,
+        onError: (Throwable?) -> Unit,
+        onSuccess: (List<Book>?) -> Unit
+    ) {
+        bookRef
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("literaryGenreId", literaryGenreId)
+            .get()
+            .addOnSuccessListener {
+                onSuccess.invoke(
+                    it.toObjects(Book::class.java)
+                )
+            }
+            .addOnFailureListener { result ->
+                onError.invoke(result.cause)
+            }
+    }
+
+    fun getBookByPublishingCoListToUser(
+        publishingCoId: String?,
+        userId: String,
+        onError: (Throwable?) -> Unit,
+        onSuccess: (List<Book>?) -> Unit
+    ) {
+        bookRef
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("publishingCoId", publishingCoId)
+            .get()
+            .addOnSuccessListener {
+                onSuccess.invoke(
+                    it.toObjects(Book::class.java)
+                )
+            }
+            .addOnFailureListener { result ->
+                onError.invoke(result.cause)
+            }
     }
 
     fun getBook(
@@ -75,6 +121,8 @@ class BookRepository {
     fun addBook(
         userId: String,
         authorId: String,
+        publishingCoId: String,
+        literaryGenreId: String,
         title: String,
         subtitle: String,
         timestamp: Timestamp,
@@ -86,6 +134,8 @@ class BookRepository {
             title = title,
             subtitle = subtitle,
             authorId = authorId,
+            publishingCoId = publishingCoId,
+            literaryGenreId = literaryGenreId,
             createAt = timestamp,
             documentId = documentId
         )
