@@ -27,7 +27,6 @@ import io.berson.reaad.ui.components.FloatingActionButton
 import io.berson.reaad.ui.models.Author
 import io.berson.reaad.ui.navigation.DestinationScreen
 
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +43,7 @@ fun MainAuthorsScreen(navController: NavController, vm: AuthorViewModel) {
         }
     ) {
         GradientSurface {
-            authorUiState.authorList?.let { it1 -> LazyGridList(
+            authorUiState.authorList?.let { it1 -> AuthorLazyGridList(
                 authors = it1,
                 navController = navController
             ) }
@@ -53,10 +52,10 @@ fun MainAuthorsScreen(navController: NavController, vm: AuthorViewModel) {
 }
 
 @Composable
-fun LazyGridList(
+fun AuthorLazyGridList(
     authors: List<Author>,
     navController: NavController
-    ) {
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
