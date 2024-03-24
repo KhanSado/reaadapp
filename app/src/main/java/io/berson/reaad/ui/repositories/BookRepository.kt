@@ -25,22 +25,35 @@ class BookRepository {
         .firestore.collection(BOOK_COLLECTION_REF)
 
     fun getBookbyAuthorListToUser(
-        authorId: String,
+        authorId: String?,
         userId: String,
         onError: (Throwable?) -> Unit,
         onSuccess: (List<Book>?) -> Unit
     ){
-        bookRef
-            .whereEqualTo("userId", userId)
-            .whereEqualTo("authorId", authorId)
-            .get()
-            .addOnSuccessListener {
-                onSuccess.invoke(
-                    it.toObjects(Book::class.java))
-            }
-            .addOnFailureListener { result ->
-                onError.invoke(result.cause)
-            }
+        if (authorId == null) {
+            bookRef
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener {
+                    onSuccess.invoke(
+                        it.toObjects(Book::class.java))
+                }
+                .addOnFailureListener { result ->
+                    onError.invoke(result.cause)
+                }
+        } else {
+            bookRef
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("authorId", authorId)
+                .get()
+                .addOnSuccessListener {
+                    onSuccess.invoke(
+                        it.toObjects(Book::class.java))
+                }
+                .addOnFailureListener { result ->
+                    onError.invoke(result.cause)
+                }
+        }
     }
 
     fun getBook(

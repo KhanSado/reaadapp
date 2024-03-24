@@ -61,9 +61,9 @@ class BookViewModel(
 //        )
 //    }
 
-    fun getBooksList(){
+    fun getBooksList(authorid: String? = null){
         repository.getBookbyAuthorListToUser(
-            authorId = bookUiState.authorId,
+            authorId = authorid,
             userId,
             onError = {}
         ){

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,9 +30,11 @@ import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.HeaderSections
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.utils.mountAuthorList
+import io.berson.reaad.ui.utils.mountBookList
 import io.berson.reaad.ui.utils.mountLiteraryGenreList
 import io.berson.reaad.ui.utils.mountPublishingCoList
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
+import io.berson.reaad.ui.viewmodel.BookViewModel
 import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
 import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
@@ -42,12 +45,14 @@ fun HomeScreen(
     publishingCoVm: PublishingCoViewModel,
     authorVm: AuthorViewModel,
     literaryGenreVm: LiteraryGenreViewModel,
+    bookVm: BookViewModel,
     navController: NavController
 ) {
 
     val authorUiState = authorVm.authorUiState
     val publishingCoUiState = publishingCoVm.publisingCoUiState
     val literaryGenreUiState = literaryGenreVm.literaryGenreUiState
+    val bookUiState = bookVm.bookUiState
 
     authorVm.getAuthorsList()
     publishingCoVm.getPublishingCoList()
@@ -134,6 +139,31 @@ fun HomeScreen(
                             item.name,
                         ){
                             navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${item.documentId}")
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                    })
+                }
+
+                HeaderSections(
+                    viewMoreIsVisible = true,
+                    title = "Livros"
+                ) {
+                    navController.navigate(DestinationScreen.MainBookScreen.name)
+                }
+
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(start = 23.dp, end = 23.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    items(items = mountBookList(bookUiState.bookList), itemContent = { item ->
+                        CardItem(
+                            item.title,
+                        ){
+//                            navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${item.documentId}")
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                     })

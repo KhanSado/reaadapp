@@ -14,6 +14,8 @@ enum class DestinationScreen {
     MainLiteraryGenreScreen,
     CreateNewLiteraryGenreScreen,
     LiteraryGenreDetailScreen,
+    MainBookScreen,
+    CreateNewBookScreen,
     LoginScreen,
     ProfileUserScreen;
 
@@ -34,6 +36,8 @@ enum class DestinationScreen {
             MainLiteraryGenreScreen.name -> MainLiteraryGenreScreen
             CreateNewLiteraryGenreScreen.name -> CreateNewLiteraryGenreScreen
             LiteraryGenreDetailScreen.name -> LiteraryGenreDetailScreen
+            MainBookScreen.name -> MainBookScreen
+            CreateNewBookScreen.name -> CreateNewBookScreen
             ProfileUserScreen.name -> ProfileUserScreen
             null -> MainScreen
             else -> throw IllegalArgumentException("Route $route is not recognized")
