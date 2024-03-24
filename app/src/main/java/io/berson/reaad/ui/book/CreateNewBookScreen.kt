@@ -192,6 +192,54 @@ fun CreateNewBookScreen(
     }
 }
 
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun AuthorExposedDropdownMenuBox(
+//    authorsList: List<Author>?,
+//    value: String,
+//    onValueChange: (String) -> Unit,
+//) {
+//    var expanded by remember { mutableStateOf(false) }
+//    var selectedText by remember { mutableStateOf(authorsList!![0]) }
+//
+//    Box(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(32.dp)
+//    ) {
+//        ExposedDropdownMenuBox(
+//            expanded = expanded,
+//            onExpandedChange = {
+//                expanded = !expanded
+//            }
+//        ) {
+//            TextField(
+//                value = value,
+//                onValueChange = { onValueChange(it) },
+//                readOnly = true,
+//                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+//                modifier = Modifier.menuAnchor()
+//            )
+//
+//            ExposedDropdownMenu(
+//                expanded = expanded,
+//                onDismissRequest = { expanded = false }
+//            ) {
+//                authorsList?.forEach { item ->
+//                    DropdownMenuItem(
+//                        text = { Text(text = item.firstname) },
+//                        onClick = {
+//                            onValueChange(item.documentId)
+//                            selectedText = item
+//                            expanded = false
+//                        }
+//                    )
+//                }
+//            }
+//        }
+//    }
+//}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthorExposedDropdownMenuBox(
@@ -199,9 +247,10 @@ fun AuthorExposedDropdownMenuBox(
     value: String,
     onValueChange: (String) -> Unit,
 ) {
-    val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(authorsList!![0]) }
+
+    // Use documentId to track the selected author internally
+    var selectedAuthorDocumentId by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -210,13 +259,11 @@ fun AuthorExposedDropdownMenuBox(
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
-            onExpandedChange = {
-                expanded = !expanded
-            }
+            onExpandedChange = { expanded = !expanded }
         ) {
             TextField(
-                value = value,
-                onValueChange = { onValueChange(it) },
+                value = getValueToDisplay(authorsList, selectedAuthorDocumentId),
+                onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                 modifier = Modifier.menuAnchor()
@@ -230,14 +277,16 @@ fun AuthorExposedDropdownMenuBox(
                     DropdownMenuItem(
                         text = { Text(text = item.firstname) },
                         onClick = {
-                            onValueChange(item.documentId)
-                            selectedText = item
+                            onValueChange(item.documentId) // Send documentId
+                            selectedAuthorDocumentId = item.documentId // Update internal state
                             expanded = false
-                            Toast.makeText(context, item.documentId, Toast.LENGTH_SHORT).show()
                         }
                     )
                 }
             }
         }
     }
+}
+private fun getValueToDisplay(authorsList: List<Author>?, documentId: String): String {
+    return authorsList?.find { it.documentId == documentId }?.firstname ?: ""
 }
