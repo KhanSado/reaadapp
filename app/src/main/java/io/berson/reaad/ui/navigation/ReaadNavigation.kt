@@ -99,7 +99,8 @@ fun ReaadNavigation() {
             AuthorDetailScreen(
                 vm = authorVm,
                 authorId = "${it.arguments?.getString("authorId")}",
-                bookVm = bookVm
+                bookVm = bookVm,
+                navController = navController
             )
         }
 
@@ -117,7 +118,9 @@ fun ReaadNavigation() {
         ) {
             PublishingCoDetailScreen(
                 vm = publishingCoVm,
-                publishingCoId = "${it.arguments?.getString("publishingCoId")}"
+                bookVm = bookVm,
+                publishingCoId = "${it.arguments?.getString("publishingCoId")}",
+                navController = navController
             )
         }
 
@@ -135,7 +138,9 @@ fun ReaadNavigation() {
         ) {
             LiteraryGenreDetailScreen(
                 vm = literaryGenreVm,
-                literaryGenreId = "${it.arguments?.getString("literaryGenreId")}"
+                bookVm = bookVm,
+                literaryGenreId = "${it.arguments?.getString("literaryGenreId")}",
+                navController = navController
             )
         }
 

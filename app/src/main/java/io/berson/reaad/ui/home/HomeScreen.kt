@@ -3,8 +3,10 @@ package io.berson.reaad.ui.home
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,7 +15,9 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -48,7 +52,6 @@ fun HomeScreen(
     bookVm: BookViewModel,
     navController: NavController
 ) {
-
     val authorUiState = authorVm.authorUiState
     val publishingCoUiState = publishingCoVm.publisingCoUiState
     val literaryGenreUiState = literaryGenreVm.literaryGenreUiState
@@ -57,12 +60,14 @@ fun HomeScreen(
     authorVm.getAuthorsList()
     publishingCoVm.getPublishingCoList()
     literaryGenreVm.getLiteraryGenreList()
+    bookVm.getAllBooks()
 
-    Scaffold (
+    Scaffold(
         bottomBar = {
             AppBottomBar(navController = navController)
-        }
+        },
     ) {
+
         GradientSurface {
             Column {
                 HeaderSections(
@@ -80,15 +85,17 @@ fun HomeScreen(
                         .padding(start = 23.dp, end = 23.dp),
                     verticalAlignment = Alignment.Bottom
                 ) {
-                    items(items = mountAuthorList(authorUiState.authorList).take(4), itemContent = { item ->
-                        ItemScreen(
-                            item.firstname,
-                            item.lastname
-                        ){
-                            navController.navigate("${DestinationScreen.AuthorDetailScreen.name}/${item.documentId}")
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                    })
+                    items(
+                        items = mountAuthorList(authorUiState.authorList).take(4),
+                        itemContent = { item ->
+                            ItemScreen(
+                                item.firstname,
+                                item.lastname
+                            ) {
+                                navController.navigate("${DestinationScreen.AuthorDetailScreen.name}/${item.documentId}")
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                        })
                 }
 
 
@@ -109,14 +116,18 @@ fun HomeScreen(
                         .padding(start = 23.dp, end = 23.dp),
                     verticalAlignment = Alignment.Bottom
                 ) {
-                    items(items = mountPublishingCoList(publishingCoUiState.publishingCoList).take(4), itemContent = { item ->
-                        CardItem(
-                            item.name,
-                        ){
-                            navController.navigate("${DestinationScreen.PublishingCoDetailScreen.name}/${item.documentId}")
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                    })
+                    items(
+                        items = mountPublishingCoList(publishingCoUiState.publishingCoList).take(
+                            4
+                        ),
+                        itemContent = { item ->
+                            CardItem(
+                                item.name,
+                            ) {
+                                navController.navigate("${DestinationScreen.PublishingCoDetailScreen.name}/${item.documentId}")
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                        })
                 }
 
                 HeaderSections(
@@ -134,14 +145,17 @@ fun HomeScreen(
                         .padding(start = 23.dp, end = 23.dp),
                     verticalAlignment = Alignment.Bottom
                 ) {
-                    items(items = mountLiteraryGenreList(literaryGenreUiState.literaryGenreList).take(4), itemContent = { item ->
-                        CardItem(
-                            item.name,
-                        ){
-                            navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${item.documentId}")
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                    })
+                    items(
+                        items = mountLiteraryGenreList(literaryGenreUiState.literaryGenreList).take(
+                            4
+                        ), itemContent = { item ->
+                            CardItem(
+                                item.name,
+                            ) {
+                                navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${item.documentId}")
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                        })
                 }
 
                 HeaderSections(
@@ -159,19 +173,21 @@ fun HomeScreen(
                         .padding(start = 23.dp, end = 23.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    items(items = mountBookList(bookUiState.bookList), itemContent = { item ->
-                        CardItem(
-                            item.title,
-                        ){
+                    items(
+                        items = mountBookList(bookUiState.bookList).take(3),
+                        itemContent = { item ->
+                            CardItem(
+                                item.title,
+                            ) {
 //                            navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${item.documentId}")
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                    })
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                        })
                 }
-            }
             }
         }
     }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -180,7 +196,7 @@ fun ItemScreen(
     name: String = "Jhon",
     lastname: String = "Pipe",
     onItemClick: () -> Unit = {}
-    ){
+) {
     Surface(
         modifier = Modifier
             .background(Color.Transparent)
@@ -208,7 +224,7 @@ fun CardItem(
     text1: String = "Jhon",
     text2: String = "Pipe",
     onItemClick: () -> Unit = {}
-){
+) {
     Surface(
         modifier = Modifier
             .background(Color.Transparent)
