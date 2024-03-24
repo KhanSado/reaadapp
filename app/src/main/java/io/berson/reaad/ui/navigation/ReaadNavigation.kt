@@ -121,7 +121,7 @@ fun ReaadNavigation(){
 
 
         composable(DestinationScreen.CreateNewBookScreen.name){
-            CreateNewBookScreen(vm = bookVm, onNavToMainAuthorsPage = {navController.navigate(DestinationScreen.MainBookScreen.name)})
+            CreateNewBookScreen(vm = bookVm, authorVm = authorVm, onNavToMainAuthorsPage = {navController.navigate(DestinationScreen.MainBookScreen.name)})
         }
     }
 }
