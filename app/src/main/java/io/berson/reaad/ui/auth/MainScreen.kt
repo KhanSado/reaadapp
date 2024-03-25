@@ -1,5 +1,6 @@
 package io.berson.reaad.ui.auth
 
+import android.media.tv.TvContract.Channels.Logo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,12 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
+import io.berson.reaad.ui.components.LogoType
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthViewModel
@@ -40,20 +44,8 @@ fun MainScreen(navController: NavController) {
                 .padding(top = 100.dp)
 
         ) {
-            Image(
-                painter = painterResource(
-                    id = R.drawable.logotipo),
-                contentDescription = "reaad logo",
-                modifier = Modifier
-                    .height(90.dp)
-                    .width(90.dp)
-            )
-            Text(
-                text = "Reaad",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 40.sp
-            )
+            LogoType()
+
             Spacer(modifier = Modifier.fillMaxHeight(.5f))
             Box(
                 modifier = Modifier
@@ -69,10 +61,11 @@ fun MainScreen(navController: NavController) {
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "sou novo aqui",
+                        text = "sou novo(a) aqui",
                         color = PrimaryColor,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = FontFamily(Font(R.font.exo2))
                     )
                 }
             }
@@ -96,7 +89,8 @@ fun MainScreen(navController: NavController) {
                         text = "já tenho conta",
                         color = PrimaryColor,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = FontFamily(Font(R.font.exo2))
                     )
                 }
             }

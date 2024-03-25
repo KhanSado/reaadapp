@@ -33,6 +33,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -85,11 +87,12 @@ fun SignupScreen(
             }
 
             Text(
-                text = "para começar, precisamos saber algumas informações",
+                text = "que bom que você quer se juntar a nos, para começar, precisamos de algumas informaçõas para iniciar sua conta",
                 textAlign = TextAlign.Justify,
-                fontWeight = FontWeight.Thin,
+                fontWeight = FontWeight.Normal,
                 fontSize = 30.sp,
-                color = Color.White
+                color = Color.White,
+                fontFamily = FontFamily(Font(R.font.barlowcondensedlight))
             )
 
             Spacer(modifier = Modifier.height(50.dp))
@@ -377,7 +380,8 @@ fun SignupScreen(
                         text = "vamos lá",
                         color = PrimaryColor,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Thin
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = FontFamily(Font(R.font.exo2))
                     )
                 }
             }

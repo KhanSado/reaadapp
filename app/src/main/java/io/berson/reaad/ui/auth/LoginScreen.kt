@@ -31,9 +31,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -42,10 +43,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
-import io.berson.reaad.ui.navigation.DestinationScreen
+import io.berson.reaad.ui.components.LogoType
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthViewModel
 
@@ -79,12 +79,15 @@ fun LoginScreen(
                 )
             }
 
+            LogoType()
+
             Text(
                 text = "vamos entrar para aproveitar",
                 fontWeight = FontWeight.Thin,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
-                color = Color.White
+                color = Color.White,
+                fontFamily = FontFamily(Font(R.font.barlowcondensedlight))
             )
 
             Spacer(modifier = Modifier.height(50.dp))
@@ -203,7 +206,8 @@ fun LoginScreen(
                         text = "vamos lá",
                         color = PrimaryColor,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = FontFamily(Font(R.font.exo2))
                     )
                 }
             }
