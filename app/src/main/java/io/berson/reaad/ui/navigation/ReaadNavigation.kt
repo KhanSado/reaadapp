@@ -58,6 +58,7 @@ fun ReaadNavigation() {
         composable(DestinationScreen.LoginScreen.name) {
             LoginScreen(
                 vm = authVm,
+                navController = navController,
                 onNavToHomePage = { navController.navigate(DestinationScreen.HomeScreen.name) })
         }
 

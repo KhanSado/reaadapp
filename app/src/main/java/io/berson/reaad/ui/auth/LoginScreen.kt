@@ -43,9 +43,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.LogoType
+import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthViewModel
 
@@ -53,6 +55,7 @@ import io.berson.reaad.ui.viewmodel.AuthViewModel
 @Composable
 fun LoginScreen(
     vm: AuthViewModel,
+    navController: NavController,
     onNavToHomePage:() -> Unit,
 ) {
 
@@ -187,6 +190,15 @@ fun LoginScreen(
                     cursorColor = Color.Green
                 ),
                 isError = isError
+            )
+            Text(
+                text = "recuperar minha senha",
+                modifier = Modifier
+                    .clickable( onClick = {
+                        navController.navigate(DestinationScreen.PassRecoveryScreen.name)
+                    }
+                ),
+                color = PrimaryColor
             )
             Spacer(modifier = Modifier.height(50.dp))
 

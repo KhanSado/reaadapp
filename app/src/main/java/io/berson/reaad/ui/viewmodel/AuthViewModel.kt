@@ -179,7 +179,7 @@ class AuthViewModel(
                 email = loginUiState.emailSignUp
             ){
                 loginUiState = loginUiState.copy(userAddedStatus = it)
-                loginUiState.copy(isSuccessCreate = true)
+                loginUiState = loginUiState.copy(isSuccessCreate = true)
             }
         }
     }

@@ -157,8 +157,10 @@ fun PassRecoveryScreen(
                 CircularProgressIndicator()
             }
 
-            LaunchedEffect(key1 = true){
+            LaunchedEffect(key1 = loginUiState.isSuccessRecovery){
+                if (loginUiState.isSuccessRecovery){
                     onNavToHomePage.invoke()
+                }
             }
 
         }
