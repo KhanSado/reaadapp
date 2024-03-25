@@ -203,7 +203,7 @@ fun LoginScreen(
                         text = "vamos lá",
                         color = PrimaryColor,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Thin
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
             }

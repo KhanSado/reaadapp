@@ -1,5 +1,6 @@
 package io.berson.reaad.ui.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,10 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
@@ -37,6 +40,14 @@ fun MainScreen(navController: NavController) {
                 .padding(top = 100.dp)
 
         ) {
+            Image(
+                painter = painterResource(
+                    id = R.drawable.logotipo),
+                contentDescription = "reaad logo",
+                modifier = Modifier
+                    .height(90.dp)
+                    .width(90.dp)
+            )
             Text(
                 text = "Reaad",
                 color = Color.White,
@@ -61,7 +72,7 @@ fun MainScreen(navController: NavController) {
                         text = "sou novo aqui",
                         color = PrimaryColor,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Thin
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
             }
@@ -85,7 +96,7 @@ fun MainScreen(navController: NavController) {
                         text = "já tenho conta",
                         color = PrimaryColor,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Thin
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
             }
