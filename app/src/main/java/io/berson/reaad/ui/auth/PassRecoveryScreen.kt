@@ -160,6 +160,7 @@ fun PassRecoveryScreen(
             LaunchedEffect(key1 = loginUiState.isSuccessRecovery){
                 if (loginUiState.isSuccessRecovery){
                     onNavToHomePage.invoke()
+                    loginUiState.isSuccessRecovery = false
                 }
             }
 

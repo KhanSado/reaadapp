@@ -204,7 +204,7 @@ data class LoginUiState(
     val userAddedStatus: Boolean = false,
     val isLoading: Boolean = false,
     val isSuccessLogin: Boolean = false,
-    val isSuccessRecovery: Boolean = false,
+    var isSuccessRecovery: Boolean = false,
     val isSuccessSignup: Boolean = false,
     val signUpError: String? = null,
     val loginError: String? = null,
