@@ -46,6 +46,10 @@ class AuthViewModel(
         loginUiState = loginUiState.copy(emailSignUp = userName)
     }
 
+    fun onEmailRecoveryChange(email: String) {
+        loginUiState = loginUiState.copy(emailRecovery = email)
+    }
+
     fun onPasswordChangeSignup(password: String) {
         loginUiState = loginUiState.copy(passwordSignUp = password)
     }
@@ -65,6 +69,9 @@ class AuthViewModel(
     private fun validateLoginForm() =
         loginUiState.email.isNotBlank() &&
                 loginUiState.password.isNotBlank()
+
+    private fun validateRecoveryPassForm() =
+        loginUiState.emailRecovery.isNotBlank()
 
     private fun validateSignupForm() =
         loginUiState.emailSignUp.isNotBlank() &&
@@ -138,6 +145,31 @@ class AuthViewModel(
         }
     }
 
+    fun recoveryPass() = viewModelScope.launch {
+        try {
+            if (!validateRecoveryPassForm()) {
+                throw IllegalArgumentException("você precisa informar seu email da conta a recuperar")
+            }
+            loginUiState = loginUiState.copy(isLoading = true)
+            loginUiState = loginUiState.copy(recoveryError = null)
+            repository.recoveryPass(
+                loginUiState.emailRecovery,
+            ) { isSuccessful ->
+                loginUiState = if (isSuccessful) {
+                    loginUiState.copy(isSuccessRecovery = true)
+                } else {
+                    loginUiState.copy(isSuccessRecovery = false)
+                }
+
+            }
+        } catch (e: Exception) {
+            loginUiState = loginUiState.copy(recoveryError = "verifique suas credenciais e tente novamente!")
+            e.printStackTrace()
+        } finally {
+            loginUiState = loginUiState.copy(isLoading = false)
+        }
+    }
+
 
     private fun addUserFull(){
         if (hasUser){
@@ -153,7 +185,6 @@ class AuthViewModel(
     }
 
 
-
 }
 
 data class LoginUiState(
@@ -166,13 +197,18 @@ data class LoginUiState(
     val passwordSignUp: String = "",
     val confirmPasswordSignUp: String = "",
 
+    var emailRecovery: String = "",
+
     val isSuccessCreate: Boolean = false,
+    val isSuccessRecovered: Boolean = false,
     val userAddedStatus: Boolean = false,
     val isLoading: Boolean = false,
     val isSuccessLogin: Boolean = false,
+    val isSuccessRecovery: Boolean = false,
     val isSuccessSignup: Boolean = false,
     val signUpError: String? = null,
     val loginError: String? = null,
+    val recoveryError: String? = null,
     val loginSignupError: String? = null,
 
     val isLogoutSuccess: Boolean = false,

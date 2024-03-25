@@ -79,4 +79,19 @@ class AuthRepository {
                 }
             }.await()
     }
+
+    suspend fun recoveryPass(
+        email: String,
+        onCompleteRecovery: (Boolean) -> Unit
+    ) = withContext(Dispatchers.IO) {
+        Firebase.auth
+            .sendPasswordResetEmail(email)
+            .addOnCompleteListener {
+                if (it.isComplete) {
+                    onCompleteRecovery.invoke(true)
+                } else {
+                    onCompleteRecovery.invoke(false)
+                }
+            }.await()
+    }
 }

@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import io.berson.reaad.ui.splash.SplashScreen
 import io.berson.reaad.ui.auth.LoginScreen
 import io.berson.reaad.ui.auth.MainScreen
+import io.berson.reaad.ui.auth.PassRecoveryScreen
 import io.berson.reaad.ui.auth.SignupScreen
 import io.berson.reaad.ui.author.AuthorDetailScreen
 import io.berson.reaad.ui.author.CreateNewAuthorScreen
@@ -58,6 +59,12 @@ fun ReaadNavigation() {
             LoginScreen(
                 vm = authVm,
                 onNavToHomePage = { navController.navigate(DestinationScreen.HomeScreen.name) })
+        }
+
+        composable(DestinationScreen.PassRecoveryScreen.name) {
+            PassRecoveryScreen(
+                vm = authVm,
+                onNavToHomePage = { navController.navigate(DestinationScreen.LoginScreen.name) })
         }
 
         composable(DestinationScreen.HomeScreen.name) {
