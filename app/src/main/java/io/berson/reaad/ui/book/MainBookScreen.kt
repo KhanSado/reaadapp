@@ -1,7 +1,10 @@
 package io.berson.reaad.ui.book
 
 import android.annotation.SuppressLint
+import android.icu.text.ListFormatter.Width
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +12,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -25,13 +29,16 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import io.berson.reaad.R
 import io.berson.reaad.ui.components.AppBottomBar
 import io.berson.reaad.ui.components.FloatingActionButton
 import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.models.Book
 import io.berson.reaad.ui.navigation.DestinationScreen
+import io.berson.reaad.ui.theme.SecundaryColor
 import io.berson.reaad.ui.viewmodel.BookViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -85,23 +92,32 @@ fun BooksLazyGridList(
         columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxHeight(),
-        contentPadding = PaddingValues(top = 60.dp, start = 24.dp, end = 24.dp)
+        contentPadding = PaddingValues(
+            top = 60.dp,
+            start = 24.dp,
+            end = 24.dp,
+            bottom = 24.dp
+        ) // Additional bottom padding
     ) {
         items(items = books) { book ->
-            Box(
+            Column(
                 modifier = Modifier
-                    .background(Color.White, shape = RoundedCornerShape(8.dp))
-                    .height(48.dp)
-                    .width(48.dp)
-                    .clickable(
-                        onClick = {
-                        }
-                    ),
-
-                ) {
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
+                    .background(Color.White, shape = RoundedCornerShape(8.dp)),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(10.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.bookcover),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .height(80.dp)
+                )
+                Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = book.title,
-                    modifier = Modifier.align(Alignment.Center)
+                    text = book.title
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))

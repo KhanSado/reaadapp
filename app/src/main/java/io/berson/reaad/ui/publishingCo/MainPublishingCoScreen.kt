@@ -99,9 +99,10 @@ fun PublishingCoLazyGridList(
         items(items = publishingCo) { publishingCo ->
             Box(
                 modifier = Modifier
+                    .fillMaxWidth()
+                    .height(90.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
                     .background(Color.White, shape = RoundedCornerShape(8.dp))
-                    .height(48.dp)
-                    .width(48.dp)
                     .clickable(
                         onClick = {
                             navController.navigate("${DestinationScreen.PublishingCoDetailScreen.name}/${publishingCo.documentId}")

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -81,9 +82,10 @@ fun AuthorLazyGridList(
         items(items = authors) { author ->
             Box(
                 modifier = Modifier
+                    .fillMaxWidth()
+                    .height(90.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
                     .background(Color.White, shape = RoundedCornerShape(8.dp))
-                    .height(48.dp)
-                    .width(48.dp)
                     .clickable(
                         onClick = {
                             navController.navigate("${DestinationScreen.AuthorDetailScreen.name}/${author.documentId}")

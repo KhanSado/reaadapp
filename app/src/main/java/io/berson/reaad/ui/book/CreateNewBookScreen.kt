@@ -244,8 +244,9 @@ fun AuthorExposedDropdownMenuBox(
 
     Box(
         modifier = Modifier
-            .padding(end = 24.dp, start = 24.dp)
             .fillMaxWidth()
+            .clip(RoundedCornerShape(50.dp))
+            .background(Color(0xB9FFFFFF))
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -291,8 +292,9 @@ fun LiteraryGenreExposedDropdownMenuBox(
 
     Box(
         modifier = Modifier
-            .padding(end = 24.dp, start = 24.dp)
             .fillMaxWidth()
+            .clip(RoundedCornerShape(50.dp))
+            .background(Color(0xB9FFFFFF))
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -338,8 +340,9 @@ fun PublishingCoExposedDropdownMenuBox(
 
     Box(
         modifier = Modifier
-            .padding(end = 24.dp, start = 24.dp)
             .fillMaxWidth()
+            .clip(RoundedCornerShape(50.dp))
+            .background(Color(0xB9FFFFFF))
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
