@@ -109,14 +109,17 @@ fun ReaadNavigation() {
                 vm = authorVm,
                 authorId = "${it.arguments?.getString("authorId")}",
                 bookVm = bookVm,
-                navController = navController
+                navController = navController,
+
             )
         }
 
         composable(DestinationScreen.CreateNewAuthorScreen.name) {
             CreateNewAuthorScreen(
                 vm = authorVm,
-                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainAuthorsScreen.name) })
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainAuthorsScreen.name) },
+                navController = navController
+            )
         }
 
         composable(
@@ -136,7 +139,8 @@ fun ReaadNavigation() {
         composable(DestinationScreen.CreateNewPublishingCoScreen.name) {
             CreateNewPublishingCoScreen(
                 vm = publishingCoVm,
-                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainPublishingCoScreen.name) })
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainPublishingCoScreen.name) },
+                navController = navController)
         }
 
         composable(
@@ -156,7 +160,9 @@ fun ReaadNavigation() {
         composable(DestinationScreen.CreateNewLiteraryGenreScreen.name) {
             CreateNewLiteraryGenreScreen(
                 vm = literaryGenreVm,
-                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainLiteraryGenreScreen.name) })
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainLiteraryGenreScreen.name) },
+                navController = navController
+            )
         }
 
 
@@ -167,7 +173,9 @@ fun ReaadNavigation() {
                 authorVm = authorVm,
                 publishingCoVm = publishingCoVm,
                 literaryGenreVm = literaryGenreVm,
-                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) })
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) },
+                navController = navController
+            )
         }
     }
 }

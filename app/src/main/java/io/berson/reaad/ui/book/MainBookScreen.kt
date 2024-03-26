@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.berson.reaad.ui.components.AppBottomBar
 import io.berson.reaad.ui.components.FloatingActionButton
+import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.models.Book
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.viewmodel.BookViewModel
@@ -51,11 +54,22 @@ fun MainBookScreen(navController: NavController, vm: BookViewModel) {
         }
     ) {
         GradientSurface {
-            bookUiState.bookList?.let { it1 ->
-                BooksLazyGridList(
-                    books = it1,
-                    navController = navController
-                )
+            TopAppBar(
+                navController = navController,
+                resName = "Meus Livros",
+            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 50.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
+            ) {
+                bookUiState.bookList?.let { it1 ->
+                    BooksLazyGridList(
+                        books = it1,
+                        navController = navController
+                    )
+                }
             }
         }
     }

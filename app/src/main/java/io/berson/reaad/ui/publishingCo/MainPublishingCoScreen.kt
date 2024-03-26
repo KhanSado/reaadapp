@@ -6,6 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import io.berson.reaad.ui.components.AppBottomBar
 import io.berson.reaad.ui.components.FloatingActionButton
+import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.models.Author
 import io.berson.reaad.ui.models.PublishingCo
 import io.berson.reaad.ui.navigation.DestinationScreen
@@ -60,11 +64,22 @@ fun MainPublishingCoScreen(navController: NavController, vm: PublishingCoViewMod
         }
     ) {
         GradientSurface {
-            publishingCoUiState.publishingCoList?.let { it1 ->
-                PublishingCoLazyGridList(
-                    publishingCo = it1,
-                    navController = navController
-                )
+            TopAppBar(
+                navController = navController,
+                resName = "Minhas editoras",
+            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 50.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
+            ) {
+                publishingCoUiState.publishingCoList?.let { it1 ->
+                    PublishingCoLazyGridList(
+                        publishingCo = it1,
+                        navController = navController
+                    )
+                }
             }
         }
     }
@@ -78,14 +93,12 @@ fun PublishingCoLazyGridList(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-            .width(48.dp)
-            .height(48.dp)
+            .fillMaxHeight(),
+        contentPadding = PaddingValues(top = 60.dp, start = 24.dp, end = 24.dp)
     ) {
         items(items = publishingCo) { publishingCo ->
             Box(
                 modifier = Modifier
-                    .padding(4.dp)
                     .background(Color.White, shape = RoundedCornerShape(8.dp))
                     .height(48.dp)
                     .width(48.dp)

@@ -32,8 +32,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
+import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
@@ -42,11 +44,16 @@ import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 fun CreateNewPublishingCoScreen(
     vm: PublishingCoViewModel,
     onNavToMainAuthorsPage: () -> Unit,
+    navController:NavController
 ) {
 
     val publisingCoUiState = vm.publisingCoUiState
 
     GradientSurface {
+        TopAppBar(
+            navController = navController,
+            resName = "nova editora",
+        )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier

@@ -32,8 +32,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
+import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
 
@@ -42,11 +44,16 @@ import io.berson.reaad.ui.viewmodel.AuthorViewModel
 fun CreateNewAuthorScreen(
     vm: AuthorViewModel,
     onNavToMainAuthorsPage: () -> Unit,
+    navController: NavController
 ) {
 
     val authorUiState = vm.authorUiState
 
     GradientSurface {
+        TopAppBar(
+            navController = navController,
+            resName = "novo(a) autor(a)",
+        )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier

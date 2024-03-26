@@ -49,8 +49,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
+import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.models.Author
 import io.berson.reaad.ui.models.LiteraryGenre
 import io.berson.reaad.ui.models.PublishingCo
@@ -69,6 +71,7 @@ fun CreateNewBookScreen(
     publishingCoVm: PublishingCoViewModel,
     literaryGenreVm: LiteraryGenreViewModel,
     onNavToMainAuthorsPage: () -> Unit,
+    navController: NavController
 ) {
 
     val bookUiState = vm.bookUiState
@@ -77,6 +80,10 @@ fun CreateNewBookScreen(
     val literaryGenreUiState = literaryGenreVm.literaryGenreUiState
 
     GradientSurface {
+        TopAppBar(
+            navController = navController,
+            resName = "novo livro",
+        )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier

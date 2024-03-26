@@ -1,5 +1,7 @@
 package io.berson.reaad.ui.components
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
@@ -18,7 +20,8 @@ import androidx.navigation.NavController
 @Composable
 fun TopAppBar(
     navController: NavController,
-    resName: String = ""
+    resName: String = "",
+    context: Context? = null
 ) {
     Column {
         TopAppBar(
@@ -26,14 +29,21 @@ fun TopAppBar(
                 Text(text = resName)
             },
             navigationIcon = {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(Icons.Filled.ArrowBack, null)
-                }
+               BackButton(navController = navController)
             },
             modifier = Modifier
                 .height(50.dp)
         )
+    }
+}
+
+
+@Composable
+fun BackButton(navController: NavController) {
+    IconButton(
+        onClick = { navController.popBackStack() },
+        modifier = Modifier.height(50.dp)
+    ) {
+        Icon(Icons.Filled.ArrowBack, null)
     }
 }

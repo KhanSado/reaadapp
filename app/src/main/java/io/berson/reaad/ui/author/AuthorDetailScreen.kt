@@ -1,5 +1,6 @@
 package io.berson.reaad.ui.author
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,7 +11,9 @@ import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.berson.reaad.ui.book.BooksLazyGridList
@@ -23,7 +26,7 @@ fun AuthorDetailScreen(
     vm: AuthorViewModel,
     bookVm: BookViewModel,
     authorId: String,
-    navController: NavController
+    navController: NavController,
 ) {
 
     val authorUiState = vm.authorUiState
@@ -33,12 +36,18 @@ fun AuthorDetailScreen(
     bookVm.getBooksListByAuthor(authorId)
 
     GradientSurface {
+
         TopAppBar(
             navController = navController,
-            resName = "${authorUiState.selectedAuthor?.firstname} ${authorUiState.selectedAuthor?.lastname}"
+            resName = "${authorUiState.selectedAuthor?.firstname} ${authorUiState.selectedAuthor?.lastname}",
         )
 
-        Column{
+        Column(
+            horizontalAlignment = CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 50.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
+        ) {
             bookUiState.bookList?.let { BooksLazyGridList(books = it, navController = navController) }
         }
     }
