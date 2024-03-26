@@ -43,8 +43,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
+import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthViewModel
 
@@ -52,8 +54,8 @@ import io.berson.reaad.ui.viewmodel.AuthViewModel
 @Composable
 fun SignupScreen(
     vm: AuthViewModel,
-    onNavToHomePage:() -> Unit,
-    onNavToLoginPage:() -> Unit
+    onNavToHomePage: () -> Unit,
+    navController: NavController
 ) {
     val emty by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -67,19 +69,24 @@ fun SignupScreen(
     val loginUiState = vm.loginUiState
     val isErrorSignup = loginUiState.signUpError != null
 
+
     GradientSurface {
+
+        TopAppBar(
+            navController = navController
+        )
 
         Column(
             horizontalAlignment = CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 45.dp, start = 24.dp, end = 24.dp)
+                .padding(top = 50.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
                 .verticalScroll(
                     rememberScrollState()
                 )
         ) {
 
-            if (isErrorSignup){
+            if (isErrorSignup) {
                 Text(
                     text = loginUiState.signUpError ?: "unknown error",
                     color = Color.Red,
@@ -95,11 +102,11 @@ fun SignupScreen(
                 fontFamily = FontFamily(Font(R.font.barlowcondensedlight))
             )
 
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
             TextField(
                 value = loginUiState.firstname,
-                onValueChange = {vm.onFirstNameChangeSignup(it)},
+                onValueChange = { vm.onFirstNameChangeSignup(it) },
                 label = {
                     Text(text = "nome")
                 },
@@ -143,7 +150,7 @@ fun SignupScreen(
 
             TextField(
                 value = loginUiState.lastname,
-                onValueChange = {vm.onLastNameChangeSignup(it)},
+                onValueChange = { vm.onLastNameChangeSignup(it) },
                 label = {
                     Text(text = "sobrenome")
                 },
@@ -188,7 +195,7 @@ fun SignupScreen(
 
             TextField(
                 value = loginUiState.emailSignUp,
-                onValueChange = {vm.onEmailChangeSignup(it)},
+                onValueChange = { vm.onEmailChangeSignup(it) },
                 label = {
                     Text(text = "email")
                 },
@@ -360,8 +367,7 @@ fun SignupScreen(
             )
 
 
-            Spacer(modifier = Modifier.height(50.dp))
-
+            Spacer(modifier = Modifier.height(30.dp))
 
 
             Box(
@@ -386,17 +392,15 @@ fun SignupScreen(
                 }
             }
 
-            if (loginUiState.isLoading){
+            if (loginUiState.isLoading) {
                 CircularProgressIndicator()
             }
 
-            LaunchedEffect(key1 = vm.hasUser){
-                if (vm.hasUser){
+            LaunchedEffect(key1 = vm.hasUser) {
+                if (vm.hasUser) {
                     onNavToHomePage.invoke()
                 }
             }
         }
     }
 }
-
-

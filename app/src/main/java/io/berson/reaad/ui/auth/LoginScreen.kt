@@ -196,8 +196,9 @@ fun LoginScreen(
                 modifier = Modifier
                     .clickable( onClick = {
                         navController.navigate(DestinationScreen.PassRecoveryScreen.name)
-                    }
+                    },
                 ),
+                fontFamily = FontFamily(Font(R.font.barlowcondensedlight)),
                 color = PrimaryColor
             )
             Spacer(modifier = Modifier.height(50.dp))
