@@ -131,7 +131,6 @@ fun LoginScreen(
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Green
                 ),
                 isError = isError
@@ -186,7 +185,6 @@ fun LoginScreen(
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Green
                 ),
                 isError = isError

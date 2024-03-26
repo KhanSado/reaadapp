@@ -139,9 +139,7 @@ fun SignupScreen(
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    containerColor = Color(0xB9FFFFFF),
-                    cursorColor = Color.Red,
+                    focusedIndicatorColor = Color.Transparent
                 ),
                 isError = isErrorSignup
             )
@@ -183,9 +181,7 @@ fun SignupScreen(
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    containerColor = Color(0xB9FFFFFF),
-                    cursorColor = Color.Red,
+                    focusedIndicatorColor = Color.Transparent
                 ),
                 isError = isErrorSignup
             )
@@ -228,9 +224,7 @@ fun SignupScreen(
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    containerColor = Color(0xB9FFFFFF),
-                    cursorColor = Color.Red,
+                    focusedIndicatorColor = Color.Transparent
                 ),
                 isError = isErrorSignup
             )
@@ -297,9 +291,7 @@ fun SignupScreen(
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    containerColor = Color(0xB9FFFFFF),
-                    cursorColor = Color.Red
+                    focusedIndicatorColor = Color.Transparent
                 ),
                 isError = isErrorSignup
             )
@@ -359,9 +351,7 @@ fun SignupScreen(
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    containerColor = Color(0xB9FFFFFF),
-                    cursorColor = Color.Red,
+                    focusedIndicatorColor = Color.Transparent
                 ),
                 isError = isErrorSignup
             )

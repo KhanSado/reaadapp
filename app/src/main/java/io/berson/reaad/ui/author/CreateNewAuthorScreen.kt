@@ -27,6 +27,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -69,7 +71,8 @@ fun CreateNewAuthorScreen(
                 fontWeight = FontWeight.Thin,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
-                color = Color.White
+                color = Color.White,
+                fontFamily = FontFamily(Font(R.font.barlowcondensedlight))
             )
 
             Spacer(modifier = Modifier.height(50.dp))
@@ -101,7 +104,6 @@ fun CreateNewAuthorScreen(
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Green
                 )
             )
@@ -136,7 +138,6 @@ fun CreateNewAuthorScreen(
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    containerColor = Color(0xB9FFFFFF),
                     cursorColor = Color.Green
                 ),
             )
@@ -160,7 +161,8 @@ fun CreateNewAuthorScreen(
                         text = "novo autor",
                         color = PrimaryColor,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Thin
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = FontFamily(Font(R.font.exo2))
                     )
                 }
             }
