@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import io.berson.reaad.ui.book.BooksLazyGridList
+import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.viewmodel.BookViewModel
 import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
@@ -25,8 +26,13 @@ fun PublishingCoDetailScreen(
 
     vm.getPublishingCoById(publishingCoId)
     bookVm.getBooksListByPublishingCo(publishingCoId)
+
     GradientSurface {
-        Text(text = "${publishingCoUiState.selectedPublishingCo?.name}")
+        TopAppBar(
+            navController = navController,
+            resName = "${publishingCoUiState.selectedPublishingCo?.name}"
+        )
         bookUiState.bookList?.let { BooksLazyGridList(books = it, navController = navController) }
     }
 }
+

@@ -6,6 +6,7 @@ import io.berson.reaad.ui.components.GradientSurface
 import androidx.compose.material3.Text
 import androidx.navigation.NavController
 import io.berson.reaad.ui.book.BooksLazyGridList
+import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.viewmodel.BookViewModel
 import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
 
@@ -25,7 +26,11 @@ fun LiteraryGenreDetailScreen(
     bookVm.getBooksListByLiteraryGenre(literaryGenreId)
 
     GradientSurface {
-        Text(text = "${literaryGenreUiState.selectedLiteraryGenre?.name}")
+        TopAppBar(
+            navController = navController,
+            resName = "${literaryGenreUiState.selectedLiteraryGenre?.name}"
+        )
         bookUiState.bookList?.let { BooksLazyGridList(books = it, navController = navController) }
+
     }
 }

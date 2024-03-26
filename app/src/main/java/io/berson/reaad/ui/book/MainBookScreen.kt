@@ -4,9 +4,13 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -66,20 +70,17 @@ fun BooksLazyGridList(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-            .width(48.dp)
-            .height(48.dp)
+            .fillMaxHeight(),
+        contentPadding = PaddingValues(top = 60.dp, start = 24.dp, end = 24.dp)
     ) {
         items(items = books) { book ->
             Box(
                 modifier = Modifier
-                    .padding(4.dp)
                     .background(Color.White, shape = RoundedCornerShape(8.dp))
                     .height(48.dp)
                     .width(48.dp)
                     .clickable(
                         onClick = {
-//                            navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${literaryGenre.documentId}")
                         }
                     ),
 
@@ -89,6 +90,7 @@ fun BooksLazyGridList(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
+            Spacer(modifier = Modifier.width(12.dp))
         }
     }
 }
