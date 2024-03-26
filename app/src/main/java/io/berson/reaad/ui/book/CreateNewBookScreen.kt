@@ -43,6 +43,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
@@ -88,7 +90,7 @@ fun CreateNewBookScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 150.dp, start = 24.dp, end = 24.dp)
+                .padding(top = 50.dp, start = 24.dp, end = 24.dp)
                 .verticalScroll(
                     rememberScrollState()
                 )
@@ -96,10 +98,11 @@ fun CreateNewBookScreen(
 
             Text(
                 text = "agora sim, vamos cadastrar os livors na nossa biblioteca virtual",
-                fontWeight = FontWeight.Thin,
+                fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
-                color = Color.White
+                color = Color.White,
+                fontFamily = FontFamily(Font(R.font.barlowcondensedlight))
             )
 
             Spacer(modifier = Modifier.height(50.dp))
@@ -170,14 +173,16 @@ fun CreateNewBookScreen(
                     cursorColor = Color.Green
                 ),
             )
-            Spacer(modifier = Modifier.height(50.dp))
+
+            Spacer(modifier = Modifier.height(30.dp))
 
             AuthorExposedDropdownMenuBox(
                 authorUiState.authorList,
                 value = bookUiState.authorId,
                 onValueChange = { vm.onAuthorIdChange(it)}
             )
-            Spacer(modifier = Modifier.height(50.dp))
+
+            Spacer(modifier = Modifier.height(30.dp))
 
             PublishingCoExposedDropdownMenuBox(
                 publishingCoUiState.publishingCoList,
@@ -185,13 +190,16 @@ fun CreateNewBookScreen(
                 onValueChange = { vm.onublishingCoIdChange(it)}
             )
 
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
             LiteraryGenreExposedDropdownMenuBox(
                 literaryGenreUiState.literaryGenreList,
                 value = bookUiState.literaryGenreId,
                 onValueChange = { vm.onLiteraryGenreIdChange(it)}
             )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
@@ -210,7 +218,8 @@ fun CreateNewBookScreen(
                         text = "novo livro",
                         color = PrimaryColor,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Thin
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = FontFamily(Font(R.font.exo2))
                     )
                 }
             }
@@ -235,8 +244,8 @@ fun AuthorExposedDropdownMenuBox(
 
     Box(
         modifier = Modifier
+            .padding(end = 24.dp, start = 24.dp)
             .fillMaxWidth()
-            .padding(32.dp)
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -256,7 +265,7 @@ fun AuthorExposedDropdownMenuBox(
             ) {
                 authorsList?.forEach { item ->
                     DropdownMenuItem(
-                        text = { Text(text = item.firstname) },
+                        text = { Text(text = "${item.firstname} ${item.lastname}") },
                         onClick = {
                             onValueChange(item.documentId)
                             selectedAuthorDocumentId = item.documentId
@@ -282,8 +291,8 @@ fun LiteraryGenreExposedDropdownMenuBox(
 
     Box(
         modifier = Modifier
+            .padding(end = 24.dp, start = 24.dp)
             .fillMaxWidth()
-            .padding(32.dp)
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -329,8 +338,8 @@ fun PublishingCoExposedDropdownMenuBox(
 
     Box(
         modifier = Modifier
+            .padding(end = 24.dp, start = 24.dp)
             .fillMaxWidth()
-            .padding(32.dp)
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -363,11 +372,11 @@ fun PublishingCoExposedDropdownMenuBox(
     }
 }
 private fun getValueAuthorToDisplay(authorsList: List<Author>?, documentId: String): String {
-    return authorsList?.find { it.documentId == documentId }?.firstname ?: ""
+    return "${authorsList?.find { it.documentId == documentId }?.firstname ?: "Autor"} ${authorsList?.find { it.documentId == documentId }?.lastname ?: ""}"
 }
 private fun getValueLiteraryGenreToDisplay(literaryGenreList: List<LiteraryGenre>?, documentId: String): String {
-    return literaryGenreList?.find { it.documentId == documentId }?.name ?: ""
+    return literaryGenreList?.find { it.documentId == documentId }?.name ?: "Genero Literário"
 }
 private fun getValuePublishingCoToDisplay(publishingCoList: List<PublishingCo>?, documentId: String): String {
-    return publishingCoList?.find { it.documentId == documentId }?.name ?: ""
+    return publishingCoList?.find { it.documentId == documentId }?.name ?: "Editora"
 }
