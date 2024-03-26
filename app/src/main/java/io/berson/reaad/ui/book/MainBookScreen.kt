@@ -25,6 +25,7 @@ import io.berson.reaad.ui.components.GradientSurface
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -97,30 +98,38 @@ fun BooksLazyGridList(
             start = 24.dp,
             end = 24.dp,
             bottom = 24.dp
-        ) // Additional bottom padding
+        )
     ) {
         items(items = books) { book ->
-            Column(
+            Surface(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
-                    .background(Color.White, shape = RoundedCornerShape(8.dp)),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .background(Color.Transparent)
+                    .height(150.dp)
+                    .width(120.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp),
+                shape = RoundedCornerShape(16.dp)
             ) {
-                Spacer(modifier = Modifier.height(10.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.bookcover),
-                    contentDescription = "",
+                Column(
                     modifier = Modifier
-                        .height(80.dp)
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = book.title
-                )
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.bookcover),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .height(80.dp)
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = book.title
+                    )
+                }
+                Spacer(modifier = Modifier.width(12.dp))
             }
-            Spacer(modifier = Modifier.width(12.dp))
         }
     }
 }

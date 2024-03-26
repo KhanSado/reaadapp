@@ -21,6 +21,7 @@ import io.berson.reaad.ui.viewmodel.AuthorViewModel
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,15 +38,18 @@ import io.berson.reaad.ui.navigation.DestinationScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainAuthorsScreen(navController: NavController, vm: AuthorViewModel) {
-    
+
     val authorUiState = vm.authorUiState
     vm.getAuthorsList()
-    Scaffold (
+    Scaffold(
         bottomBar = {
             AppBottomBar(navController = navController)
         },
         floatingActionButton = {
-            FloatingActionButton(navController = navController, destination = DestinationScreen.CreateNewAuthorScreen.name)
+            FloatingActionButton(
+                navController = navController,
+                destination = DestinationScreen.CreateNewAuthorScreen.name
+            )
         }
     ) {
         GradientSurface {
@@ -59,10 +63,12 @@ fun MainAuthorsScreen(navController: NavController, vm: AuthorViewModel) {
                     .fillMaxSize()
                     .padding(top = 50.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
             ) {
-                authorUiState.authorList?.let { it1 -> AuthorLazyGridList(
-                    authors = it1,
-                    navController = navController
-                ) }
+                authorUiState.authorList?.let { it1 ->
+                    AuthorLazyGridList(
+                        authors = it1,
+                        navController = navController
+                    )
+                }
             }
         }
     }
@@ -80,23 +86,31 @@ fun AuthorLazyGridList(
         contentPadding = PaddingValues(top = 60.dp, start = 24.dp, end = 24.dp)
     ) {
         items(items = authors) { author ->
-            Box(
+            Surface(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(90.dp)
-                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
-                    .background(Color.White, shape = RoundedCornerShape(8.dp))
-                    .clickable(
-                        onClick = {
-                            navController.navigate("${DestinationScreen.AuthorDetailScreen.name}/${author.documentId}")
-                        }
-                    ),
-
+                    .background(Color.Transparent)
+                    .height(100.dp)
+                    .width(120.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp),
+                shape = RoundedCornerShape(16.dp)
             ) {
-                Text(
-                    text = "${author.firstname} ${author.lastname}",
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(90.dp)
+                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
+                        .clickable(
+                            onClick = {
+                                navController.navigate("${DestinationScreen.AuthorDetailScreen.name}/${author.documentId}")
+                            }
+                        ),
+
+                    ) {
+                    Text(
+                        text = "${author.firstname} ${author.lastname}",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
         }
     }

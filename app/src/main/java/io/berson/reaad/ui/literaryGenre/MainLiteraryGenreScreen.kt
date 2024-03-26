@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -89,23 +90,31 @@ fun LiteraryGenreLazyGridList(
         contentPadding = PaddingValues(top = 60.dp, start = 24.dp, end = 24.dp)
     ) {
         items(items = literaryGenre) { literaryGenre ->
-            Box(
+            Surface(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(90.dp)
-                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
-                    .background(Color.White, shape = RoundedCornerShape(8.dp))
-                    .clickable(
-                        onClick = {
-                            navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${literaryGenre.documentId}")
-                        }
-                    ),
+                    .background(Color.Transparent)
+                    .height(100.dp)
+                    .width(120.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(90.dp)
+                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
+                        .clickable(
+                            onClick = {
+                                navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${literaryGenre.documentId}")
+                            }
+                        ),
 
-                ) {
-                Text(
-                    text = "${literaryGenre.name}",
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                    ) {
+                    Text(
+                        text = "${literaryGenre.name}",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
         }
     }

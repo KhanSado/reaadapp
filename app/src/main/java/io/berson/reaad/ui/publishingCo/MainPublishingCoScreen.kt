@@ -97,23 +97,31 @@ fun PublishingCoLazyGridList(
         contentPadding = PaddingValues(top = 60.dp, start = 24.dp, end = 24.dp)
     ) {
         items(items = publishingCo) { publishingCo ->
-            Box(
+            Surface(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(90.dp)
-                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
-                    .background(Color.White, shape = RoundedCornerShape(8.dp))
-                    .clickable(
-                        onClick = {
-                            navController.navigate("${DestinationScreen.PublishingCoDetailScreen.name}/${publishingCo.documentId}")
-                        }
-                    ),
+                    .background(Color.Transparent)
+                    .height(100.dp)
+                    .width(120.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(90.dp)
+                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
+                        .clickable(
+                            onClick = {
+                                navController.navigate("${DestinationScreen.PublishingCoDetailScreen.name}/${publishingCo.documentId}")
+                            }
+                        ),
 
-                ) {
-                Text(
-                    text = "${publishingCo.name}",
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                    ) {
+                    Text(
+                        text = "${publishingCo.name}",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
         }
     }
