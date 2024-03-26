@@ -96,7 +96,11 @@ fun ReaadNavigation() {
         }
 
         composable(DestinationScreen.ProfileUserScreen.name) {
-            ProfileUserScreen(navController = navController, vm = authVm)
+            ProfileUserScreen(
+                navController = navController,
+                vm = authVm,
+                onNavToHomePage = {navController.navigate(DestinationScreen.MainScreen.name)}
+            )
         }
 
         composable(
@@ -111,7 +115,7 @@ fun ReaadNavigation() {
                 bookVm = bookVm,
                 navController = navController,
 
-            )
+                )
         }
 
         composable(DestinationScreen.CreateNewAuthorScreen.name) {
@@ -140,7 +144,8 @@ fun ReaadNavigation() {
             CreateNewPublishingCoScreen(
                 vm = publishingCoVm,
                 onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainPublishingCoScreen.name) },
-                navController = navController)
+                navController = navController
+            )
         }
 
         composable(
