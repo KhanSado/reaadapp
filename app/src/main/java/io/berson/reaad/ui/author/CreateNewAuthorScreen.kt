@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +52,8 @@ fun CreateNewAuthorScreen(
 
     val authorUiState = vm.authorUiState
 
+    val isErrorRegister = authorUiState.registerError != null
+
     GradientSurface {
         TopAppBar(
             navController = navController,
@@ -65,6 +68,13 @@ fun CreateNewAuthorScreen(
                     rememberScrollState()
                 )
         ) {
+
+            if (isErrorRegister) {
+                Text(
+                    text = authorUiState.registerError ?: "unknown error",
+                    color = Color.Red,
+                )
+            }
 
             Text(
                 text = "que legal, vamos add um novo autor na nossa biblioteca :D",
@@ -105,7 +115,8 @@ fun CreateNewAuthorScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = Color.Green
-                )
+                ),
+                isError = isErrorRegister
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -140,6 +151,7 @@ fun CreateNewAuthorScreen(
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = Color.Green
                 ),
+                isError = isErrorRegister
             )
             Spacer(modifier = Modifier.height(50.dp))
 
@@ -149,9 +161,7 @@ fun CreateNewAuthorScreen(
                     .background(Color(0xB9FFFFFF))
             ) {
                 Button(
-                    onClick = {
-                        vm.addAuthor()
-                        onNavToMainAuthorsPage.invoke() },
+                    onClick = { vm.addAuthor() },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),
@@ -169,6 +179,14 @@ fun CreateNewAuthorScreen(
 
             if (authorUiState.isLoading) {
                 CircularProgressIndicator()
+            }
+
+            LaunchedEffect(key1 = authorUiState.isSuccessCreate){
+                if (authorUiState.isSuccessCreate){
+                    onNavToMainAuthorsPage.invoke()
+                    authorUiState.isSuccessCreate = false
+                    vm.resetState()
+                }
             }
         }
     }

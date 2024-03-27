@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +52,8 @@ fun CreateNewLiteraryGenreScreen(
 
     val literaryGenreUiState = vm.literaryGenreUiState
 
+    val isErrorRegister = literaryGenreUiState.registerError != null
+
     GradientSurface {
         TopAppBar(
             navController = navController,
@@ -65,6 +68,13 @@ fun CreateNewLiteraryGenreScreen(
                     rememberScrollState()
                 )
         ) {
+
+            if (isErrorRegister) {
+                Text(
+                    text = literaryGenreUiState.registerError ?: "unknown error",
+                    color = Color.Red,
+                )
+            }
 
             Text(
                 text = "Oba oba, vamos adicionar os generos literários que você mais curte",
@@ -105,7 +115,8 @@ fun CreateNewLiteraryGenreScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = Color.Green
-                )
+                ),
+                isError = isErrorRegister
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -140,6 +151,7 @@ fun CreateNewLiteraryGenreScreen(
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = Color.Green
                 ),
+                isError = isErrorRegister
             )
             Spacer(modifier = Modifier.height(50.dp))
 
@@ -150,8 +162,7 @@ fun CreateNewLiteraryGenreScreen(
             ) {
                 Button(
                     onClick = {
-                        vm.addLiteraryGenre()
-                        onNavToMainAuthorsPage.invoke() },
+                        vm.addLiteraryGenre() },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),
@@ -169,6 +180,14 @@ fun CreateNewLiteraryGenreScreen(
 
             if (literaryGenreUiState.isLoading) {
                 CircularProgressIndicator()
+            }
+
+            LaunchedEffect(key1 = literaryGenreUiState.isSuccessCreate){
+                if (literaryGenreUiState.isSuccessCreate){
+                    onNavToMainAuthorsPage.invoke()
+                    literaryGenreUiState.isSuccessCreate = false
+                    vm.resetState()
+                }
             }
         }
     }

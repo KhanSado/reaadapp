@@ -4,10 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseUser
 import io.berson.reaad.ui.models.Book
 import io.berson.reaad.ui.repositories.BookRepository
+import kotlinx.coroutines.launch
 
 class BookViewModel(
     private val repository: BookRepository = BookRepository(),
@@ -52,9 +54,8 @@ class BookViewModel(
                 bookUiState.authorId.isNotBlank()
 
 
-    fun addBook() {
+    fun addBook() = viewModelScope.launch {
         try {
-            if (hasUser) {
                 if (!validateRegisterForm()) {
                     throw IllegalArgumentException("preencha todos os campos obrigatórios")
                 }
@@ -62,6 +63,7 @@ class BookViewModel(
 
                 bookUiState = bookUiState.copy(registerError = null)
 
+            if (hasUser) {
                 repository.addBook(
                     userId = user!!.uid,
                     authorId = bookUiState.authorId,
@@ -73,7 +75,7 @@ class BookViewModel(
                 ) {
                     bookUiState = bookUiState.copy(bookAddedStatus = it)
                     bookUiState = bookUiState.copy(isLoading = false)
-                    bookUiState.copy(isSuccessCreate = true)
+                    bookUiState = bookUiState.copy(isSuccessCreate = true)
                 }
             }
         } catch (e: Exception) {
@@ -172,12 +174,12 @@ data class BookUiState(
     val authorId: String = "",
     val literaryGenreId: String = "",
     val publishingCoId: String = "",
-    val bookAddedStatus: Boolean = false,
+    var bookAddedStatus: Boolean = false,
     val updateBookStatus: Boolean = false,
     val selectedBook: Book? = null,
     val bookList: List<Book>? = null,
     val isLoading: Boolean = false,
-    val isSuccessCreate: Boolean = false,
+    var isSuccessCreate: Boolean = false,
 
     val registerError: String? = null
 )

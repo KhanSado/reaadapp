@@ -4,10 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseUser
 import io.berson.reaad.ui.models.Author
 import io.berson.reaad.ui.repositories.AuthorRepository
+import kotlinx.coroutines.launch
 
 class AuthorViewModel(
     private val repository: AuthorRepository = AuthorRepository(),
@@ -24,7 +26,6 @@ class AuthorViewModel(
     private val user: FirebaseUser?
         get() = repository.user()
 
-
     fun onFirstNameChange(firstName: String) {
         authorUiState = authorUiState.copy(firstName = firstName)
     }
@@ -33,19 +34,35 @@ class AuthorViewModel(
         authorUiState = authorUiState.copy(lastName = lastName)
     }
 
-    fun addAuthor(){
-        authorUiState = authorUiState.copy(isLoading = true)
-        if (hasUser){
-            repository.addAuthor(
-                userId = user!!.uid,
-                firstName = authorUiState.firstName,
-                lastName = authorUiState.lastName,
-                timestamp = Timestamp.now()
-            ){
-                authorUiState = authorUiState.copy(authorAddedStatus = it)
-                authorUiState = authorUiState.copy(isLoading = false)
-                authorUiState.copy(isSuccessCreate = true)
+    private fun validateRegisterForm() =
+        authorUiState.firstName.isNotBlank() &&
+                authorUiState.lastName.isNotBlank()
+
+    fun addAuthor() = viewModelScope.launch {
+        try {
+            if (!validateRegisterForm()) {
+                throw IllegalArgumentException("preencha todos os campos obrigatórios")
             }
+            authorUiState = authorUiState.copy(isLoading = true)
+
+            authorUiState = authorUiState.copy(registerError = null)
+            if (hasUser){
+                repository.addAuthor(
+                    userId = user!!.uid,
+                    firstName = authorUiState.firstName,
+                    lastName = authorUiState.lastName,
+                    timestamp = Timestamp.now()
+                ){
+                    authorUiState = authorUiState.copy(authorAddedStatus = it)
+                    authorUiState = authorUiState.copy(isLoading = false)
+                    authorUiState = authorUiState.copy(isSuccessCreate = true)
+                }
+            }
+        } catch (e: Exception) {
+            authorUiState = authorUiState.copy(registerError = "não foi possivel registrar seu livro")
+            e.printStackTrace()
+        } finally {
+            authorUiState = authorUiState.copy(isLoading = false)
         }
     }
 
@@ -108,5 +125,7 @@ data class AuthorUiState(
     val selectedAuthor: Author? = null,
     val authorList: List<Author>? = null,
     val isLoading: Boolean = false,
-    val isSuccessCreate: Boolean = false,
-    )
+    var isSuccessCreate: Boolean = false,
+
+    val registerError: String? = null
+)

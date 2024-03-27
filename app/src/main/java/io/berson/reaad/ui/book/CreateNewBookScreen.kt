@@ -220,9 +220,6 @@ fun CreateNewBookScreen(
                 Button(
                     onClick = {
                         vm.addBook()
-                        if (bookUiState.bookAddedStatus){
-                            onNavToMainAuthorsPage.invoke()
-                        }
                     },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
@@ -241,6 +238,14 @@ fun CreateNewBookScreen(
 
             if (bookUiState.isLoading) {
                 CircularProgressIndicator()
+            }
+
+            LaunchedEffect(key1 = bookUiState.isSuccessCreate){
+                if (bookUiState.isSuccessCreate){
+                    onNavToMainAuthorsPage.invoke()
+                    bookUiState.isSuccessCreate = false
+                    vm.resetState()
+                }
             }
         }
     }

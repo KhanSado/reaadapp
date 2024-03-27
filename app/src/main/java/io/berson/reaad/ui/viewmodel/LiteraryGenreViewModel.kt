@@ -4,10 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseUser
 import io.berson.reaad.ui.models.LiteraryGenre
 import io.berson.reaad.ui.repositories.LiteraryGenreRepository
+import kotlinx.coroutines.launch
 
 class LiteraryGenreViewModel(
     private val repository: LiteraryGenreRepository = LiteraryGenreRepository(),
@@ -33,19 +35,35 @@ class LiteraryGenreViewModel(
         literaryGenreUiState = literaryGenreUiState.copy(description = description)
     }
 
-    fun addLiteraryGenre(){
-        literaryGenreUiState = literaryGenreUiState.copy(isLoading = true)
-        if (hasUser){
-            repository.addLiteraryGenre(
-                userId = user!!.uid,
-                name = literaryGenreUiState.name,
-                description = literaryGenreUiState.description,
-                timestamp = Timestamp.now()
-            ){
-                literaryGenreUiState = literaryGenreUiState.copy(literaryGenreAddedStatus = it)
-                literaryGenreUiState = literaryGenreUiState.copy(isLoading = false)
-                literaryGenreUiState.copy(isSuccessCreate = true)
+    private fun validateRegisterForm() =
+        literaryGenreUiState.name.isNotBlank() &&
+                literaryGenreUiState.description.isNotBlank()
+
+    fun addLiteraryGenre() = viewModelScope.launch{
+        try {
+            if (!validateRegisterForm()) {
+                throw IllegalArgumentException("preencha todos os campos obrigatórios")
             }
+            literaryGenreUiState = literaryGenreUiState.copy(isLoading = true)
+
+            literaryGenreUiState = literaryGenreUiState.copy(registerError = null)
+            if (hasUser){
+                repository.addLiteraryGenre(
+                    userId = user!!.uid,
+                    name = literaryGenreUiState.name,
+                    description = literaryGenreUiState.description,
+                    timestamp = Timestamp.now()
+                ){
+                    literaryGenreUiState = literaryGenreUiState.copy(literaryGenreAddedStatus = it)
+                    literaryGenreUiState = literaryGenreUiState.copy(isLoading = false)
+                    literaryGenreUiState = literaryGenreUiState.copy(isSuccessCreate = true)
+                }
+            }
+        } catch (e: Exception) {
+            literaryGenreUiState = literaryGenreUiState.copy(registerError = "não foi possivel registrar seu livro")
+            e.printStackTrace()
+        } finally {
+            literaryGenreUiState = literaryGenreUiState.copy(isLoading = false)
         }
     }
 
@@ -108,5 +126,7 @@ data class LiteraryGenreUiState(
     val selectedLiteraryGenre: LiteraryGenre? = null,
     val literaryGenreList: List<LiteraryGenre>? = null,
     val isLoading: Boolean = false,
-    val isSuccessCreate: Boolean = false,
-    )
+    var isSuccessCreate: Boolean = false,
+
+    val registerError: String? = null
+)

@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +52,8 @@ fun CreateNewPublishingCoScreen(
 
     val publisingCoUiState = vm.publisingCoUiState
 
+    val isErrorRegister = publisingCoUiState.registerError != null
+
     GradientSurface {
         TopAppBar(
             navController = navController,
@@ -65,6 +68,13 @@ fun CreateNewPublishingCoScreen(
                     rememberScrollState()
                 )
         ) {
+
+            if (isErrorRegister) {
+                Text(
+                    text = publisingCoUiState.registerError ?: "unknown error",
+                    color = Color.Red,
+                )
+            }
 
             Text(
                 text = "wow, que legal, vamos adicionar uma nova editora para nossos livros",
@@ -106,7 +116,8 @@ fun CreateNewPublishingCoScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = Color.Green
-                )
+                ),
+                isError = isErrorRegister
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -140,7 +151,7 @@ fun CreateNewPublishingCoScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = Color.Green
-                ),
+                )
             )
             Spacer(modifier = Modifier.height(50.dp))
 
@@ -150,9 +161,7 @@ fun CreateNewPublishingCoScreen(
                     .background(Color(0xB9FFFFFF))
             ) {
                 Button(
-                    onClick = {
-                        vm.addPublishingCo()
-                        onNavToMainAuthorsPage.invoke() },
+                    onClick = { vm.addPublishingCo() },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),
@@ -170,6 +179,14 @@ fun CreateNewPublishingCoScreen(
 
             if (publisingCoUiState.isLoading) {
                 CircularProgressIndicator()
+            }
+
+            LaunchedEffect(key1 = publisingCoUiState.isSuccessCreate){
+                if (publisingCoUiState.isSuccessCreate){
+                    onNavToMainAuthorsPage.invoke()
+                    publisingCoUiState.isSuccessCreate = false
+                    vm.resetState()
+                }
             }
         }
     }
