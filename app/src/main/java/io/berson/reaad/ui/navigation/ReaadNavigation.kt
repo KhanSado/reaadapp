@@ -1,6 +1,13 @@
 package io.berson.reaad.ui.navigation
 
+import android.content.Context
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,6 +23,7 @@ import io.berson.reaad.ui.author.CreateNewAuthorScreen
 import io.berson.reaad.ui.author.MainAuthorsScreen
 import io.berson.reaad.ui.book.CreateNewBookScreen
 import io.berson.reaad.ui.book.MainBookScreen
+import io.berson.reaad.ui.components.CameraPreviewScreen
 import io.berson.reaad.ui.home.HomeScreen
 import io.berson.reaad.ui.literaryGenre.CreateNewLiteraryGenreScreen
 import io.berson.reaad.ui.literaryGenre.LiteraryGenreDetailScreen
@@ -24,11 +32,14 @@ import io.berson.reaad.ui.profileUser.ProfileUserScreen
 import io.berson.reaad.ui.publishingCo.CreateNewPublishingCoScreen
 import io.berson.reaad.ui.publishingCo.MainPublishingCoScreen
 import io.berson.reaad.ui.publishingCo.PublishingCoDetailScreen
+import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthViewModel
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
 import io.berson.reaad.ui.viewmodel.BookViewModel
 import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
 import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 @Composable
 fun ReaadNavigation() {
@@ -179,7 +190,8 @@ fun ReaadNavigation() {
                 publishingCoVm = publishingCoVm,
                 literaryGenreVm = literaryGenreVm,
                 onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) },
-                navController = navController
+                navController = navController,
+                onCameraClick = { }
             )
         }
     }

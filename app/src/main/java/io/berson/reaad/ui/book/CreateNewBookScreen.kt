@@ -1,5 +1,6 @@
 package io.berson.reaad.ui.book
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -54,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import io.berson.reaad.R
+import io.berson.reaad.ui.components.CameraPreviewScreen
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.models.Author
@@ -74,8 +76,11 @@ fun CreateNewBookScreen(
     publishingCoVm: PublishingCoViewModel,
     literaryGenreVm: LiteraryGenreViewModel,
     onNavToMainAuthorsPage: () -> Unit,
-    navController: NavController
+    navController: NavController,
+    onCameraClick: () -> Unit
 ) {
+
+    val context = LocalContext.current
 
     val bookUiState = vm.bookUiState
     val authorUiState = authorVm.authorUiState
@@ -209,6 +214,21 @@ fun CreateNewBookScreen(
                 onValueChange = { vm.onLiteraryGenreIdChange(it) },
                 isError = isErrorRegister
             )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(50.dp))
+                    .background(Color(0xB9FFFFFF))
+            ) {
+                CameraPreviewScreen(
+                    literaryGenreList = literaryGenreUiState.literaryGenreList,
+                    value = "",
+                    onValueChange = {}
+                )
+            }
 
             Spacer(modifier = Modifier.height(30.dp))
 
