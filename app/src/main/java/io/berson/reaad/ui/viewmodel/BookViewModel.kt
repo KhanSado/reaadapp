@@ -45,24 +45,45 @@ class BookViewModel(
         bookUiState = bookUiState.copy(publishingCoId = publishingCoId)
     }
 
-    fun addBook(){
-        bookUiState = bookUiState.copy(isLoading = true)
-        if (hasUser){
-            repository.addBook(
-                userId = user!!.uid,
-                authorId = bookUiState.authorId,
-                literaryGenreId = bookUiState.literaryGenreId,
-                publishingCoId = bookUiState.publishingCoId,
-                title = bookUiState.title,
-                subtitle = bookUiState.subtitle,
-                timestamp = Timestamp.now()
-            ){
-                bookUiState = bookUiState.copy(bookAddedStatus = it)
-                bookUiState = bookUiState.copy(isLoading = false)
-                bookUiState.copy(isSuccessCreate = true)
+    private fun validateRegisterForm() =
+        bookUiState.title.isNotBlank() &&
+                bookUiState.publishingCoId.isNotBlank() &&
+                bookUiState.literaryGenreId.isNotBlank() &&
+                bookUiState.authorId.isNotBlank()
+
+
+    fun addBook() {
+        try {
+            if (hasUser) {
+                if (!validateRegisterForm()) {
+                    throw IllegalArgumentException("preencha todos os campos obrigatórios")
+                }
+                bookUiState = bookUiState.copy(isLoading = true)
+
+                bookUiState = bookUiState.copy(registerError = null)
+
+                repository.addBook(
+                    userId = user!!.uid,
+                    authorId = bookUiState.authorId,
+                    literaryGenreId = bookUiState.literaryGenreId,
+                    publishingCoId = bookUiState.publishingCoId,
+                    title = bookUiState.title,
+                    subtitle = bookUiState.subtitle,
+                    timestamp = Timestamp.now()
+                ) {
+                    bookUiState = bookUiState.copy(bookAddedStatus = it)
+                    bookUiState = bookUiState.copy(isLoading = false)
+                    bookUiState.copy(isSuccessCreate = true)
+                }
             }
+        } catch (e: Exception) {
+            bookUiState = bookUiState.copy(registerError = "não foi possivel registrar seu livro")
+            e.printStackTrace()
+        } finally {
+            bookUiState = bookUiState.copy(isLoading = false)
         }
     }
+
 
 //    private fun setEditFields(author: Author){
 //        bookUiState = bookUiState.copy(
@@ -71,44 +92,44 @@ class BookViewModel(
 //        )
 //    }
 
-    fun getAllBooks(){
-        repository.getAllBookToUser(
-            userId,
-            onError = {}
-        ){
-            bookUiState = bookUiState.copy(bookList = it)
-        }
+fun getAllBooks() {
+    repository.getAllBookToUser(
+        userId,
+        onError = {}
+    ) {
+        bookUiState = bookUiState.copy(bookList = it)
     }
+}
 
-    fun getBooksListByAuthor(authorId: String){
-        repository.getBookByAuthorListToUser(
-            authorId = authorId,
-            userId,
-            onError = {}
-        ){
-            bookUiState = bookUiState.copy(bookList = it)
-        }
+fun getBooksListByAuthor(authorId: String) {
+    repository.getBookByAuthorListToUser(
+        authorId = authorId,
+        userId,
+        onError = {}
+    ) {
+        bookUiState = bookUiState.copy(bookList = it)
     }
+}
 
-    fun getBooksListByLiteraryGenre(literaryGenreId: String){
-        repository.getBookByLiteraryGenreListToUser(
-            literaryGenreId = literaryGenreId,
-            userId,
-            onError = {}
-        ){
-            bookUiState = bookUiState.copy(bookList = it)
-        }
+fun getBooksListByLiteraryGenre(literaryGenreId: String) {
+    repository.getBookByLiteraryGenreListToUser(
+        literaryGenreId = literaryGenreId,
+        userId,
+        onError = {}
+    ) {
+        bookUiState = bookUiState.copy(bookList = it)
     }
+}
 
-    fun getBooksListByPublishingCo(publishingCoId: String){
-        repository.getBookByPublishingCoListToUser(
-            publishingCoId = publishingCoId,
-            userId,
-            onError = {}
-        ){
-            bookUiState = bookUiState.copy(bookList = it)
-        }
+fun getBooksListByPublishingCo(publishingCoId: String) {
+    repository.getBookByPublishingCoListToUser(
+        publishingCoId = publishingCoId,
+        userId,
+        onError = {}
+    ) {
+        bookUiState = bookUiState.copy(bookList = it)
     }
+}
 
 //    fun getAuthorById(authorId:String){
 //        repository.getAuthor(
@@ -133,16 +154,16 @@ class BookViewModel(
 //        }
 //    }
 
-    fun resetAuthorAddedStatus(){
-        bookUiState = bookUiState.copy(
-            bookAddedStatus = false,
-            updateBookStatus = false,
-        )
-    }
+fun resetAuthorAddedStatus() {
+    bookUiState = bookUiState.copy(
+        bookAddedStatus = false,
+        updateBookStatus = false,
+    )
+}
 
-    fun resetState(){
-        bookUiState = BookUiState()
-    }
+fun resetState() {
+    bookUiState = BookUiState()
+}
 }
 
 data class BookUiState(
@@ -157,4 +178,6 @@ data class BookUiState(
     val bookList: List<Book>? = null,
     val isLoading: Boolean = false,
     val isSuccessCreate: Boolean = false,
-    )
+
+    val registerError: String? = null
+)

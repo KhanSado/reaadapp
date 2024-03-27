@@ -104,7 +104,7 @@ fun BooksLazyGridList(
             Surface(
                 modifier = Modifier
                     .background(Color.Transparent)
-                    .height(150.dp)
+                    .height(200.dp)
                     .width(120.dp)
                     .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp),
                 shape = RoundedCornerShape(16.dp)

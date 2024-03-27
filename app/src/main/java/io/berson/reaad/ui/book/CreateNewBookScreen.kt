@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -81,6 +82,8 @@ fun CreateNewBookScreen(
     val publishingCoUiState = publishingCoVm.publisingCoUiState
     val literaryGenreUiState = literaryGenreVm.literaryGenreUiState
 
+    val isErrorRegister = bookUiState.registerError != null
+
     GradientSurface {
         TopAppBar(
             navController = navController,
@@ -95,6 +98,13 @@ fun CreateNewBookScreen(
                     rememberScrollState()
                 )
         ) {
+
+            if (isErrorRegister) {
+                Text(
+                    text = bookUiState.registerError ?: "unknown error",
+                    color = Color.Red,
+                )
+            }
 
             Text(
                 text = "agora sim, vamos cadastrar os livors na nossa biblioteca virtual",
@@ -135,7 +145,8 @@ fun CreateNewBookScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = Color.Green
-                )
+                ),
+                isError = isErrorRegister
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -177,7 +188,8 @@ fun CreateNewBookScreen(
             AuthorExposedDropdownMenuBox(
                 authorUiState.authorList,
                 value = bookUiState.authorId,
-                onValueChange = { vm.onAuthorIdChange(it)}
+                onValueChange = { vm.onAuthorIdChange(it) },
+                isError = isErrorRegister
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -185,7 +197,8 @@ fun CreateNewBookScreen(
             PublishingCoExposedDropdownMenuBox(
                 publishingCoUiState.publishingCoList,
                 value = bookUiState.publishingCoId,
-                onValueChange = { vm.onublishingCoIdChange(it)}
+                onValueChange = { vm.onublishingCoIdChange(it) },
+                isError = isErrorRegister
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -193,7 +206,8 @@ fun CreateNewBookScreen(
             LiteraryGenreExposedDropdownMenuBox(
                 literaryGenreUiState.literaryGenreList,
                 value = bookUiState.literaryGenreId,
-                onValueChange = { vm.onLiteraryGenreIdChange(it)}
+                onValueChange = { vm.onLiteraryGenreIdChange(it) },
+                isError = isErrorRegister
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -206,7 +220,10 @@ fun CreateNewBookScreen(
                 Button(
                     onClick = {
                         vm.addBook()
-                        onNavToMainAuthorsPage.invoke() },
+                        if (bookUiState.bookAddedStatus){
+                            onNavToMainAuthorsPage.invoke()
+                        }
+                    },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),
@@ -235,6 +252,7 @@ fun AuthorExposedDropdownMenuBox(
     authorsList: List<Author>?,
     value: String,
     onValueChange: (String) -> Unit,
+    isError: Boolean
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -255,7 +273,9 @@ fun AuthorExposedDropdownMenuBox(
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                modifier = Modifier.menuAnchor()
+                modifier = Modifier.menuAnchor(),
+                isError = isError
+
             )
 
             ExposedDropdownMenu(
@@ -283,6 +303,7 @@ fun LiteraryGenreExposedDropdownMenuBox(
     literaryGenreList: List<LiteraryGenre>?,
     value: String,
     onValueChange: (String) -> Unit,
+    isError: Boolean
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -303,7 +324,8 @@ fun LiteraryGenreExposedDropdownMenuBox(
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                modifier = Modifier.menuAnchor()
+                modifier = Modifier.menuAnchor(),
+                isError = isError
             )
 
             ExposedDropdownMenu(
@@ -331,6 +353,7 @@ fun PublishingCoExposedDropdownMenuBox(
     publishingCoList: List<PublishingCo>?,
     value: String,
     onValueChange: (String) -> Unit,
+    isError: Boolean
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -351,7 +374,8 @@ fun PublishingCoExposedDropdownMenuBox(
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                modifier = Modifier.menuAnchor()
+                modifier = Modifier.menuAnchor(),
+                isError = isError
             )
 
             ExposedDropdownMenu(
@@ -372,12 +396,21 @@ fun PublishingCoExposedDropdownMenuBox(
         }
     }
 }
+
 private fun getValueAuthorToDisplay(authorsList: List<Author>?, documentId: String): String {
     return "${authorsList?.find { it.documentId == documentId }?.firstname ?: "Autor"} ${authorsList?.find { it.documentId == documentId }?.lastname ?: ""}"
 }
-private fun getValueLiteraryGenreToDisplay(literaryGenreList: List<LiteraryGenre>?, documentId: String): String {
+
+private fun getValueLiteraryGenreToDisplay(
+    literaryGenreList: List<LiteraryGenre>?,
+    documentId: String
+): String {
     return literaryGenreList?.find { it.documentId == documentId }?.name ?: "Genero Literário"
 }
-private fun getValuePublishingCoToDisplay(publishingCoList: List<PublishingCo>?, documentId: String): String {
+
+private fun getValuePublishingCoToDisplay(
+    publishingCoList: List<PublishingCo>?,
+    documentId: String
+): String {
     return publishingCoList?.find { it.documentId == documentId }?.name ?: "Editora"
 }
