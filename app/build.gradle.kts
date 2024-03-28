@@ -51,6 +51,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.firebase:firebase-storage:20.3.0")
     val cameraxVersion = "1.3.1"
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -72,6 +73,8 @@ dependencies {
     implementation ("androidx.camera:camera-view:${cameraxVersion}")
     implementation ("androidx.camera:camera-lifecycle:$cameraxVersion")
     implementation ("io.coil-kt:coil:2.6.0") // Replace x.y.z with the latest version
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation ("com.google.firebase:firebase-bom:29.3.1")
     implementation("io.coil-kt:coil-compose:2.6.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

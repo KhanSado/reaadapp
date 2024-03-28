@@ -125,6 +125,7 @@ class BookRepository {
         literaryGenreId: String,
         title: String,
         subtitle: String,
+        cover: String,
         timestamp: Timestamp,
         onComplete: (Boolean) -> Unit
     ) {
@@ -133,6 +134,7 @@ class BookRepository {
             userId = userId,
             title = title,
             subtitle = subtitle,
+            cover = cover,
             authorId = authorId,
             publishingCoId = publishingCoId,
             literaryGenreId = literaryGenreId,
