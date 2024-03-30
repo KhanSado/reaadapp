@@ -38,24 +38,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import coil.compose.rememberImagePainter
-import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
-import io.berson.reaad.ui.models.LiteraryGenre
-import kotlinx.coroutines.tasks.await
+import io.berson.reaad.ui.viewmodel.BookViewModel
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CameraPreviewScreen(
-    value: String,
-    onValueChange: (String) -> Unit
+    viewModel: BookViewModel,
+    isComplete: (Boolean) -> Unit
 ) {
     val lensFacing = CameraSelector.LENS_FACING_BACK
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    var imageUri: String? by remember { mutableStateOf(null) } // State variable for captured image
+    var imageUri: String? by remember { mutableStateOf(null) }
 
     val preview = Preview.Builder().build()
     val previewView = remember {
@@ -87,14 +85,19 @@ fun CameraPreviewScreen(
         }
         if (imageUri == null) {
             Button(onClick = {
-                captureImage(imageCapture = imageCapture, context= context, onImageCaptured = {imageUri = it}) {Uri ->
-                    uploadImageToFirebase(Uri) {
-                        onValueChange.invoke(it)
+                captureImage(imageCapture = imageCapture, context = context, onImageCaptured = {imageUri = it}) {Uri ->
+                    uploadImageToFirebase(Uri, isComplete) { downloadUrl ->
+                        if (downloadUrl != null) {
+                            isComplete(true)
+                            viewModel.onCoverChange(downloadUrl)
+                        } else {
+                            Log.w("UPLOAD", "Failed to retrieve download URL.")
+                        }
                     }
                 }
             }
             ) {
-                Text(text = "Capture Image")
+                Text(text = "Nova Capa")
             }
         }
     }
@@ -151,22 +154,41 @@ private fun captureImage(
     )
 
 }
+fun uploadImageToFirebase(
+    imageUri: Uri?,
+    onUploadComplete: (Boolean) -> Unit,
+    callback: (String?) -> Unit
+) {
+    if (imageUri == null) {
+        Log.w("UPLOAD", "No image selected to upload.")
+        return
+    }
 
-private fun uploadImageToFirebase(imageUri: Uri?, onValueChange: (String) -> Unit) {
     val storageRef = FirebaseStorage.getInstance().reference
     val imageRef = storageRef.child("imagens/${System.currentTimeMillis()}.jpeg")
 
-    val uploadTask = imageRef.putFile(imageUri!!)
+    val uploadTask = imageRef.putFile(imageUri)
 
     uploadTask.addOnProgressListener { snapshot ->
         val progress = (100.0 * snapshot.bytesTransferred) / snapshot.totalByteCount
         Log.d("UPLOAD", "Progresso: $progress%")
     }.addOnSuccessListener {
         Log.d("UPLOAD", "Imagem enviada com sucesso!")
+//        imageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
+//            callback(downloadUrl.toString())
+//            isComplete(true)
+//        }
         imageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
-            onValueChange(downloadUrl.toString())  // Access downloadUrl within its success listener
+            // Upload bem-sucedido
+            callback(downloadUrl.toString())
+            onUploadComplete(true)
         }.addOnFailureListener { exception ->
-            Log.e("UPLOAD", "Falha ao enviar imagem: ${exception.message}")
+            // Falha no upload
+            callback(null)
+            onUploadComplete(false)
         }
+    }.addOnFailureListener { exception ->
+        Log.e("UPLOAD", "Falha ao enviar imagem: ${exception.message}")
+        callback(null)
     }
 }

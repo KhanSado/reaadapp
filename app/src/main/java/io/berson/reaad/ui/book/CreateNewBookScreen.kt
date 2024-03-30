@@ -1,13 +1,16 @@
 package io.berson.reaad.ui.book
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,6 +24,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -78,6 +82,8 @@ fun CreateNewBookScreen(
     val literaryGenreUiState = literaryGenreVm.literaryGenreUiState
 
     val isErrorRegister = bookUiState.registerError != null
+
+    var isCompleteTakePhoto by remember { mutableStateOf(false) }
 
     GradientSurface {
         TopAppBar(
@@ -214,9 +220,10 @@ fun CreateNewBookScreen(
                     .background(Color(0xB9FFFFFF))
             ) {
                 CameraPreviewScreen(
-                    value = bookUiState.cover,
-                    onValueChange = { vm.onCoverChange(it) }
-                )
+                    viewModel = vm
+                ) {
+                    isCompleteTakePhoto = it
+                }
             }
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -233,15 +240,33 @@ fun CreateNewBookScreen(
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),
-                    modifier = Modifier.width(300.dp)
+                    modifier = Modifier.width(300.dp),
+                    enabled = isCompleteTakePhoto
                 ) {
-                    Text(
-                        text = "novo livro",
-                        color = PrimaryColor,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Normal,
-                        fontFamily = FontFamily(Font(R.font.exo2))
-                    )
+                    if (isCompleteTakePhoto) {
+                        Text(
+                            text = "novo livro",
+                            color = PrimaryColor,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Normal,
+                            fontFamily = FontFamily(Font(R.font.exo2))
+                        )
+                    } else {
+                        Row( // Use Row to arrange text and indicator horizontally
+                            horizontalArrangement = Arrangement.Center // Center the content
+                        ) {
+                            Text(
+                                text = "foto não carregada\naguarde",
+                                color = Color.Black,
+                                fontSize = 9.sp,
+                                fontWeight = FontWeight.Normal
+                            )
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(20.dp),
+                                color = PrimaryColor
+                            )
+                        }
+                    }
                 }
             }
 

@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.AppBottomBar
 import io.berson.reaad.ui.components.FloatingActionButton
@@ -118,7 +119,7 @@ fun BooksLazyGridList(
                 ) {
                     Spacer(modifier = Modifier.height(10.dp))
                     Image(
-                        painter = painterResource(id = R.drawable.bookcover),
+                        painter = if (book.cover != null) rememberImagePainter(book.cover) else painterResource(id = R.drawable.bookcover),
                         contentDescription = "",
                         modifier = Modifier
                             .height(80.dp)
