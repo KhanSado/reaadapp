@@ -61,7 +61,7 @@ fun MainAuthorsScreen(navController: NavController, vm: AuthorViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 50.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
+                    .padding(top = 50.dp, start = 24.dp, end = 24.dp, bottom = 55.dp)
             ) {
                 authorUiState.authorList?.let { it1 ->
                     AuthorLazyGridList(
@@ -83,7 +83,7 @@ fun AuthorLazyGridList(
         columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxHeight(),
-        contentPadding = PaddingValues(top = 60.dp, start = 24.dp, end = 24.dp)
+        contentPadding = PaddingValues(start = 24.dp, end = 24.dp)
     ) {
         items(items = authors) { author ->
             Surface(

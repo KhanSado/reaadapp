@@ -114,15 +114,18 @@ fun BooksLazyGridList(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp),
+                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
+                        .clickable(onClick = {
+                            navController.navigate("${DestinationScreen.BookDetailScreen.name}/${book.documentId}")
+                        }),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.height(10.dp))
                     Image(
-                        painter = if (book.cover != null) rememberImagePainter(book.cover) else painterResource(id = R.drawable.bookcover),
+                        painter = rememberImagePainter(book.cover),
                         contentDescription = "",
                         modifier = Modifier
-                            .height(80.dp)
+                            .height(100.dp)
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(

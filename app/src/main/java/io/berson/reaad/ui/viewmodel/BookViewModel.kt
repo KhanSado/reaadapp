@@ -101,12 +101,16 @@ class BookViewModel(
     }
 
 
-//    private fun setEditFields(author: Author){
-//        bookUiState = bookUiState.copy(
-//            firstName = author.firstname,
-//            lastName = author.lastname,
-//        )
-//    }
+    private fun setEditFields(book: Book){
+        bookUiState = bookUiState.copy(
+            title = book.title,
+            subtitle = book.subtitle,
+            cover =  book.cover,
+            authorId = book.authorId,
+            literaryGenreId = book.literaryGenreId,
+            publishingCoId = book.publishingCoId
+        )
+    }
 
 fun getAllBooks() {
     repository.getAllBookToUser(
@@ -147,15 +151,15 @@ fun getBooksListByPublishingCo(publishingCoId: String) {
     }
 }
 
-//    fun getAuthorById(authorId:String){
-//        repository.getAuthor(
-//            authorId = authorId,
-//            onError = {},
-//        ){
-//            bookUiState = bookUiState.copy(selectedAuthor = it)
-//            bookUiState.selectedAuthor?.let { it1 -> setEditFields(it1) }
-//        }
-//    }
+    fun getBookById(bookId:String){
+        repository.getBook(
+            bookId = bookId,
+            onError = {},
+        ){
+            bookUiState = bookUiState.copy(selectedBook = it)
+            bookUiState.selectedBook?.let { it1 -> setEditFields(it1) }
+        }
+    }
 
 //    fun updateAuthors(
 //        authorId: String

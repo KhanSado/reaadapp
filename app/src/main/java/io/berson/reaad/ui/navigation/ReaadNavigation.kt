@@ -21,6 +21,7 @@ import io.berson.reaad.ui.auth.SignupScreen
 import io.berson.reaad.ui.author.AuthorDetailScreen
 import io.berson.reaad.ui.author.CreateNewAuthorScreen
 import io.berson.reaad.ui.author.MainAuthorsScreen
+import io.berson.reaad.ui.book.BookDetailScreen
 import io.berson.reaad.ui.book.CreateNewBookScreen
 import io.berson.reaad.ui.book.MainBookScreen
 import io.berson.reaad.ui.components.CameraPreviewScreen
@@ -192,6 +193,18 @@ fun ReaadNavigation() {
                 onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) },
                 navController = navController,
                 onCameraClick = { }
+            )
+        }
+        composable(
+            "${DestinationScreen.BookDetailScreen.name}/{bookId}",
+            listOf(
+                navArgument("bookId") { type = NavType.StringType },
+            )
+        ) {
+            BookDetailScreen(
+                vm = bookVm,
+                bookId = "${it.arguments?.getString("bookId")}",
+                navController = navController
             )
         }
     }
