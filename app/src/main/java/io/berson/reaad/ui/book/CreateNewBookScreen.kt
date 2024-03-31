@@ -24,7 +24,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -252,17 +251,18 @@ fun CreateNewBookScreen(
                             fontFamily = FontFamily(Font(R.font.exo2))
                         )
                     } else {
-                        Row( // Use Row to arrange text and indicator horizontally
-                            horizontalArrangement = Arrangement.Center // Center the content
+                        Row(
+                            horizontalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                text = "foto não carregada\naguarde",
+                                text = "foto não carregada \n aguarde",
                                 color = Color.Black,
                                 fontSize = 9.sp,
                                 fontWeight = FontWeight.Normal
                             )
                             CircularProgressIndicator(
-                                modifier = Modifier.size(20.dp),
+                                modifier = Modifier
+                                    .size(20.dp),
                                 color = PrimaryColor
                             )
                         }

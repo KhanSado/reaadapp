@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -34,16 +35,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import coil.compose.rememberImagePainter
 import com.google.firebase.storage.FirebaseStorage
+import io.berson.reaad.R
 import io.berson.reaad.ui.viewmodel.BookViewModel
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CameraPreviewScreen(
     viewModel: BookViewModel,
@@ -97,7 +99,13 @@ fun CameraPreviewScreen(
                 }
             }
             ) {
-                Text(text = "Nova Capa")
+                Image(
+                    painter = painterResource(R.drawable.baseline_add_a_photo_24),
+                    contentDescription = "Capturar capa do livro",
+                    modifier = Modifier
+                        .height(30.dp)
+                        .width(30.dp),
+                )
             }
         }
     }
@@ -165,7 +173,7 @@ fun uploadImageToFirebase(
     }
 
     val storageRef = FirebaseStorage.getInstance().reference
-    val imageRef = storageRef.child("imagens/${System.currentTimeMillis()}.jpeg")
+    val imageRef = storageRef.child("books-covers/${System.currentTimeMillis()}.jpeg")
 
     val uploadTask = imageRef.putFile(imageUri)
 
@@ -174,16 +182,10 @@ fun uploadImageToFirebase(
         Log.d("UPLOAD", "Progresso: $progress%")
     }.addOnSuccessListener {
         Log.d("UPLOAD", "Imagem enviada com sucesso!")
-//        imageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
-//            callback(downloadUrl.toString())
-//            isComplete(true)
-//        }
         imageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
-            // Upload bem-sucedido
             callback(downloadUrl.toString())
             onUploadComplete(true)
         }.addOnFailureListener { exception ->
-            // Falha no upload
             callback(null)
             onUploadComplete(false)
         }
