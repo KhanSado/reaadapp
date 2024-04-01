@@ -169,32 +169,6 @@ fun HomeScreen(
                 )
                 Spacer(modifier = Modifier.height(30.dp))
 
-                HeaderSections(
-                    viewMoreIsVisible = true,
-                    title = "Livros"
-                ) {
-                    navController.navigate(DestinationScreen.MainBookScreen.name)
-                }
-
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(start = 23.dp, end = 23.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    items(
-                        items = mountBookList(bookUiState.bookList).take(3),
-                        itemContent = { item ->
-                            CardItem(
-                                item.title,
-                            ) {
-//                            navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${item.documentId}")
-                            }
-                            Spacer(modifier = Modifier.width(12.dp))
-                        })
-                }
             }
         }
     }
