@@ -35,6 +35,7 @@ import io.berson.reaad.ui.publishingCo.MainPublishingCoScreen
 import io.berson.reaad.ui.publishingCo.PublishingCoDetailScreen
 import io.berson.reaad.ui.quote.CreateNewQuoteScreen
 import io.berson.reaad.ui.quote.MainQuoteScreen
+import io.berson.reaad.ui.quote.QuoteDetailScreen
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthViewModel
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
@@ -112,7 +113,7 @@ fun ReaadNavigation() {
         }
 
         composable(DestinationScreen.MainQuoteScreen.name) {
-            MainQuoteScreen(navController = navController, vm = quoteVm)
+            MainQuoteScreen(navController = navController, vm = quoteVm, bookVm = bookVm)
         }
 
         composable(DestinationScreen.ProfileUserScreen.name) {
@@ -212,6 +213,7 @@ fun ReaadNavigation() {
                 navController = navController,
             )
         }
+
         composable(
             "${DestinationScreen.BookDetailScreen.name}/{bookId}",
             listOf(
@@ -222,6 +224,20 @@ fun ReaadNavigation() {
                 vm = bookVm,
                 bookId = "${it.arguments?.getString("bookId")}",
                 navController = navController
+            )
+        }
+
+        composable(
+            "${DestinationScreen.QuoteDetailScreen.name}/{quoteId}",
+            listOf(
+                navArgument("quoteId") { type = NavType.StringType },
+            )
+        ) {
+            QuoteDetailScreen(
+                vm = quoteVm,
+                quoteId = "${it.arguments?.getString("quoteId")}",
+                navController = navController,
+                bookVm = bookVm
             )
         }
     }

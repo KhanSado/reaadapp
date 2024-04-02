@@ -31,7 +31,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import io.berson.reaad.R
@@ -42,15 +46,19 @@ import io.berson.reaad.ui.models.Book
 import io.berson.reaad.ui.models.Quote
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.SecundaryColor
+import io.berson.reaad.ui.viewmodel.AuthorViewModel
+import io.berson.reaad.ui.viewmodel.BookUiState
 import io.berson.reaad.ui.viewmodel.BookViewModel
 import io.berson.reaad.ui.viewmodel.QuoteViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainQuoteScreen(navController: NavController, vm: QuoteViewModel) {
+fun MainQuoteScreen(navController: NavController, vm: QuoteViewModel, bookVm: BookViewModel) {
 
     val quoteUiState = vm.quoteUiState
+    val bookUiState = bookVm.bookUiState
+
     vm.getAllQuotes()
 
     Scaffold(
@@ -78,7 +86,9 @@ fun MainQuoteScreen(navController: NavController, vm: QuoteViewModel) {
                 quoteUiState.quoteList?.let { it1 ->
                     QuoteLazyGridList(
                         quotes = it1,
-                        navController = navController
+                        navController = navController,
+                        bookVm = bookVm,
+                        bookUiState = bookUiState
                     )
                 }
             }
@@ -90,7 +100,9 @@ fun MainQuoteScreen(navController: NavController, vm: QuoteViewModel) {
 @Composable
 fun QuoteLazyGridList(
     quotes: List<Quote>,
-    navController: NavController
+    navController: NavController,
+    bookVm: BookViewModel,
+    bookUiState: BookUiState
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -112,20 +124,34 @@ fun QuoteLazyGridList(
                     .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp),
                 shape = RoundedCornerShape(16.dp)
             ) {
+                bookVm.getBookById(quote.bookId)
+                var selectedBook = bookUiState.selectedBook
+
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 8.dp)
                         .clickable(onClick = {
-                            navController.navigate("${DestinationScreen.BookDetailScreen.name}/${quote.documentId}")
+                            navController.navigate("${DestinationScreen.QuoteDetailScreen.name}/${quote.documentId}")
                         }),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
-                        text = quote.quoteDescription
+                        text = "${quote.quoteDescription.take(18)}..."
                     )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    if (selectedBook != null) {
+                        Text(
+                            text = selectedBook.title,
+                            fontSize = 9.sp,
+                            textAlign = TextAlign.End,
+                            fontFamily = FontFamily(Font(R.font.exo2))
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.width(12.dp))
             }
