@@ -19,6 +19,8 @@ enum class DestinationScreen {
     BookDetailScreen,
     LoginScreen,
     PassRecoveryScreen,
+    CreateNewQuoteScreen,
+    MainQuoteScreen,
     ProfileUserScreen;
 
     companion object {

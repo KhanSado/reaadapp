@@ -33,12 +33,15 @@ import io.berson.reaad.ui.profileUser.ProfileUserScreen
 import io.berson.reaad.ui.publishingCo.CreateNewPublishingCoScreen
 import io.berson.reaad.ui.publishingCo.MainPublishingCoScreen
 import io.berson.reaad.ui.publishingCo.PublishingCoDetailScreen
+import io.berson.reaad.ui.quote.CreateNewQuoteScreen
+import io.berson.reaad.ui.quote.MainQuoteScreen
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthViewModel
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
 import io.berson.reaad.ui.viewmodel.BookViewModel
 import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
 import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
+import io.berson.reaad.ui.viewmodel.QuoteViewModel
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -50,6 +53,7 @@ fun ReaadNavigation() {
     val publishingCoVm = PublishingCoViewModel()
     val literaryGenreVm = LiteraryGenreViewModel()
     val bookVm = BookViewModel()
+    val quoteVm = QuoteViewModel()
 
     NavHost(navController = navController, startDestination = DestinationScreen.SplashScreen.name) {
         composable(DestinationScreen.SplashScreen.name) {
@@ -105,6 +109,10 @@ fun ReaadNavigation() {
 
         composable(DestinationScreen.MainBookScreen.name) {
             MainBookScreen(navController = navController, vm = bookVm)
+        }
+
+        composable(DestinationScreen.MainQuoteScreen.name) {
+            MainQuoteScreen(navController = navController, vm = quoteVm)
         }
 
         composable(DestinationScreen.ProfileUserScreen.name) {
@@ -193,6 +201,15 @@ fun ReaadNavigation() {
                 onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) },
                 navController = navController,
                 onCameraClick = { }
+            )
+        }
+
+        composable(DestinationScreen.CreateNewQuoteScreen.name) {
+            CreateNewQuoteScreen(
+                vm = quoteVm,
+                bookVm = bookVm,
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) },
+                navController = navController,
             )
         }
         composable(

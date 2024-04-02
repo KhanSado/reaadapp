@@ -71,6 +71,18 @@ fun AppBottomBar(navController: NavController) {
 
                     IconButton(
                         onClick = {
+                            navController.navigate("${DestinationScreen.MainQuoteScreen.name}")
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.outline_format_quote_24),
+                            contentDescription = "Livros",
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+
+                    IconButton(
+                        onClick = {
                             navController.navigate("${DestinationScreen.ProfileUserScreen.name}")
                         }
                     ) {
