@@ -1,32 +1,23 @@
 package io.berson.reaad.ui.viewmodel
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import io.berson.reaad.ui.models.User
-import io.berson.reaad.ui.repositories.AUTHOR_COLLECTION_REF
 import io.berson.reaad.ui.repositories.AuthRepository
-import io.berson.reaad.ui.repositories.USER_COLLECTION_REF
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
     private val repository: AuthRepository = AuthRepository()
-    ) : ViewModel() {
+) : ViewModel() {
+
     val currentUser = repository.currentUser
 
     val hasUser: Boolean
         get() = repository.hasUser()
 
-    fun logout(): Unit {
+    fun logout() {
         repository.logout()
         loginUiState.copy(isLogoutSuccess = true)
     }
@@ -183,8 +174,6 @@ class AuthViewModel(
             }
         }
     }
-
-
 }
 
 data class LoginUiState(

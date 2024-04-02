@@ -11,4 +11,17 @@
     <string name="new_user_button_label">sou novo(a) aqui</string>
     <string name="make_login_button_label">já tenho conta</string>
     <string name="recovery_pass_title">esqueçeu a senha? vamos te ajudar a recuperar</string>
+    <string name="signup_title_screen">que bom que você quer se juntar a nos, para começar, precisamos de algumas informaçõas para iniciar sua conta</string>
+    <string name="name_label">nome</string>
+    <string name="lastname_label">sobrenome</string>
+    <string name="error_password_length">sua senha deve ter 6 ou mais caracteres</string>
+    <string name="error_different_passwords">senhas não correspondem</string>
+    <string name="confirm_password_label">confirmação de senha</string>
+    <string name="new_author_title_screen">novo(a) autor(a)</string>
+    <string name="body_new_auhor_title_screen">que legal, vamos add um novo autor na nossa biblioteca :D</string>
+    <string name="author_name_label">nome do autor</string>
+    <string name="author_lastname_label">sobrenome do autor</string>
+    <string name="new_author_button">novo autor</string>
+    <string name="authors_list_title">Meus autores</string>
+    <string name="exit_lavel">sair</string>
 </resources>

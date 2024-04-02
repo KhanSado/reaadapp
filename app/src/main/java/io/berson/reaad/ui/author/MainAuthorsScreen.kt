@@ -26,8 +26,10 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import io.berson.reaad.R
 import io.berson.reaad.ui.components.AppBottomBar
 import io.berson.reaad.ui.components.FloatingActionButton
 import io.berson.reaad.ui.components.TopAppBar
@@ -55,7 +57,7 @@ fun MainAuthorsScreen(navController: NavController, vm: AuthorViewModel) {
         GradientSurface {
             TopAppBar(
                 navController = navController,
-                resName = "Meus autores",
+                resName = stringResource(R.string.authors_list_title),
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

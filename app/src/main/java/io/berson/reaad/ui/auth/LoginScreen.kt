@@ -60,7 +60,7 @@ fun LoginScreen(
     onNavToHomePage:() -> Unit,
 ) {
 
-    val emty by remember { mutableStateOf("") }
+    val empty by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
 
     val loginUiState = vm.loginUiState
@@ -113,7 +113,7 @@ fun LoginScreen(
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_close_24),
                                 contentDescription = null,
-                                Modifier.clickable { loginUiState.email = emty }
+                                Modifier.clickable { loginUiState.email = empty }
                             )
                         }
                 },

@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -57,7 +58,7 @@ fun CreateNewAuthorScreen(
     GradientSurface {
         TopAppBar(
             navController = navController,
-            resName = "novo(a) autor(a)",
+            resName = stringResource(R.string.new_author_title_screen),
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -71,13 +72,13 @@ fun CreateNewAuthorScreen(
 
             if (isErrorRegister) {
                 Text(
-                    text = authorUiState.registerError ?: "unknown error",
-                    color = Color.Red,
+                    text = authorUiState.registerError ?: stringResource(R.string.unknow_erro_label),
+                    color = Color.Red
                 )
             }
 
             Text(
-                text = "que legal, vamos add um novo autor na nossa biblioteca :D",
+                text = stringResource(R.string.body_new_auhor_title_screen),
                 fontWeight = FontWeight.Thin,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
@@ -91,11 +92,11 @@ fun CreateNewAuthorScreen(
                 value = authorUiState.firstName,
                 onValueChange = { vm.onFirstNameChange(it) },
                 label = {
-                    Text(text = "nome do autor")
+                    Text(text = stringResource(R.string.author_name_label))
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
+                        painter = painterResource(id = R.drawable.baseline_edit_note_24),
                         contentDescription = null
                     )
                 },
@@ -126,11 +127,11 @@ fun CreateNewAuthorScreen(
                 value = authorUiState.lastName,
                 onValueChange = { vm.onLastNameChange(it) },
                 label = {
-                    Text(text = "sobrenome do autor")
+                    Text(text = stringResource(R.string.author_lastname_label))
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
+                        painter = painterResource(id = R.drawable.baseline_edit_note_24),
                         contentDescription = null
                     )
                 },
@@ -168,7 +169,7 @@ fun CreateNewAuthorScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "novo autor",
+                        text = stringResource(R.string.new_author_button),
                         color = PrimaryColor,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
@@ -177,9 +178,13 @@ fun CreateNewAuthorScreen(
                 }
             }
 
+            Spacer(modifier = Modifier.height(30.dp))
+
             if (authorUiState.isLoading) {
                 CircularProgressIndicator()
             }
+
+            Spacer(modifier = Modifier.height(30.dp))
 
             LaunchedEffect(key1 = authorUiState.isSuccessCreate){
                 if (authorUiState.isSuccessCreate){

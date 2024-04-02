@@ -32,6 +32,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -57,7 +58,7 @@ fun ProfileUserScreen(
     onNavToHomePage: () -> Unit
 ) {
 
-    val authorUiState = vm.loginUiState
+    val loginUiState = vm.loginUiState
 
     Scaffold(
         bottomBar = {
@@ -66,9 +67,10 @@ fun ProfileUserScreen(
     ) {
         GradientSurface {
             Box(modifier = Modifier.fillMaxSize()) {
-                // ... outros elementos da tela ...
+
+
                 Text(
-                    text = "sair",
+                    text = stringResource(R.string.exit_lavel),
                     modifier = Modifier
                         .clickable(
                             onClick = {

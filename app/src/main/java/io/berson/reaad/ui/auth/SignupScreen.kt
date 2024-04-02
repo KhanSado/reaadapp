@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -57,14 +58,14 @@ fun SignupScreen(
     onNavToHomePage: () -> Unit,
     navController: NavController
 ) {
-    val emty by remember { mutableStateOf("") }
+    val empty by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var firstname by remember { mutableStateOf("") }
     var lastname by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
-    var cpasswordVisibility by remember { mutableStateOf(false) }
+    var confirmPasswordVisibility by remember { mutableStateOf(false) }
     var errorConfirmPassword by remember { mutableStateOf(false) }
-    var plength by remember { mutableStateOf(false) }
+    var passwordLength by remember { mutableStateOf(false) }
 
     val loginUiState = vm.loginUiState
     val isErrorSignup = loginUiState.signUpError != null
@@ -88,13 +89,13 @@ fun SignupScreen(
 
             if (isErrorSignup) {
                 Text(
-                    text = loginUiState.signUpError ?: "unknown error",
-                    color = Color.Red,
+                    text = loginUiState.signUpError ?: stringResource(R.string.unknow_erro_label),
+                    color = Color.Red
                 )
             }
 
             Text(
-                text = "que bom que você quer se juntar a nos, para começar, precisamos de algumas informaçõas para iniciar sua conta",
+                text = stringResource(R.string.signup_title_screen),
                 textAlign = TextAlign.Justify,
                 fontWeight = FontWeight.Normal,
                 fontSize = 30.sp,
@@ -108,7 +109,7 @@ fun SignupScreen(
                 value = loginUiState.firstname,
                 onValueChange = { vm.onFirstNameChangeSignup(it) },
                 label = {
-                    Text(text = "nome")
+                    Text(text = stringResource(R.string.name_label))
                 },
                 leadingIcon = {
                     Icon(
@@ -121,7 +122,7 @@ fun SignupScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_close_24),
                             contentDescription = null,
-                            Modifier.clickable { firstname = emty }
+                            Modifier.clickable { firstname = empty }
                         )
                     }
                 },
@@ -150,7 +151,7 @@ fun SignupScreen(
                 value = loginUiState.lastname,
                 onValueChange = { vm.onLastNameChangeSignup(it) },
                 label = {
-                    Text(text = "sobrenome")
+                    Text(text = stringResource(R.string.lastname_label))
                 },
                 leadingIcon = {
                     Icon(
@@ -163,7 +164,7 @@ fun SignupScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_close_24),
                             contentDescription = null,
-                            Modifier.clickable { lastname = emty }
+                            Modifier.clickable { lastname = empty }
                         )
                     }
                 },
@@ -186,14 +187,13 @@ fun SignupScreen(
                 isError = isErrorSignup
             )
 
-
             Spacer(modifier = Modifier.height(30.dp))
 
             TextField(
                 value = loginUiState.emailSignUp,
                 onValueChange = { vm.onEmailChangeSignup(it) },
                 label = {
-                    Text(text = "email")
+                    Text(text = stringResource(R.string.email_label))
                 },
                 leadingIcon = {
                     Icon(
@@ -206,7 +206,7 @@ fun SignupScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_close_24),
                             contentDescription = null,
-                            Modifier.clickable { email = emty }
+                            Modifier.clickable { email = empty }
                         )
                     }
                 },
@@ -232,9 +232,9 @@ fun SignupScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            if (plength) {
+            if (passwordLength) {
                 Text(
-                    text = "sua senha deve ter mais de 6 caracteres",
+                    text = stringResource(R.string.error_password_length),
                     color = Color.Red,
                 )
             }
@@ -243,11 +243,11 @@ fun SignupScreen(
                 value = loginUiState.passwordSignUp,
                 onValueChange = {
                     vm.onPasswordChangeSignup(it)
-                    plength = it.length < 6
+                    passwordLength = it.length < 6
                 },
 
                 label = {
-                    Text(text = "senha")
+                    Text(text = stringResource(R.string.password_label))
                 },
                 leadingIcon = {
                     Icon(
@@ -264,7 +264,10 @@ fun SignupScreen(
                         }
                         Icon(
                             painter = visibilityIcon,
-                            contentDescription = if (passwordVisibility) "esconder senha" else "mostrar senha",
+                            contentDescription = if (passwordVisibility)
+                                stringResource(R.string.hiden_password) else stringResource(
+                                R.string.show_password
+                            ),
                             Modifier.clickable {
                                 passwordVisibility = !passwordVisibility
                             }
@@ -298,8 +301,8 @@ fun SignupScreen(
             Spacer(modifier = Modifier.height(30.dp))
             if (errorConfirmPassword) {
                 Text(
-                    text = "senhas não correspondem",
-                    color = Color.Red,
+                    text = stringResource(R.string.error_different_passwords),
+                    color = Color.Red
                 )
             }
 
@@ -307,7 +310,7 @@ fun SignupScreen(
                 value = loginUiState.confirmPasswordSignUp,
                 onValueChange = { vm.onConfirmPasswordChange(it) },
                 label = {
-                    Text(text = "confirmação de senha")
+                    Text(text = stringResource(R.string.confirm_password_label))
                 },
                 leadingIcon = {
                     Icon(
@@ -317,21 +320,24 @@ fun SignupScreen(
                 },
                 trailingIcon = {
                     if (loginUiState.confirmPasswordSignUp.isNotEmpty()) {
-                        val visibilityIcon = if (cpasswordVisibility) {
+                        val visibilityIcon = if (confirmPasswordVisibility) {
                             painterResource(id = R.drawable.baseline_visibility_24)
                         } else {
                             painterResource(id = R.drawable.baseline_disabled_visible_24)
                         }
                         Icon(
                             painter = visibilityIcon,
-                            contentDescription = if (passwordVisibility) "esconder senha" else "mostrar senha",
+                            contentDescription = if (passwordVisibility)
+                                stringResource(R.string.hiden_password) else stringResource(
+                                R.string.show_password
+                            ),
                             Modifier.clickable {
-                                cpasswordVisibility = !cpasswordVisibility
+                                confirmPasswordVisibility = !confirmPasswordVisibility
                             }
                         )
                     }
                 },
-                visualTransformation = if (cpasswordVisibility) {
+                visualTransformation = if (confirmPasswordVisibility) {
                     VisualTransformation.None
                 } else {
                     PasswordVisualTransformation()
@@ -356,9 +362,7 @@ fun SignupScreen(
                 isError = isErrorSignup
             )
 
-
             Spacer(modifier = Modifier.height(30.dp))
-
 
             Box(
                 modifier = Modifier
@@ -373,7 +377,7 @@ fun SignupScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "vamos lá",
+                        text = stringResource(R.string.lets_go_button),
                         color = PrimaryColor,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
@@ -382,9 +386,13 @@ fun SignupScreen(
                 }
             }
 
+            Spacer(modifier = Modifier.height(30.dp))
+
             if (loginUiState.isLoading) {
                 CircularProgressIndicator()
             }
+
+            Spacer(modifier = Modifier.height(30.dp))
 
             LaunchedEffect(key1 = vm.hasUser) {
                 if (vm.hasUser) {
