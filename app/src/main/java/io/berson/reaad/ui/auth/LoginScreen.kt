@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -77,7 +78,7 @@ fun LoginScreen(
         ) {
             if (isError){
                 Text(
-                    text = loginUiState?.loginError ?: "unknown error",
+                    text = loginUiState?.loginError ?: stringResource(R.string.unknow_erro_label),
                     color = Color.Red,
                 )
             }
@@ -85,7 +86,7 @@ fun LoginScreen(
             LogoType()
 
             Text(
-                text = "vamos entrar para aproveitar",
+                text = stringResource(R.string.login_title_screen),
                 fontWeight = FontWeight.Thin,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
@@ -96,10 +97,10 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(50.dp))
 
             TextField(
-                value = loginUiState?.email ?: "",
-                onValueChange = { vm?.onEmailChange(it) },
+                value = loginUiState.email,
+                onValueChange = { vm.onEmailChange(it) },
                 label = {
-                    Text(text = "email")
+                    Text(text = stringResource(R.string.email_label))
                 },
                 leadingIcon = {
                     Icon(
@@ -137,10 +138,10 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(30.dp))
             TextField(
-                value = loginUiState?.password ?: "",
+                value = loginUiState.password,
                 onValueChange = { vm.onPasswordNameChange(it) },
                 label = {
-                    Text(text = "senha")
+                    Text(text = stringResource(R.string.password_label))
                 },
                 leadingIcon = {
                     Icon(
@@ -149,7 +150,7 @@ fun LoginScreen(
                     )
                 },
                 trailingIcon = {
-                    if (loginUiState?.password!!.isNotEmpty()) {
+                    if (loginUiState.password.isNotEmpty()) {
                         val visibilityIcon = if (passwordVisibility) {
                             painterResource(id = R.drawable.baseline_visibility_24)
                         } else {
@@ -157,7 +158,9 @@ fun LoginScreen(
                         }
                         Icon(
                             painter = visibilityIcon,
-                            contentDescription = if (passwordVisibility) "esconder senha" else "mostrar senha",
+                            contentDescription = if (passwordVisibility) stringResource(R.string.hiden_password) else stringResource(
+                                R.string.show_password
+                            ),
                             Modifier.clickable {
                                 passwordVisibility = !passwordVisibility
                             }
@@ -190,7 +193,7 @@ fun LoginScreen(
                 isError = isError
             )
             Text(
-                text = "recuperar minha senha",
+                text = stringResource(R.string.recovery_password_label),
                 modifier = Modifier
                     .clickable( onClick = {
                         navController.navigate(DestinationScreen.PassRecoveryScreen.name)
@@ -214,7 +217,7 @@ fun LoginScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "vamos lá",
+                        text = stringResource(id = R.string.email_label),
                         color = PrimaryColor,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,

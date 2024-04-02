@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">reaad</string>
+    <string name="login_title_screen">vamos entrar para aproveitar</string>
+    <string name="email_label">email</string>
+    <string name="password_label">senha</string>
+    <string name="hiden_password">esconder senha</string>
+    <string name="show_password">mostrar senha</string>
+    <string name="recovery_password_label">recuperar minha senha</string>
+    <string name="lets_go_button">vamos lá</string>
+    <string name="unknow_erro_label">erro desconhecido</string>
+    <string name="new_user_button_label">sou novo(a) aqui</string>
+    <string name="make_login_button_label">já tenho conta</string>
+    <string name="recovery_pass_title">esqueçeu a senha? vamos te ajudar a recuperar</string>
 </resources>

@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -69,7 +70,7 @@ fun PassRecoveryScreen(
         ) {
             if (isError){
                 Text(
-                    text = loginUiState?.loginError ?: "unknown error",
+                    text = loginUiState?.loginError ?: stringResource(R.string.unknow_erro_label),
                     color = Color.Red,
                 )
             }
@@ -77,7 +78,7 @@ fun PassRecoveryScreen(
             LogoType()
 
             Text(
-                text = "esqueçeu a senha? vamos te ajudar a recuperar",
+                text = stringResource(R.string.recovery_pass_title),
                 fontWeight = FontWeight.Thin,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
@@ -88,10 +89,10 @@ fun PassRecoveryScreen(
             Spacer(modifier = Modifier.height(50.dp))
 
             TextField(
-                value = loginUiState?.emailRecovery ?: "",
-                onValueChange = { vm?.onEmailRecoveryChange(it) },
+                value = loginUiState.emailRecovery,
+                onValueChange = { vm.onEmailRecoveryChange(it) },
                 label = {
-                    Text(text = "email")
+                    Text(text = stringResource(id = R.string.email_label))
                 },
                 leadingIcon = {
                     Icon(
@@ -143,7 +144,7 @@ fun PassRecoveryScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "vamos lá",
+                        text = stringResource(id = R.string.email_label),
                         color = PrimaryColor,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,

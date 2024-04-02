@@ -1,7 +1,5 @@
 package io.berson.reaad.ui.auth
 
-import android.media.tv.TvContract.Channels.Logo
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -32,7 +30,6 @@ import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.LogoType
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
-import io.berson.reaad.ui.viewmodel.AuthViewModel
 
 @Composable
 fun MainScreen(navController: NavController) {
@@ -61,7 +58,7 @@ fun MainScreen(navController: NavController) {
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "sou novo(a) aqui",
+                        text = stringResource(R.string.new_user_button_label),
                         color = PrimaryColor,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
@@ -86,7 +83,7 @@ fun MainScreen(navController: NavController) {
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "já tenho conta",
+                        text = stringResource(R.string.make_login_button_label),
                         color = PrimaryColor,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
