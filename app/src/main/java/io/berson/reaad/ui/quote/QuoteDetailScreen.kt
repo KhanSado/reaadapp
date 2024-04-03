@@ -1,15 +1,19 @@
 package io.berson.reaad.ui.quote
 
+import android.content.Intent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import io.berson.reaad.ui.components.GradientSurface
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -38,6 +42,8 @@ fun QuoteDetailScreen(
 
     vm.getQuoteById(quoteId)
 
+    val context = LocalContext.current
+
     GradientSurface {
 
         TopAppBar(
@@ -45,12 +51,13 @@ fun QuoteDetailScreen(
             resName = ""
         )
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 50.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
-        ) {
+                .padding(
+                    top = 76.dp
+                )
+        )  {
             quoteUiState.selectedQuote?.let { bookVm.getBookById(it.bookId) }
             var selectedBook = bookUiState.selectedBook
 
@@ -58,7 +65,10 @@ fun QuoteDetailScreen(
                 text = "${quoteUiState.selectedQuote?.quoteDescription}",
                 fontSize = 24.sp,
                 textAlign = TextAlign.Justify,
-                fontFamily = FontFamily(Font(R.font.confortaa))
+                fontFamily = FontFamily(Font(R.font.confortaa)),
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -68,9 +78,29 @@ fun QuoteDetailScreen(
                     text = selectedBook.title,
                     fontSize = 16.sp,
                     textAlign = TextAlign.End,
-                    fontFamily = FontFamily(Font(R.font.exo2))
-
+                    fontFamily = FontFamily(Font(R.font.exo2)),
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(24.dp)
                 )
+
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "${quoteUiState.quoteDescription}\n${selectedBook.title}")
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+
+                Button(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter),
+                    onClick = {
+                    context.startActivity(shareIntent)
+                }
+                ){
+                    Text("Compartilhar Citação")
+                }
             }
         }
     }
