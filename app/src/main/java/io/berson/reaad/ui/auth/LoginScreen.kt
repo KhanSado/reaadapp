@@ -217,7 +217,7 @@ fun LoginScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.email_label),
+                        text = stringResource(id = R.string.lets_go_button),
                         color = PrimaryColor,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
