@@ -19,6 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.berson.reaad.ui.components.AppBottomBar
+import io.berson.reaad.ui.components.BackButton
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.HeaderSections
 import io.berson.reaad.ui.navigation.DestinationScreen
@@ -34,6 +36,7 @@ import io.berson.reaad.ui.utils.mountAuthorList
 import io.berson.reaad.ui.utils.mountBookList
 import io.berson.reaad.ui.utils.mountLiteraryGenreList
 import io.berson.reaad.ui.utils.mountPublishingCoList
+import io.berson.reaad.ui.viewmodel.AuthViewModel
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
 import io.berson.reaad.ui.viewmodel.BookViewModel
 import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
@@ -47,26 +50,46 @@ fun HomeScreen(
     authorVm: AuthorViewModel,
     literaryGenreVm: LiteraryGenreViewModel,
     bookVm: BookViewModel,
+    authVm: AuthViewModel,
     navController: NavController
 ) {
     val authorUiState = authorVm.authorUiState
     val publishingCoUiState = publishingCoVm.publisingCoUiState
     val literaryGenreUiState = literaryGenreVm.literaryGenreUiState
     val bookUiState = bookVm.bookUiState
+    val loginUiState = authVm.loginUiState
 
     authorVm.getAuthorsList()
     publishingCoVm.getPublishingCoList()
     literaryGenreVm.getLiteraryGenreList()
     bookVm.getAllBooks()
+    authVm.getUser()
+
 
     Scaffold(
         bottomBar = {
             AppBottomBar(navController = navController)
         },
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Olá, ${loginUiState.userLogged?.firstname}",
+                        modifier = Modifier
+                            .padding(top = 10.dp)
+                    )
+                },
+                modifier = Modifier
+                    .height(50.dp)
+            )
+        }
     ) {
 
         GradientSurface {
-            Column {
+            Column(
+                modifier = Modifier
+                    .padding(top = 65.dp)
+            ) {
                 HeaderSections(
                     viewMoreIsVisible = true,
                     title = "Autores"

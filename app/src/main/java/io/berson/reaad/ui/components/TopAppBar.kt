@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,12 +22,15 @@ import androidx.navigation.NavController
 fun TopAppBar(
     navController: NavController,
     resName: String = "",
-    context: Context? = null
 ) {
     Column {
         TopAppBar(
             title = {
-                Text(text = resName)
+                Text(
+                    text = resName,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                )
             },
             navigationIcon = {
                BackButton(navController = navController)

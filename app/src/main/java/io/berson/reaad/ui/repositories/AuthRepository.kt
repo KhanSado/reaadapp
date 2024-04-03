@@ -94,4 +94,20 @@ class AuthRepository {
                 }
             }.await()
     }
+
+    fun getUser(
+        userId: String,
+        onError: (Throwable?) -> Unit,
+        onSuccess: (User?) -> Unit
+    ) {
+        userRef
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener {
+                onSuccess.invoke(it?.toObjects(User::class.java)?.firstOrNull())
+            }
+            .addOnFailureListener { result ->
+                onError.invoke(result.cause)
+            }
+    }
 }

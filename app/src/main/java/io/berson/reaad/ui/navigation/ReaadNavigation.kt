@@ -92,7 +92,8 @@ fun ReaadNavigation() {
                 authorVm = authorVm,
                 literaryGenreVm = literaryGenreVm,
                 bookVm = bookVm,
-                navController = navController
+                navController = navController,
+                authVm = authVm
             )
         }
 
@@ -120,7 +121,11 @@ fun ReaadNavigation() {
             ProfileUserScreen(
                 navController = navController,
                 vm = authVm,
-                onNavToHomePage = {navController.navigate(DestinationScreen.MainScreen.name)}
+                bookVm = bookVm,
+                onNavToHomePage = {navController.navigate(DestinationScreen.MainScreen.name)},
+                authorVm = authorVm,
+                publishingCoVm = publishingCoVm,
+                literaryGenreVm = literaryGenreVm
             )
         }
 

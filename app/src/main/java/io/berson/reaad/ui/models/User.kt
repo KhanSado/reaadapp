@@ -9,6 +9,7 @@ data class User(
     val lastname: String = "",
     val email: String = "",
     val friends: List<String>? = null,
+    val avatarUrl: String = "",
     val createAt: Timestamp = Timestamp.now(),
     val updateAt: Timestamp = Timestamp.now(),
     val documentId: String = "",

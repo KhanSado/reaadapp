@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.berson.reaad.ui.models.Author
+import io.berson.reaad.ui.models.User
 import io.berson.reaad.ui.repositories.AuthRepository
 import kotlinx.coroutines.launch
 
@@ -13,6 +15,9 @@ class AuthViewModel(
 ) : ViewModel() {
 
     val currentUser = repository.currentUser
+
+    val userId: String
+        get() = repository.getUserId()
 
     val hasUser: Boolean
         get() = repository.hasUser()
@@ -174,6 +179,15 @@ class AuthViewModel(
             }
         }
     }
+
+    fun getUser(){
+        repository.getUser(
+            userId,
+            onError = {}
+        ){
+            loginUiState = loginUiState.copy(userLogged = it)
+        }
+    }
 }
 
 data class LoginUiState(
@@ -199,6 +213,8 @@ data class LoginUiState(
     val loginError: String? = null,
     val recoveryError: String? = null,
     val loginSignupError: String? = null,
+
+    val userLogged: User? = null,
 
     val isLogoutSuccess: Boolean = false,
 )
