@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,6 +33,7 @@ import io.berson.reaad.ui.components.BackButton
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.HeaderSections
 import io.berson.reaad.ui.navigation.DestinationScreen
+import io.berson.reaad.ui.profileUser.RoundedImageFromUrl
 import io.berson.reaad.ui.utils.mountAuthorList
 import io.berson.reaad.ui.utils.mountBookList
 import io.berson.reaad.ui.utils.mountLiteraryGenreList
@@ -73,11 +75,26 @@ fun HomeScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "Olá, ${loginUiState.userLogged?.firstname}",
-                        modifier = Modifier
-                            .padding(top = 10.dp)
-                    )
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Olá, ${loginUiState.userLogged?.firstname}",
+                            modifier = Modifier
+                                .padding(top = 10.dp)
+                        )
+
+                        loginUiState.userLogged?.let {
+                            RoundedImageFromUrl(
+                                user = it,
+                                circleSize = 40,
+                                modifier = Modifier
+                                    .padding(top = 5.dp, end = 10.dp)
+                            )
+                        }
+                    }
+
                 },
                 modifier = Modifier
                     .height(50.dp)
@@ -90,6 +107,12 @@ fun HomeScreen(
                 modifier = Modifier
                     .padding(top = 65.dp)
             ) {
+
+                Divider(
+                    modifier = Modifier
+                        .padding(start = 24.dp, end = 24.dp, top = 10.dp)
+                )
+
                 HeaderSections(
                     viewMoreIsVisible = true,
                     title = "Autores"

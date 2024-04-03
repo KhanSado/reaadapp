@@ -101,7 +101,8 @@ fun ProfileUserScreen(
                         user = it1,
                         modifier = Modifier
                             .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 60.dp)
-                            .align(Alignment.TopCenter)
+                            .align(Alignment.TopCenter),
+                        circleSize = 75
                     )
                 }
 
@@ -147,7 +148,7 @@ fun ProfileUserScreen(
 }
 
 @Composable
-fun RoundedImageFromUrl(user: User, modifier: Modifier = Modifier) {
+fun RoundedImageFromUrl(user: User, modifier: Modifier = Modifier, circleSize: Int) {
     Image(
         painter = if (user.avatarUrl == "") painterResource(id = R.drawable.logoall) else rememberAsyncImagePainter(
             model = user.avatarUrl
@@ -155,7 +156,7 @@ fun RoundedImageFromUrl(user: User, modifier: Modifier = Modifier) {
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .size(75.dp)
+            .size(circleSize.dp)
             .clip(CircleShape)
     )
 }
