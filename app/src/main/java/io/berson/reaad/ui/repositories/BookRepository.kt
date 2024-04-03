@@ -3,15 +3,9 @@ package io.berson.reaad.ui.repositories
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.toObjects
 import com.google.firebase.ktx.Firebase
-import io.berson.reaad.ui.models.Author
 import io.berson.reaad.ui.models.Book
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 
 const val BOOK_COLLECTION_REF = "books"
 

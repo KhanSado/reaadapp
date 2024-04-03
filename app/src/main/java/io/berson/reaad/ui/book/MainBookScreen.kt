@@ -1,12 +1,9 @@
 package io.berson.reaad.ui.book
 
 import android.annotation.SuppressLint
-import android.icu.text.ListFormatter.Width
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -23,15 +20,23 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import io.berson.reaad.ui.components.GradientSurface
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import io.berson.reaad.R
@@ -40,7 +45,6 @@ import io.berson.reaad.ui.components.FloatingActionButton
 import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.models.Book
 import io.berson.reaad.ui.navigation.DestinationScreen
-import io.berson.reaad.ui.theme.SecundaryColor
 import io.berson.reaad.ui.viewmodel.BookViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -49,7 +53,6 @@ import io.berson.reaad.ui.viewmodel.BookViewModel
 fun MainBookScreen(navController: NavController, vm: BookViewModel) {
 
     val bookUiState = vm.bookUiState
-    vm.getAllBooks()
 
     Scaffold(
         bottomBar = {
@@ -73,17 +76,54 @@ fun MainBookScreen(navController: NavController, vm: BookViewModel) {
                     .fillMaxSize()
                     .padding(top = 50.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
             ) {
-                bookUiState.bookList?.let { it1 ->
-                    BooksLazyGridList(
-                        books = it1,
-                        navController = navController
-                    )
+
+                TextField(
+                    value = bookUiState.searchText,
+                    onValueChange = { vm.onSearchTextChanged(it) },
+                    label = {
+                        Text(text = "buscar livro")
+                    },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.outline_book_24),
+                            contentDescription = null
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    ),
+                    singleLine = true,
+                    textStyle = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                    ),
+                    shape = RoundedCornerShape(50.dp),
+                    modifier = Modifier
+                        .width(300.dp)
+                        .height(80.dp)
+                        .padding(top = 18.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        cursorColor = Color.Green
+                    ),
+                )
+
+
+
+                if (bookUiState.searchedBookList != null) {
+                    BooksLazyGridList(books = bookUiState.searchedBookList!!, navController = navController)
+                } else {
+                    if (bookUiState.bookList != null) {
+                        BooksLazyGridList(books = bookUiState.bookList!!, navController = navController)
+                    } else {
+                        Text("Carregando livros...")
+                    }
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun BooksLazyGridList(

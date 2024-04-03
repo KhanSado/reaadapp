@@ -1,23 +1,16 @@
 package io.berson.reaad.ui.viewmodel
 
-import android.net.Uri
-import android.util.Log
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.Tasks.await
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.storage.FirebaseStorage
 import io.berson.reaad.ui.models.Book
 import io.berson.reaad.ui.repositories.BookRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-import java.util.UUID
 
 class BookViewModel(
     private val repository: BookRepository = BookRepository(),
@@ -34,7 +27,6 @@ class BookViewModel(
 
     private val user: FirebaseUser?
         get() = repository.user()
-
 
     fun onTitleChange(title: String) {
         bookUiState = bookUiState.copy(title = title)
@@ -60,6 +52,17 @@ class BookViewModel(
         bookUiState = bookUiState.copy(publishingCoId = publishingCoId)
     }
 
+    fun onSearchTextChanged(searchText: String) {
+        bookUiState = bookUiState.copy(searchText = searchText)
+        if (searchText.isEmpty()) {
+            resetSearch()
+            bookUiState.searchedBookList = null
+        } else {
+            searchBooks(searchText)
+        }
+    }
+
+
     private fun validateRegisterForm() =
         bookUiState.title.isNotBlank() &&
                 bookUiState.publishingCoId.isNotBlank() &&
@@ -69,12 +72,12 @@ class BookViewModel(
 
     fun addBook() = viewModelScope.launch {
         try {
-                if (!validateRegisterForm()) {
-                    throw IllegalArgumentException("preencha todos os campos obrigatórios")
-                }
-                bookUiState = bookUiState.copy(isLoading = true)
+            if (!validateRegisterForm()) {
+                throw IllegalArgumentException("preencha todos os campos obrigatórios")
+            }
+            bookUiState = bookUiState.copy(isLoading = true)
 
-                bookUiState = bookUiState.copy(registerError = null)
+            bookUiState = bookUiState.copy(registerError = null)
 
             if (hasUser) {
                 repository.addBook(
@@ -101,61 +104,73 @@ class BookViewModel(
     }
 
 
-    private fun setEditFields(book: Book){
+    private fun setEditFields(book: Book) {
         bookUiState = bookUiState.copy(
             title = book.title,
             subtitle = book.subtitle,
-            cover =  book.cover,
+            cover = book.cover,
             authorId = book.authorId,
             literaryGenreId = book.literaryGenreId,
             publishingCoId = book.publishingCoId
         )
     }
 
-fun getAllBooks() {
-    repository.getAllBookToUser(
-        userId,
-        onError = {}
-    ) {
-        bookUiState = bookUiState.copy(bookList = it)
+    private fun searchBooks(text: String) {
+        repository.getAllBookToUser(userId, onError = {}) { allBooks ->
+            val filteredBooks = allBooks?.filter { it.title.contains(text, ignoreCase = true) }
+            bookUiState.searchedBookList = filteredBooks
+        }
     }
-}
 
-fun getBooksListByAuthor(authorId: String) {
-    repository.getBookByAuthorListToUser(
-        authorId = authorId,
-        userId,
-        onError = {}
-    ) {
-        bookUiState = bookUiState.copy(bookList = it)
+    fun resetSearch() {
+        bookUiState.searchText = ""
+        bookUiState.searchedBookList = null
     }
-}
 
-fun getBooksListByLiteraryGenre(literaryGenreId: String) {
-    repository.getBookByLiteraryGenreListToUser(
-        literaryGenreId = literaryGenreId,
-        userId,
-        onError = {}
-    ) {
-        bookUiState = bookUiState.copy(bookList = it)
+    fun getAllBooks() {
+        repository.getAllBookToUser(
+            userId,
+            onError = {}
+        ) {
+            bookUiState = bookUiState.copy(bookList = it)
+        }
     }
-}
 
-fun getBooksListByPublishingCo(publishingCoId: String) {
-    repository.getBookByPublishingCoListToUser(
-        publishingCoId = publishingCoId,
-        userId,
-        onError = {}
-    ) {
-        bookUiState = bookUiState.copy(bookList = it)
+    fun getBooksListByAuthor(authorId: String) {
+        repository.getBookByAuthorListToUser(
+            authorId = authorId,
+            userId,
+            onError = {}
+        ) {
+            bookUiState = bookUiState.copy(bookList = it)
+        }
     }
-}
 
-    fun getBookById(bookId:String){
+    fun getBooksListByLiteraryGenre(literaryGenreId: String) {
+        repository.getBookByLiteraryGenreListToUser(
+            literaryGenreId = literaryGenreId,
+            userId,
+            onError = {}
+        ) {
+            bookUiState = bookUiState.copy(bookList = it)
+        }
+    }
+
+    fun getBooksListByPublishingCo(publishingCoId: String) {
+        repository.getBookByPublishingCoListToUser(
+            publishingCoId = publishingCoId,
+            userId,
+            onError = {}
+        ) {
+            bookUiState = bookUiState.copy(bookList = it)
+        }
+    }
+
+    fun getBookById(bookId: String) {
         repository.getBook(
             bookId = bookId,
             onError = {},
-        ){
+        ) {
             bookUiState = bookUiState.copy(selectedBook = it)
             bookUiState.selectedBook?.let { it1 -> setEditFields(it1) }
         }
@@ -174,16 +189,16 @@ fun getBooksListByPublishingCo(publishingCoId: String) {
 //        }
 //    }
 
-fun resetAuthorAddedStatus() {
-    bookUiState = bookUiState.copy(
-        bookAddedStatus = false,
-        updateBookStatus = false,
-    )
-}
+    fun resetAuthorAddedStatus() {
+        bookUiState = bookUiState.copy(
+            bookAddedStatus = false,
+            updateBookStatus = false,
+        )
+    }
 
-fun resetState() {
-    bookUiState = BookUiState()
-}
+    fun resetState() {
+        bookUiState = BookUiState()
+    }
 }
 
 data class BookUiState(
@@ -193,10 +208,12 @@ data class BookUiState(
     val authorId: String = "",
     val literaryGenreId: String = "",
     val publishingCoId: String = "",
+    var searchText: String = "",
     var bookAddedStatus: Boolean = false,
     val updateBookStatus: Boolean = false,
     val selectedBook: Book? = null,
     val bookList: List<Book>? = null,
+    var searchedBookList: List<Book>? = null,
     val isLoading: Boolean = false,
     var isSuccessCreate: Boolean = false,
 

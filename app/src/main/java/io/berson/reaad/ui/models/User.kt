@@ -8,7 +8,7 @@ data class User(
     val firstname: String = "",
     val lastname: String = "",
     val email: String = "",
-    val password: String = "",
+    val friends: List<String>? = null,
     val createAt: Timestamp = Timestamp.now(),
     val updateAt: Timestamp = Timestamp.now(),
     val documentId: String = "",
