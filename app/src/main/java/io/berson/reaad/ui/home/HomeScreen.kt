@@ -2,6 +2,7 @@ package io.berson.reaad.ui.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -91,6 +92,9 @@ fun HomeScreen(
                                 circleSize = 40,
                                 modifier = Modifier
                                     .padding(top = 5.dp, end = 10.dp)
+                                    .clickable {
+                                        navController.navigate("${DestinationScreen.ProfileUserScreen.name}")
+                                    }
                             )
                         }
                     }

@@ -228,7 +228,10 @@ fun ReaadNavigation() {
             BookDetailScreen(
                 vm = bookVm,
                 bookId = "${it.arguments?.getString("bookId")}",
-                navController = navController
+                navController = navController,
+                publishingCoVm = publishingCoVm,
+                authorVm = authorVm,
+                literaryGenreVm = literaryGenreVm
             )
         }
 

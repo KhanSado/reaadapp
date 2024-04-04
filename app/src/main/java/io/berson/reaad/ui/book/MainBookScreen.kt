@@ -169,7 +169,7 @@ fun BooksLazyGridList(
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
-                        text = book.title
+                        text = if(book.title.length <= 10) book.title else "${book.title.take(9)}..."
                     )
                 }
                 Spacer(modifier = Modifier.width(12.dp))
