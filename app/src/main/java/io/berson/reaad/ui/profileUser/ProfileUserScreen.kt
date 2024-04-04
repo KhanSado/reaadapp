@@ -24,6 +24,7 @@ import io.berson.reaad.ui.utils.mountAuthorList
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Button
@@ -173,13 +174,16 @@ fun DataUser(
     Surface(
         modifier = modifier
             .height(200.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        shadowElevation = 14.dp,
+        shape = RoundedCornerShape(24.dp)
     ) {
 
         Box {
             Column(
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
+                    .padding(top = 12.dp)
                     .align(Alignment.TopStart),
             ) {
                 Text(
@@ -206,6 +210,7 @@ fun DataUser(
             Column(
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
+                    .padding(top = 12.dp)
                     .align(Alignment.TopEnd),
             ) {
                 Text(
@@ -232,6 +237,7 @@ fun DataUser(
             Column(
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
+                    .padding(bottom = 12.dp)
                     .align(Alignment.BottomStart),
             ) {
                 Text(
@@ -259,6 +265,7 @@ fun DataUser(
             Column(
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
+                    .padding(bottom = 12.dp)
                     .align(Alignment.BottomEnd),
             ) {
                 Text(
@@ -283,5 +290,4 @@ fun DataUser(
             }
         }
     }
-
 }
