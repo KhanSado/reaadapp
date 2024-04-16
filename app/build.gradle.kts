@@ -5,6 +5,15 @@ plugins {
 }
 
 android {
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("/Users/berson/Desktop/app-reaad.jks")
+            storePassword = "gc123147"
+            keyAlias = "reaadapp"
+            keyPassword = "gc123147"
+        }
+    }
     namespace = "io.berson.reaad"
     compileSdk = 34
 
@@ -19,10 +28,18 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        signingConfig = signingConfigs.getByName("release")
     }
 
+
     buildTypes {
+        debug {
+            resValue ("string", "google_services_json",
+                file("app/src/debug/google-services.json").absolutePath)
+        }
         release {
+                    resValue ("string", "google_services_json",
+                file("app/src/release/google-services.json").absolutePath)
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -30,6 +47,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
