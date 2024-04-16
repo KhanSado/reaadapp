@@ -120,39 +120,39 @@ fun CreateNewPublishingCoScreen(
                 isError = isErrorRegister
             )
 
-            Spacer(modifier = Modifier.height(30.dp))
-
-
-            TextField(
-                value = publisingCoUiState.logo,
-                onValueChange = { vm.onLogoChange(it) },
-                label = {
-                    Text(text = "logo")
-                },
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
-                        contentDescription = null
-                    )
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done
-                ),
-                singleLine = true,
-                textStyle = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
-                ),
-                shape = RoundedCornerShape(50.dp),
-                modifier = Modifier
-                    .width(300.dp)
-                    .height(60.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
-                )
-            )
+//            Spacer(modifier = Modifier.height(30.dp))
+//
+//
+//            TextField(
+//                value = publisingCoUiState.logo,
+//                onValueChange = { vm.onLogoChange(it) },
+//                label = {
+//                    Text(text = "logo")
+//                },
+//                leadingIcon = {
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.baseline_person_24),
+//                        contentDescription = null
+//                    )
+//                },
+//                keyboardOptions = KeyboardOptions(
+//                    imeAction = ImeAction.Done
+//                ),
+//                singleLine = true,
+//                textStyle = TextStyle(
+//                    fontWeight = FontWeight.Bold,
+//                    fontSize = 18.sp
+//                ),
+//                shape = RoundedCornerShape(50.dp),
+//                modifier = Modifier
+//                    .width(300.dp)
+//                    .height(60.dp),
+//                colors = TextFieldDefaults.textFieldColors(
+//                    unfocusedIndicatorColor = Color.Transparent,
+//                    focusedIndicatorColor = Color.Transparent,
+//                    cursorColor = Color.Green
+//                )
+//            )
             Spacer(modifier = Modifier.height(50.dp))
 
             Box(
