@@ -38,6 +38,7 @@ class AuthRepository {
             firstname = firstName,
             lastname = lastName,
             email = email,
+            avatarUrl = "",
             documentId = documentId
         )
         userRef
@@ -62,6 +63,24 @@ class AuthRepository {
                     onCompleteSignup.invoke(false)
                 }
             }.await()
+    }
+
+    fun updateUser(
+        avatarUrl: String,
+        updateAt: Timestamp,
+        userDocumentId: String,
+        onResult: (Boolean) -> Unit
+    ) {
+        val updateData = hashMapOf<String, Any>(
+            "avatarUrl" to avatarUrl,
+            "updateAt" to updateAt,
+        )
+
+        userRef.document(userDocumentId)
+            .update(updateData)
+            .addOnCompleteListener {
+                onResult(it.isSuccessful)
+            }
     }
 
     suspend fun loginUser(

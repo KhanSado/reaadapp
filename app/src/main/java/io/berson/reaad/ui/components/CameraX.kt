@@ -88,7 +88,7 @@ fun CameraPreviewScreen(
         if (imageUri == null) {
             Button(onClick = {
                 captureImage(imageCapture = imageCapture, context = context, onImageCaptured = {imageUri = it}) {Uri ->
-                    uploadImageToFirebase(Uri, isComplete) { downloadUrl ->
+                    uploadImageToFirebase(Uri, "books-covers", isComplete) { downloadUrl ->
                         if (downloadUrl != null) {
                             isComplete(true)
                             viewModel.onCoverChange(downloadUrl)
@@ -164,6 +164,7 @@ private fun captureImage(
 }
 fun uploadImageToFirebase(
     imageUri: Uri?,
+    pastaName: String,
     onUploadComplete: (Boolean) -> Unit,
     callback: (String?) -> Unit
 ) {
@@ -173,7 +174,7 @@ fun uploadImageToFirebase(
     }
 
     val storageRef = FirebaseStorage.getInstance().reference
-    val imageRef = storageRef.child("books-covers/${System.currentTimeMillis()}.jpeg")
+    val imageRef = storageRef.child("${pastaName}/${System.currentTimeMillis()}.jpeg")
 
     val uploadTask = imageRef.putFile(imageUri)
 

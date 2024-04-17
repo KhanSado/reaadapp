@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.berson.reaad.ui.models.Author
+import com.google.firebase.Timestamp
 import io.berson.reaad.ui.models.User
 import io.berson.reaad.ui.repositories.AuthRepository
 import kotlinx.coroutines.launch
@@ -36,6 +36,10 @@ class AuthViewModel(
 
     fun onPasswordNameChange(password: String) {
         loginUiState = loginUiState.copy(password = password)
+    }
+
+    fun onAvatarUrlChange(avatarUrl: String) {
+        loginUiState = loginUiState.copy(avatarUrl = avatarUrl)
     }
 
     fun onEmailChangeSignup(userName: String) {
@@ -104,7 +108,8 @@ class AuthViewModel(
 
             }
         } catch (e: Exception) {
-            loginUiState = loginUiState.copy(signUpError = "verifique suas credenciais e tente novamente!")
+            loginUiState =
+                loginUiState.copy(signUpError = "verifique suas credenciais e tente novamente!")
             e.printStackTrace()
         } finally {
             loginUiState = loginUiState.copy(isLoading = false)
@@ -134,7 +139,8 @@ class AuthViewModel(
 
 
         } catch (e: Exception) {
-            loginUiState = loginUiState.copy(loginError = "verifique suas credenciais e tente novamente!")
+            loginUiState =
+                loginUiState.copy(loginError = "verifique suas credenciais e tente novamente!")
             e.printStackTrace()
         } finally {
             loginUiState = loginUiState.copy(isLoading = false)
@@ -159,7 +165,8 @@ class AuthViewModel(
 
             }
         } catch (e: Exception) {
-            loginUiState = loginUiState.copy(recoveryError = "verifique suas credenciais e tente novamente!")
+            loginUiState =
+                loginUiState.copy(recoveryError = "verifique suas credenciais e tente novamente!")
             e.printStackTrace()
         } finally {
             loginUiState = loginUiState.copy(isLoading = false)
@@ -167,25 +174,35 @@ class AuthViewModel(
     }
 
 
-    private fun addUserFull(){
-        if (hasUser){
+    private fun addUserFull() {
+        if (hasUser) {
             repository.createFullUser(
                 firstName = loginUiState.firstname,
                 lastName = loginUiState.lastname,
                 email = loginUiState.emailSignUp
-            ){
+            ) {
                 loginUiState = loginUiState.copy(userAddedStatus = it)
                 loginUiState = loginUiState.copy(isSuccessCreate = true)
             }
         }
     }
 
-    fun getUser(){
+    fun getUser() {
         repository.getUser(
             userId,
             onError = {}
-        ){
+        ) {
             loginUiState = loginUiState.copy(userLogged = it)
+        }
+    }
+
+    fun updateUser(userDocumentId: String) {
+        repository.updateUser(
+            avatarUrl = loginUiState.avatarUrl,
+            userDocumentId = userDocumentId,
+            updateAt = Timestamp.now()
+        ) {
+            loginUiState = loginUiState.copy(updateUserStatus = it)
         }
     }
 }
@@ -196,6 +213,8 @@ data class LoginUiState(
     val firstname: String = "",
     val lastname: String = "",
 
+    val avatarUrl: String = "",
+
     val emailSignUp: String = "",
     val passwordSignUp: String = "",
     val confirmPasswordSignUp: String = "",
@@ -205,6 +224,7 @@ data class LoginUiState(
     val isSuccessCreate: Boolean = false,
     val isSuccessRecovered: Boolean = false,
     val userAddedStatus: Boolean = false,
+    val updateUserStatus: Boolean = false,
     val isLoading: Boolean = false,
     val isSuccessLogin: Boolean = false,
     var isSuccessRecovery: Boolean = false,
