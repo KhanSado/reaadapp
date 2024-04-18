@@ -68,15 +68,13 @@ import io.berson.reaad.ui.viewmodel.QuoteViewModel
 fun CreateNewQuoteScreen(
     vm: QuoteViewModel,
     bookVm: BookViewModel,
-    onNavToMainAuthorsPage: () -> Unit,
+    onNavToMainQuotePage: () -> Unit,
     navController: NavController,
 ) {
     val quoteUiState = vm.quoteUiState
     val bookUiState = bookVm.bookUiState
 
     val isErrorRegister = bookUiState.registerError != null
-
-    var isCompleteTakePhoto by remember { mutableStateOf(false) }
 
     GradientSurface {
         TopAppBar(
@@ -95,7 +93,7 @@ fun CreateNewQuoteScreen(
 
             if (isErrorRegister) {
                 Text(
-                    text = bookUiState.registerError ?: "unknown error",
+                    text = quoteUiState.registerError ?: "unknown error",
                     color = Color.Red,
                 )
             }
@@ -131,7 +129,7 @@ fun CreateNewQuoteScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 maxLines = 4,
                 modifier = Modifier
                     .width(300.dp)
@@ -139,13 +137,13 @@ fun CreateNewQuoteScreen(
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    cursorColor = PrimaryColor,
+                    containerColor = Color.White
                 ),
                 isError = isErrorRegister
             )
 
             Spacer(modifier = Modifier.height(30.dp))
-
 
             BookExposedDropdownMenuBox(
                 bookUiState.bookList,
@@ -159,7 +157,7 @@ fun CreateNewQuoteScreen(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xB9FFFFFF))
+                    .background(Color(0xFFFFFFFF))
             ) {
                 Button(
                     onClick = {
@@ -172,7 +170,7 @@ fun CreateNewQuoteScreen(
                 ) {
                         Text(
                             text = "nova citação",
-                            color = PrimaryColor,
+                            color = Color.Black,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Normal,
                             fontFamily = FontFamily(Font(R.font.exo2))
@@ -184,10 +182,10 @@ fun CreateNewQuoteScreen(
                 CircularProgressIndicator()
             }
 
-            LaunchedEffect(key1 = bookUiState.isSuccessCreate){
-                if (bookUiState.isSuccessCreate){
-                    onNavToMainAuthorsPage.invoke()
-                    bookUiState.isSuccessCreate = false
+            LaunchedEffect(key1 = quoteUiState.isSuccessCreate){
+                if (quoteUiState.isSuccessCreate){
+                    onNavToMainQuotePage.invoke()
+                    quoteUiState.isSuccessCreate = false
                     vm.resetState()
                 }
             }
@@ -211,8 +209,8 @@ fun BookExposedDropdownMenuBox(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(50.dp))
-            .background(Color(0xB9FFFFFF))
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFFFFFFFF))
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,

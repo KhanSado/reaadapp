@@ -41,4 +41,5 @@
     <string name="new_book_title">novo livro</string>
     <string name="new_book_title_body">agora sim, vamos cadastrar os livors na nossa biblioteca virtual</string>
     <string name="book_title_label">titulo do livro</string>
+    <string name="subtitle_field">subtitulo do livro</string>
 </resources>

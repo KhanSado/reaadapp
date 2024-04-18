@@ -85,7 +85,7 @@ fun MainBookScreen(navController: NavController, vm: BookViewModel) {
                     },
                     leadingIcon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.outline_book_24),
+                            painter = painterResource(id = R.drawable.bookicon),
                             contentDescription = null
                         )
                     },
@@ -106,16 +106,14 @@ fun MainBookScreen(navController: NavController, vm: BookViewModel) {
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         cursorColor = Color.Green
-                    ),
+                    )
                 )
-
-
 
                 if (bookUiState.searchedBookList != null) {
                     BooksLazyGridList(books = bookUiState.searchedBookList!!, navController = navController)
                 } else {
                     if (bookUiState.bookList != null) {
-                        BooksLazyGridList(books = bookUiState.bookList!!, navController = navController)
+                        BooksLazyGridList(books = bookUiState.bookList, navController = navController)
                     } else {
                         Text("Carregando livros...")
                     }

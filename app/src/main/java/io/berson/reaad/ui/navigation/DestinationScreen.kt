@@ -18,6 +18,8 @@ enum class DestinationScreen {
     LiteraryGenreDetailScreen,
     MainBookScreen,
     CreateNewBookScreen,
+    CreateNewBookStep2Screen,
+    CreateNewBookStep3Screen,
     BookDetailScreen,
     LoginScreen,
     PassRecoveryScreen,
@@ -47,6 +49,8 @@ enum class DestinationScreen {
             LiteraryGenreDetailScreen.name -> LiteraryGenreDetailScreen
             MainBookScreen.name -> MainBookScreen
             CreateNewBookScreen.name -> CreateNewBookScreen
+            CreateNewBookStep2Screen.name -> CreateNewBookStep2Screen
+            CreateNewBookStep3Screen.name -> CreateNewBookStep3Screen
             ProfileUserScreen.name -> ProfileUserScreen
             PassRecoveryScreen.name -> PassRecoveryScreen
             BookDetailScreen.name -> BookDetailScreen

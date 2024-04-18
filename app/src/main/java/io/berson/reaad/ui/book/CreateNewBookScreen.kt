@@ -1,16 +1,13 @@
 package io.berson.reaad.ui.book
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,7 +34,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -50,38 +46,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import io.berson.reaad.R
-import io.berson.reaad.ui.components.CameraPreviewScreen
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.TopAppBar
 import io.berson.reaad.ui.models.Author
 import io.berson.reaad.ui.models.LiteraryGenre
 import io.berson.reaad.ui.models.PublishingCo
+import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
-import io.berson.reaad.ui.viewmodel.AuthorViewModel
 import io.berson.reaad.ui.viewmodel.BookViewModel
-import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
-import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateNewBookScreen(
     vm: BookViewModel,
-    authorVm: AuthorViewModel,
-    publishingCoVm: PublishingCoViewModel,
-    literaryGenreVm: LiteraryGenreViewModel,
     onNavToMainAuthorsPage: () -> Unit,
-    navController: NavController,
-    onCameraClick: () -> Unit
+    navController: NavController
 ) {
 
     val bookUiState = vm.bookUiState
-    val authorUiState = authorVm.authorUiState
-    val publishingCoUiState = publishingCoVm.publisingCoUiState
-    val literaryGenreUiState = literaryGenreVm.literaryGenreUiState
 
     val isErrorRegister = bookUiState.registerError != null
-
-    var isCompleteTakePhoto by remember { mutableStateOf(false) }
 
     GradientSurface {
         TopAppBar(
@@ -151,12 +135,11 @@ fun CreateNewBookScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-
             TextField(
                 value = bookUiState.subtitle,
                 onValueChange = { vm.onSubtitleChange(it) },
                 label = {
-                    Text(text = "subtitulo do livro")
+                    Text(text = stringResource(R.string.subtitle_field))
                 },
                 leadingIcon = {
                     Icon(
@@ -186,88 +169,27 @@ fun CreateNewBookScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            AuthorExposedDropdownMenuBox(
-                authorUiState.authorList,
-                value = bookUiState.authorId,
-                onValueChange = { vm.onAuthorIdChange(it) },
-                isError = isErrorRegister
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            PublishingCoExposedDropdownMenuBox(
-                publishingCoUiState.publishingCoList,
-                value = bookUiState.publishingCoId,
-                onValueChange = { vm.onublishingCoIdChange(it) },
-                isError = isErrorRegister
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            LiteraryGenreExposedDropdownMenuBox(
-                literaryGenreUiState.literaryGenreList,
-                value = bookUiState.literaryGenreId,
-                onValueChange = { vm.onLiteraryGenreIdChange(it) },
-                isError = isErrorRegister
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xB9FFFFFF))
-            ) {
-                CameraPreviewScreen(
-                    viewModel = vm
-                ) {
-                    isCompleteTakePhoto = it
-                }
-            }
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xB9FFFFFF))
+                    .background(Color(0xFFFFFFFF))
             ) {
                 Button(
                     onClick = {
-                        vm.addBook()
+                        navController.navigate(DestinationScreen.CreateNewBookStep2Screen.name)
                     },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),
                     modifier = Modifier.width(300.dp),
-                    enabled = isCompleteTakePhoto
                 ) {
-                    if (isCompleteTakePhoto) {
-                        Text(
-                            text = "novo livro",
-                            color = PrimaryColor,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontFamily = FontFamily(Font(R.font.exo2))
-                        )
-                    } else {
-                        Row(
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = "foto não carregada \n aguarde",
-                                color = Color.Black,
-                                fontSize = 9.sp,
-                                fontWeight = FontWeight.Normal
-                            )
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .size(20.dp),
-                                color = PrimaryColor
-                            )
-                        }
-                    }
+                    Text(
+                        text = stringResource(id = R.string.continue_button),
+                        color = Color.Black,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = FontFamily(Font(R.font.exo2))
+                    )
                 }
             }
 
@@ -275,11 +197,10 @@ fun CreateNewBookScreen(
                 CircularProgressIndicator()
             }
 
-            LaunchedEffect(key1 = bookUiState.isSuccessCreate){
-                if (bookUiState.isSuccessCreate){
+            LaunchedEffect(key1 = bookUiState.isSuccessCreate) {
+                if (bookUiState.isSuccessCreate) {
                     onNavToMainAuthorsPage.invoke()
                     bookUiState.isSuccessCreate = false
-                    vm.resetState()
                 }
             }
         }

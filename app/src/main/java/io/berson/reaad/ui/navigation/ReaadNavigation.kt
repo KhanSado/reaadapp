@@ -25,6 +25,8 @@ import io.berson.reaad.ui.author.CreateNewAuthorScreen
 import io.berson.reaad.ui.author.MainAuthorsScreen
 import io.berson.reaad.ui.book.BookDetailScreen
 import io.berson.reaad.ui.book.CreateNewBookScreen
+import io.berson.reaad.ui.book.CreateNewBookStep2Screen
+import io.berson.reaad.ui.book.CreateNewBookStep3Screen
 import io.berson.reaad.ui.book.MainBookScreen
 import io.berson.reaad.ui.components.CameraPreviewScreen
 import io.berson.reaad.ui.home.HomeScreen
@@ -214,17 +216,30 @@ fun ReaadNavigation() {
             )
         }
 
-
-
         composable(DestinationScreen.CreateNewBookScreen.name) {
             CreateNewBookScreen(
+                vm = bookVm,
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) },
+                navController = navController
+            )
+        }
+
+        composable(DestinationScreen.CreateNewBookStep2Screen.name) {
+            CreateNewBookStep2Screen(
                 vm = bookVm,
                 authorVm = authorVm,
                 publishingCoVm = publishingCoVm,
                 literaryGenreVm = literaryGenreVm,
                 onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) },
-                navController = navController,
-                onCameraClick = { }
+                navController = navController
+            )
+        }
+
+        composable(DestinationScreen.CreateNewBookStep3Screen.name) {
+            CreateNewBookStep3Screen(
+                vm = bookVm,
+                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) },
+                navController = navController
             )
         }
 
@@ -232,7 +247,7 @@ fun ReaadNavigation() {
             CreateNewQuoteScreen(
                 vm = quoteVm,
                 bookVm = bookVm,
-                onNavToMainAuthorsPage = { navController.navigate(DestinationScreen.MainBookScreen.name) },
+                onNavToMainQuotePage = { navController.navigate(DestinationScreen.MainQuoteScreen.name) },
                 navController = navController,
             )
         }
