@@ -39,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -73,8 +74,6 @@ fun CreateNewBookScreen(
     onCameraClick: () -> Unit
 ) {
 
-    val context = LocalContext.current
-
     val bookUiState = vm.bookUiState
     val authorUiState = authorVm.authorUiState
     val publishingCoUiState = publishingCoVm.publisingCoUiState
@@ -87,7 +86,7 @@ fun CreateNewBookScreen(
     GradientSurface {
         TopAppBar(
             navController = navController,
-            resName = "novo livro",
+            resName = stringResource(R.string.new_book_title),
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,13 +100,13 @@ fun CreateNewBookScreen(
 
             if (isErrorRegister) {
                 Text(
-                    text = bookUiState.registerError ?: "unknown error",
+                    text = bookUiState.registerError ?: stringResource(R.string.unknow_erro_label),
                     color = Color.Red,
                 )
             }
 
             Text(
-                text = "agora sim, vamos cadastrar os livors na nossa biblioteca virtual",
+                text = stringResource(R.string.new_book_title_body),
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
@@ -121,11 +120,11 @@ fun CreateNewBookScreen(
                 value = bookUiState.title,
                 onValueChange = { vm.onTitleChange(it) },
                 label = {
-                    Text(text = "titulo do livro")
+                    Text(text = stringResource(R.string.book_title_label))
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
+                        painter = painterResource(id = R.drawable.bookicon),
                         contentDescription = null
                     )
                 },
@@ -137,14 +136,15 @@ fun CreateNewBookScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    cursorColor = PrimaryColor,
+                    containerColor = Color.White
                 ),
                 isError = isErrorRegister
             )
@@ -160,7 +160,7 @@ fun CreateNewBookScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
+                        painter = painterResource(id = R.drawable.bookicon),
                         contentDescription = null
                     )
                 },
@@ -172,14 +172,15 @@ fun CreateNewBookScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    cursorColor = PrimaryColor,
+                    containerColor = Color.White
                 ),
             )
 
@@ -300,8 +301,8 @@ fun AuthorExposedDropdownMenuBox(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(50.dp))
-            .background(Color(0xB9FFFFFF))
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFFFFFFFF))
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -351,8 +352,8 @@ fun LiteraryGenreExposedDropdownMenuBox(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(50.dp))
-            .background(Color(0xB9FFFFFF))
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFFFFFFFF))
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -401,8 +402,8 @@ fun PublishingCoExposedDropdownMenuBox(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(50.dp))
-            .background(Color(0xB9FFFFFF))
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFFFFFFFF))
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,

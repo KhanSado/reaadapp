@@ -38,4 +38,7 @@
     <string name="new_publishing_co_title">nova editora</string>
     <string name="new_publishing_co_title_body">wow, que legal, vamos adicionar uma nova editora para nossos livros</string>
     <string name="new_publishing_co_button">nova editora</string>
+    <string name="new_book_title">novo livro</string>
+    <string name="new_book_title_body">agora sim, vamos cadastrar os livors na nossa biblioteca virtual</string>
+    <string name="book_title_label">titulo do livro</string>
 </resources>
