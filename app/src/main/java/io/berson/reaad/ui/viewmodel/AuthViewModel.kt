@@ -134,7 +134,6 @@ class AuthViewModel(
                 } else {
                     loginUiState.copy(isSuccessLogin = false)
                 }
-
             }
 
 
@@ -162,7 +161,6 @@ class AuthViewModel(
                 } else {
                     loginUiState.copy(isSuccessRecovery = false)
                 }
-
             }
         } catch (e: Exception) {
             loginUiState =
@@ -204,6 +202,10 @@ class AuthViewModel(
         ) {
             loginUiState = loginUiState.copy(updateUserStatus = it)
         }
+    }
+
+    fun resetState() {
+        loginUiState = LoginUiState()
     }
 }
 

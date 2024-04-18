@@ -18,6 +18,8 @@ import io.berson.reaad.ui.auth.LoginScreen
 import io.berson.reaad.ui.auth.MainScreen
 import io.berson.reaad.ui.auth.PassRecoveryScreen
 import io.berson.reaad.ui.auth.SignupScreen
+import io.berson.reaad.ui.auth.SignupStep2Screen
+import io.berson.reaad.ui.auth.SignupStep3Screen
 import io.berson.reaad.ui.author.AuthorDetailScreen
 import io.berson.reaad.ui.author.CreateNewAuthorScreen
 import io.berson.reaad.ui.author.MainAuthorsScreen
@@ -67,6 +69,22 @@ fun ReaadNavigation() {
 
         composable(DestinationScreen.SignupScreen.name) {
             SignupScreen(
+                vm = authVm,
+                onNavToHomePage = { navController.navigate(DestinationScreen.HomeScreen.name) },
+                navController = navController
+            )
+        }
+
+        composable(DestinationScreen.SignupStep2Screen.name) {
+            SignupStep2Screen(
+                vm = authVm,
+                onNavToHomePage = { navController.navigate(DestinationScreen.HomeScreen.name) },
+                navController = navController
+            )
+        }
+
+        composable(DestinationScreen.SignupStep3Screen.name) {
+            SignupStep3Screen(
                 vm = authVm,
                 onNavToHomePage = { navController.navigate(DestinationScreen.HomeScreen.name) },
                 navController = navController

@@ -4,6 +4,8 @@ enum class DestinationScreen {
     SplashScreen,
     MainScreen,
     SignupScreen,
+    SignupStep2Screen,
+    SignupStep3Screen,
     HomeScreen,
     MainAuthorsScreen,
     CreateNewAuthorScreen,
@@ -30,6 +32,8 @@ enum class DestinationScreen {
             SplashScreen.name -> SplashScreen
             MainScreen.name -> MainScreen
             SignupScreen.name -> SignupScreen
+            SignupStep2Screen.name -> SignupStep2Screen
+            SignupStep3Screen.name -> SignupStep3Screen
             LoginScreen.name -> LoginScreen
             HomeScreen.name -> HomeScreen
             MainAuthorsScreen.name -> MainAuthorsScreen

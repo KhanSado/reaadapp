@@ -54,19 +54,13 @@ import io.berson.reaad.ui.viewmodel.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignupScreen(
+fun SignupStep2Screen(
     vm: AuthViewModel,
     onNavToHomePage: () -> Unit,
     navController: NavController
 ) {
     val empty by remember { mutableStateOf("") }
-//    var email by remember { mutableStateOf("") }
-    var firstname by remember { mutableStateOf("") }
-    var lastname by remember { mutableStateOf("") }
-//    var passwordVisibility by remember { mutableStateOf(false) }
-//    var confirmPasswordVisibility by remember { mutableStateOf(false) }
-//    var errorConfirmPassword by remember { mutableStateOf(false) }
-//    var passwordLength by remember { mutableStateOf(false) }
+    var email by remember { mutableStateOf("") }
 
     val loginUiState = vm.loginUiState
     val isErrorSignup = loginUiState.signUpError != null
@@ -94,7 +88,7 @@ fun SignupScreen(
             }
 
             Text(
-                text = stringResource(R.string.signup_title_screen_one),
+                text = stringResource(R.string.signup_title_screen_two),
                 textAlign = TextAlign.Justify,
                 fontWeight = FontWeight.Normal,
                 fontSize = 30.sp,
@@ -105,23 +99,23 @@ fun SignupScreen(
             Spacer(modifier = Modifier.height(30.dp))
 
             TextField(
-                value = loginUiState.firstname,
-                onValueChange = { vm.onFirstNameChangeSignup(it) },
+                value = loginUiState.emailSignUp,
+                onValueChange = { vm.onEmailChangeSignup(it) },
                 label = {
-                    Text(text = stringResource(R.string.name_label))
+                    Text(text = stringResource(R.string.email_label))
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.profileicon),
+                        painter = painterResource(id = R.drawable.emailicon),
                         contentDescription = null
                     )
                 },
                 trailingIcon = {
-                    if (loginUiState.firstname.isNotEmpty()) {
+                    if (loginUiState.emailSignUp.isNotEmpty()) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_close_24),
                             contentDescription = null,
-                            Modifier.clickable { firstname = empty }
+                            Modifier.clickable { email = empty }
                         )
                     }
                 },
@@ -146,49 +140,6 @@ fun SignupScreen(
                 isError = isErrorSignup
             )
 
-            Spacer(modifier = Modifier.height(30.dp))
-
-            TextField(
-                value = loginUiState.lastname,
-                onValueChange = { vm.onLastNameChangeSignup(it) },
-                label = {
-                    Text(text = stringResource(R.string.lastname_label))
-                },
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.profileicon),
-                        contentDescription = null
-                    )
-                },
-                trailingIcon = {
-                    if (loginUiState.lastname.isNotEmpty()) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_close_24),
-                            contentDescription = null,
-                            Modifier.clickable { lastname = empty }
-                        )
-                    }
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
-                ),
-                singleLine = true,
-                textStyle = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                ),
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier
-                    .width(300.dp)
-                    .height(60.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    containerColor = Color.White,
-                    cursorColor = PrimaryColor
-                ),
-                isError = isErrorSignup
-            )
 
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -198,7 +149,7 @@ fun SignupScreen(
                     .background(Color(0xFFFFFFFF))
             ) {
                 Button(
-                    onClick = { navController.navigate(DestinationScreen.SignupStep2Screen.name) },
+                    onClick = { navController.navigate(DestinationScreen.SignupStep3Screen.name) },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),

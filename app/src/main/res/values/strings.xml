@@ -8,12 +8,16 @@
     <string name="recovery_password_label">esqueci minha senha</string>
     <string name="lets_go_button">vamos lá</string>
     <string name="continue_button">continuar</string>
+    <string name="finish_register">finalizar</string>
     <string name="enter_button">entrar</string>
     <string name="unknow_erro_label">erro desconhecido</string>
     <string name="new_user_button_label">sou novo(a) aqui</string>
     <string name="make_login_button_label">já tenho conta</string>
     <string name="recovery_pass_title">esqueçeu a senha? vamos te ajudar a recuperar</string>
     <string name="signup_title_screen">que bom que você quer se juntar a nos, para começar, precisamos de algumas informaçõas para iniciar sua conta</string>
+    <string name="signup_title_screen_one">que bom que deseja se juntar a nós, vamos ao seu cadastro, para começar, nos informe seu nome</string>
+    <string name="signup_title_screen_two">agora, precisamos que nos informe seu melhor email, você o usará para fazer login</string>
+    <string name="signup_title_screen_three">bom, chegamos ao ultimo passo, agora, você deverá definir a sua senha de acesso ao app</string>
     <string name="name_label">nome</string>
     <string name="lastname_label">sobrenome</string>
     <string name="error_password_length">sua senha deve ter 6 ou mais caracteres</string>

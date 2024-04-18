@@ -48,25 +48,21 @@ import androidx.navigation.NavController
 import io.berson.reaad.R
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.TopAppBar
-import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.theme.PrimaryColor
 import io.berson.reaad.ui.viewmodel.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignupScreen(
+fun SignupStep3Screen(
     vm: AuthViewModel,
     onNavToHomePage: () -> Unit,
     navController: NavController
 ) {
     val empty by remember { mutableStateOf("") }
-//    var email by remember { mutableStateOf("") }
-    var firstname by remember { mutableStateOf("") }
-    var lastname by remember { mutableStateOf("") }
-//    var passwordVisibility by remember { mutableStateOf(false) }
-//    var confirmPasswordVisibility by remember { mutableStateOf(false) }
-//    var errorConfirmPassword by remember { mutableStateOf(false) }
-//    var passwordLength by remember { mutableStateOf(false) }
+    var passwordVisibility by remember { mutableStateOf(false) }
+    var confirmPasswordVisibility by remember { mutableStateOf(false) }
+    var errorConfirmPassword by remember { mutableStateOf(false) }
+    var passwordLength by remember { mutableStateOf(false) }
 
     val loginUiState = vm.loginUiState
     val isErrorSignup = loginUiState.signUpError != null
@@ -94,7 +90,7 @@ fun SignupScreen(
             }
 
             Text(
-                text = stringResource(R.string.signup_title_screen_one),
+                text = stringResource(R.string.signup_title_screen_three),
                 textAlign = TextAlign.Justify,
                 fontWeight = FontWeight.Normal,
                 fontSize = 30.sp,
@@ -104,34 +100,61 @@ fun SignupScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
+            if (passwordLength) {
+                Text(
+                    text = stringResource(R.string.error_password_length),
+                    color = Color.Red,
+                )
+            }
+
             TextField(
-                value = loginUiState.firstname,
-                onValueChange = { vm.onFirstNameChangeSignup(it) },
+                value = loginUiState.passwordSignUp,
+                onValueChange = {
+                    vm.onPasswordChangeSignup(it)
+                    passwordLength = it.length < 6
+                },
+
                 label = {
-                    Text(text = stringResource(R.string.name_label))
+                    Text(text = stringResource(R.string.password_label))
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.profileicon),
+                        painter = painterResource(id = R.drawable.passwordicon),
                         contentDescription = null
                     )
                 },
                 trailingIcon = {
-                    if (loginUiState.firstname.isNotEmpty()) {
+                    if (loginUiState.passwordSignUp.isNotEmpty()) {
+                        val visibilityIcon = if (passwordVisibility) {
+                            painterResource(id = R.drawable.showpass)
+                        } else {
+                            painterResource(id = R.drawable.hideenpass)
+                        }
                         Icon(
-                            painter = painterResource(id = R.drawable.baseline_close_24),
-                            contentDescription = null,
-                            Modifier.clickable { firstname = empty }
+                            painter = visibilityIcon,
+                            contentDescription = if (passwordVisibility)
+                                stringResource(R.string.hiden_password) else stringResource(
+                                R.string.show_password
+                            ),
+                            Modifier.clickable {
+                                passwordVisibility = !passwordVisibility
+                            }
                         )
                     }
                 },
+                visualTransformation = if (passwordVisibility) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Password
                 ),
                 singleLine = true,
                 textStyle = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
+                    fontSize = 18.sp
                 ),
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
@@ -145,37 +168,58 @@ fun SignupScreen(
                 ),
                 isError = isErrorSignup
             )
-
             Spacer(modifier = Modifier.height(30.dp))
+            if (errorConfirmPassword) {
+                Text(
+                    text = stringResource(R.string.error_different_passwords),
+                    color = Color.Red
+                )
+            }
 
             TextField(
-                value = loginUiState.lastname,
-                onValueChange = { vm.onLastNameChangeSignup(it) },
+                value = loginUiState.confirmPasswordSignUp,
+                onValueChange = { vm.onConfirmPasswordChange(it) },
                 label = {
-                    Text(text = stringResource(R.string.lastname_label))
+                    Text(text = stringResource(R.string.confirm_password_label))
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.profileicon),
+                        painter = painterResource(id = R.drawable.passwordicon),
                         contentDescription = null
                     )
                 },
                 trailingIcon = {
-                    if (loginUiState.lastname.isNotEmpty()) {
+                    if (loginUiState.confirmPasswordSignUp.isNotEmpty()) {
+                        val visibilityIcon = if (confirmPasswordVisibility) {
+                            painterResource(id = R.drawable.showpass)
+                        } else {
+                            painterResource(id = R.drawable.hideenpass)
+                        }
                         Icon(
-                            painter = painterResource(id = R.drawable.baseline_close_24),
-                            contentDescription = null,
-                            Modifier.clickable { lastname = empty }
+                            painter = visibilityIcon,
+                            contentDescription = if (passwordVisibility)
+                                stringResource(R.string.hiden_password) else stringResource(
+                                R.string.show_password
+                            ),
+                            Modifier.clickable {
+                                confirmPasswordVisibility = !confirmPasswordVisibility
+                            }
                         )
                     }
                 },
+                visualTransformation = if (confirmPasswordVisibility) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Password
                 ),
                 singleLine = true,
                 textStyle = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
+                    fontSize = 18.sp
                 ),
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
@@ -198,14 +242,14 @@ fun SignupScreen(
                     .background(Color(0xFFFFFFFF))
             ) {
                 Button(
-                    onClick = { navController.navigate(DestinationScreen.SignupStep2Screen.name) },
+                    onClick = { vm.createUser() },
                     colors = ButtonDefaults.buttonColors(
                         Color.Transparent
                     ),
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = stringResource(R.string.continue_button),
+                        text = stringResource(R.string.finish_register),
                         color = Color.Black,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
