@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -57,13 +58,13 @@ fun CreateNewLiteraryGenreScreen(
     GradientSurface {
         TopAppBar(
             navController = navController,
-            resName = "novo genero literário",
+            resName = stringResource(R.string.literary_genre_title),
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 150.dp, start = 24.dp, end = 24.dp)
+                .padding(top = 100.dp, start = 24.dp, end = 24.dp)
                 .verticalScroll(
                     rememberScrollState()
                 )
@@ -71,13 +72,13 @@ fun CreateNewLiteraryGenreScreen(
 
             if (isErrorRegister) {
                 Text(
-                    text = literaryGenreUiState.registerError ?: "unknown error",
+                    text = literaryGenreUiState.registerError ?: stringResource(R.string.unknow_erro_label),
                     color = Color.Red,
                 )
             }
 
             Text(
-                text = "Oba oba, vamos adicionar os generos literários que você mais curte",
+                text = stringResource(R.string.create_genre_title_body),
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
@@ -91,11 +92,11 @@ fun CreateNewLiteraryGenreScreen(
                 value = literaryGenreUiState.name,
                 onValueChange = { vm.onNameChange(it) },
                 label = {
-                    Text(text = "gênero")
+                    Text(text = stringResource(R.string.genre_label))
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.twotone_business_24),
+                        painter = painterResource(id = R.drawable.literarygenreicon),
                         contentDescription = null
                     )
                 },
@@ -107,14 +108,15 @@ fun CreateNewLiteraryGenreScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    cursorColor = PrimaryColor,
+                    containerColor = Color.White
                 ),
                 isError = isErrorRegister
             )
@@ -126,11 +128,11 @@ fun CreateNewLiteraryGenreScreen(
                 value = literaryGenreUiState.description,
                 onValueChange = { vm.onDescriptionChange(it) },
                 label = {
-                    Text(text = "descriçao do genero")
+                    Text(text = stringResource(R.string.genreLabel))
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_24),
+                        painter = painterResource(id = R.drawable.descriptionicon),
                         contentDescription = null
                     )
                 },
@@ -142,14 +144,15 @@ fun CreateNewLiteraryGenreScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
-                    .height(60.dp),
+                    .height(200.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    cursorColor = PrimaryColor,
+                    containerColor = Color.White
                 ),
                 isError = isErrorRegister
             )
@@ -158,7 +161,7 @@ fun CreateNewLiteraryGenreScreen(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xB9FFFFFF))
+                    .background(Color(0xFFFFFFFF))
             ) {
                 Button(
                     onClick = {
@@ -169,8 +172,8 @@ fun CreateNewLiteraryGenreScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "novo genero",
-                        color = PrimaryColor,
+                        text = stringResource(R.string.new_genre_button),
+                        color = Color.Black,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
                         fontFamily = FontFamily(Font(R.font.exo2))

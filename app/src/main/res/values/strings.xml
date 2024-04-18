@@ -30,4 +30,12 @@
     <string name="new_author_button">novo autor</string>
     <string name="authors_list_title">Meus autores</string>
     <string name="exit_lavel">sair</string>
+    <string name="create_genre_title_body">oba oba, vamos adicionar os gêneros literários que você mais curte ler</string>
+    <string name="genre_label">gênero</string>
+    <string name="genreLabel">descrição do gênero</string>
+    <string name="literary_genre_title">novo gênero literário</string>
+    <string name="new_genre_button">novo gênero</string>
+    <string name="new_publishing_co_title">nova editora</string>
+    <string name="new_publishing_co_title_body">wow, que legal, vamos adicionar uma nova editora para nossos livros</string>
+    <string name="new_publishing_co_button">nova editora</string>
 </resources>

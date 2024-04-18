@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -57,13 +58,13 @@ fun CreateNewPublishingCoScreen(
     GradientSurface {
         TopAppBar(
             navController = navController,
-            resName = "nova editora",
+            resName = stringResource(R.string.new_publishing_co_title),
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 150.dp, start = 24.dp, end = 24.dp)
+                .padding(top = 100.dp, start = 24.dp, end = 24.dp)
                 .verticalScroll(
                     rememberScrollState()
                 )
@@ -71,13 +72,13 @@ fun CreateNewPublishingCoScreen(
 
             if (isErrorRegister) {
                 Text(
-                    text = publisingCoUiState.registerError ?: "unknown error",
+                    text = publisingCoUiState.registerError ?: stringResource(R.string.unknow_erro_label),
                     color = Color.Red,
                 )
             }
 
             Text(
-                text = "wow, que legal, vamos adicionar uma nova editora para nossos livros",
+                text = stringResource(R.string.new_publishing_co_title_body),
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Justify,
                 fontSize = 30.sp,
@@ -96,7 +97,7 @@ fun CreateNewPublishingCoScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.twotone_business_24),
+                        painter = painterResource(id = R.drawable.companyicon),
                         contentDescription = null
                     )
                 },
@@ -108,57 +109,25 @@ fun CreateNewPublishingCoScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    cursorColor = PrimaryColor,
+                    containerColor = Color.White
                 ),
                 isError = isErrorRegister
             )
 
-//            Spacer(modifier = Modifier.height(30.dp))
-//
-//
-//            TextField(
-//                value = publisingCoUiState.logo,
-//                onValueChange = { vm.onLogoChange(it) },
-//                label = {
-//                    Text(text = "logo")
-//                },
-//                leadingIcon = {
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.baseline_person_24),
-//                        contentDescription = null
-//                    )
-//                },
-//                keyboardOptions = KeyboardOptions(
-//                    imeAction = ImeAction.Done
-//                ),
-//                singleLine = true,
-//                textStyle = TextStyle(
-//                    fontWeight = FontWeight.Bold,
-//                    fontSize = 18.sp
-//                ),
-//                shape = RoundedCornerShape(50.dp),
-//                modifier = Modifier
-//                    .width(300.dp)
-//                    .height(60.dp),
-//                colors = TextFieldDefaults.textFieldColors(
-//                    unfocusedIndicatorColor = Color.Transparent,
-//                    focusedIndicatorColor = Color.Transparent,
-//                    cursorColor = Color.Green
-//                )
-//            )
             Spacer(modifier = Modifier.height(50.dp))
 
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xB9FFFFFF))
+                    .background(Color(0xFFFFFFFF))
             ) {
                 Button(
                     onClick = { vm.addPublishingCo() },
@@ -168,8 +137,8 @@ fun CreateNewPublishingCoScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = "nova editora",
-                        color = PrimaryColor,
+                        text = stringResource(R.string.new_publishing_co_button),
+                        color = Color.Black,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
                         fontFamily = FontFamily(Font(R.font.exo2))
