@@ -70,9 +70,7 @@ fun SignupScreen(
     val loginUiState = vm.loginUiState
     val isErrorSignup = loginUiState.signUpError != null
 
-
     GradientSurface {
-
         TopAppBar(
             navController = navController
         )
@@ -113,7 +111,7 @@ fun SignupScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_outline_24),
+                        painter = painterResource(id = R.drawable.profileicon),
                         contentDescription = null
                     )
                 },
@@ -134,13 +132,15 @@ fun SignupScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
+                    focusedIndicatorColor = Color.Transparent,
+                    containerColor = Color.White,
+                    cursorColor = PrimaryColor
                 ),
                 isError = isErrorSignup
             )
@@ -155,7 +155,7 @@ fun SignupScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_outline_24),
+                        painter = painterResource(id = R.drawable.profileicon),
                         contentDescription = null
                     )
                 },
@@ -176,13 +176,15 @@ fun SignupScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
+                    focusedIndicatorColor = Color.Transparent,
+                    containerColor = Color.White,
+                    cursorColor = PrimaryColor
                 ),
                 isError = isErrorSignup
             )
@@ -197,7 +199,7 @@ fun SignupScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.twotone_mark_email_read_24),
+                        painter = painterResource(id = R.drawable.emailicon),
                         contentDescription = null
                     )
                 },
@@ -218,13 +220,15 @@ fun SignupScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
+                    focusedIndicatorColor = Color.Transparent,
+                    containerColor = Color.White,
+                    cursorColor = PrimaryColor
                 ),
                 isError = isErrorSignup
             )
@@ -251,16 +255,16 @@ fun SignupScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_lock_person_24),
+                        painter = painterResource(id = R.drawable.passwordicon),
                         contentDescription = null
                     )
                 },
                 trailingIcon = {
                     if (loginUiState.passwordSignUp.isNotEmpty()) {
                         val visibilityIcon = if (passwordVisibility) {
-                            painterResource(id = R.drawable.baseline_visibility_24)
+                            painterResource(id = R.drawable.showpass)
                         } else {
-                            painterResource(id = R.drawable.baseline_disabled_visible_24)
+                            painterResource(id = R.drawable.hideenpass)
                         }
                         Icon(
                             painter = visibilityIcon,
@@ -288,13 +292,15 @@ fun SignupScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
+                    focusedIndicatorColor = Color.Transparent,
+                    containerColor = Color.White,
+                    cursorColor = PrimaryColor
                 ),
                 isError = isErrorSignup
             )
@@ -314,16 +320,16 @@ fun SignupScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_lock_person_24),
+                        painter = painterResource(id = R.drawable.passwordicon),
                         contentDescription = null
                     )
                 },
                 trailingIcon = {
                     if (loginUiState.confirmPasswordSignUp.isNotEmpty()) {
                         val visibilityIcon = if (confirmPasswordVisibility) {
-                            painterResource(id = R.drawable.baseline_visibility_24)
+                            painterResource(id = R.drawable.showpass)
                         } else {
-                            painterResource(id = R.drawable.baseline_disabled_visible_24)
+                            painterResource(id = R.drawable.hideenpass)
                         }
                         Icon(
                             painter = visibilityIcon,
@@ -351,13 +357,15 @@ fun SignupScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
+                    focusedIndicatorColor = Color.Transparent,
+                    containerColor = Color.White,
+                    cursorColor = PrimaryColor
                 ),
                 isError = isErrorSignup
             )
@@ -367,7 +375,7 @@ fun SignupScreen(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xB9FFFFFF))
+                    .background(Color(0xFFFFFFFF))
             ) {
                 Button(
                     onClick = { vm.createUser() },
@@ -377,8 +385,8 @@ fun SignupScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = stringResource(R.string.lets_go_button),
-                        color = PrimaryColor,
+                        text = stringResource(R.string.continue_button),
+                        color = Color.Black,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
                         fontFamily = FontFamily(Font(R.font.exo2))

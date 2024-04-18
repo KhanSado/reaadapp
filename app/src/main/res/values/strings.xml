@@ -5,8 +5,10 @@
     <string name="password_label">senha</string>
     <string name="hiden_password">esconder senha</string>
     <string name="show_password">mostrar senha</string>
-    <string name="recovery_password_label">recuperar minha senha</string>
+    <string name="recovery_password_label">esqueci minha senha</string>
     <string name="lets_go_button">vamos lá</string>
+    <string name="continue_button">continuar</string>
+    <string name="enter_button">entrar</string>
     <string name="unknow_erro_label">erro desconhecido</string>
     <string name="new_user_button_label">sou novo(a) aqui</string>
     <string name="make_login_button_label">já tenho conta</string>

@@ -51,7 +51,7 @@ fun AppBottomBar(navController: NavController) {
                         }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.twotone_house_24),
+                            painter = painterResource(R.drawable.homeicon),
                             contentDescription = "Home",
                             modifier = Modifier.size(24.dp)
                         )
@@ -63,7 +63,7 @@ fun AppBottomBar(navController: NavController) {
                         }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.outline_book_24),
+                            painter = painterResource(R.drawable.libicon),
                             contentDescription = "Livros",
                             modifier = Modifier.size(24.dp)
                         )
@@ -75,7 +75,7 @@ fun AppBottomBar(navController: NavController) {
                         }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.outline_format_quote_24),
+                            painter = painterResource(R.drawable.qupteicon),
                             contentDescription = "Livros",
                             modifier = Modifier.size(24.dp)
                         )
@@ -87,7 +87,7 @@ fun AppBottomBar(navController: NavController) {
                         }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.baseline_person_outline_24),
+                            painter = painterResource(R.drawable.profileicon),
                             contentDescription = "Autores",
                             modifier = Modifier.size(24.dp)
                         )

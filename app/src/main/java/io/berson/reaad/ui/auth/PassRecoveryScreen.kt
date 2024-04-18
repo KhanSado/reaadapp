@@ -96,7 +96,7 @@ fun PassRecoveryScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_outline_24),
+                        painter = painterResource(id = R.drawable.profileicon),
                         contentDescription = null
                     )
                 },
@@ -117,24 +117,25 @@ fun PassRecoveryScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    containerColor = Color.White,
+                    cursorColor = PrimaryColor
                 ),
                 isError = isError
             )
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(50.dp))
 
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xB9FFFFFF))
+                    .background(Color(0xFFFFFFFF))
             ) {
                 Button(
                     onClick = { vm.recoveryPass() },
@@ -144,8 +145,8 @@ fun PassRecoveryScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.email_label),
-                        color = PrimaryColor,
+                        text = stringResource(id = R.string.lets_go_button),
+                        color = Color.Black,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
                         fontFamily = FontFamily(Font(R.font.exo2))

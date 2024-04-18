@@ -104,7 +104,7 @@ fun LoginScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_person_outline_24),
+                        painter = painterResource(id = R.drawable.profileicon),
                         contentDescription = null
                     )
                 },
@@ -125,14 +125,15 @@ fun LoginScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    containerColor = Color.White,
+                    cursorColor = PrimaryColor
                 ),
                 isError = isError
             )
@@ -145,16 +146,16 @@ fun LoginScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_lock_person_24),
+                        painter = painterResource(id = R.drawable.passwordicon),
                         contentDescription = null
                     )
                 },
                 trailingIcon = {
                     if (loginUiState.password.isNotEmpty()) {
                         val visibilityIcon = if (passwordVisibility) {
-                            painterResource(id = R.drawable.baseline_visibility_24)
+                            painterResource(id = R.drawable.showpass)
                         } else {
-                            painterResource(id = R.drawable.baseline_disabled_visible_24)
+                            painterResource(id = R.drawable.hideenpass)
                         }
                         Icon(
                             painter = visibilityIcon,
@@ -181,17 +182,21 @@ fun LoginScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    containerColor = Color.White,
+                    cursorColor = PrimaryColor
                 ),
                 isError = isError
             )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
             Text(
                 text = stringResource(R.string.recovery_password_label),
                 modifier = Modifier
@@ -200,14 +205,16 @@ fun LoginScreen(
                     },
                 ),
                 fontFamily = FontFamily(Font(R.font.barlowcondensedlight)),
-                color = PrimaryColor
+                color = Color.White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold
             )
             Spacer(modifier = Modifier.height(50.dp))
 
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xB9FFFFFF))
+                    .background(Color(0xFFFFFFFF))
             ) {
                 Button(
                     onClick = { vm.loginUser() },
@@ -217,8 +224,8 @@ fun LoginScreen(
                     modifier = Modifier.width(300.dp)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.lets_go_button),
-                        color = PrimaryColor,
+                        text = stringResource(id = R.string.enter_button),
+                        color = Color.Black,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
                         fontFamily = FontFamily(Font(R.font.exo2))
