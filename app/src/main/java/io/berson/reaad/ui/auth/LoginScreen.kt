@@ -240,6 +240,7 @@ fun LoginScreen(
             LaunchedEffect(key1 = vm.hasUser){
                 if (vm.hasUser){
                     onNavToHomePage.invoke()
+                    vm.resetState()
                 }
             }
 

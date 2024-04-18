@@ -162,6 +162,7 @@ fun PassRecoveryScreen(
                 if (loginUiState.isSuccessRecovery){
                     onNavToHomePage.invoke()
                     loginUiState.isSuccessRecovery = false
+                    vm.resetState()
                 }
             }
 

@@ -64,7 +64,7 @@ fun CreateNewAuthorScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 150.dp, start = 24.dp, end = 24.dp)
+                .padding(top = 100.dp, start = 24.dp, end = 24.dp)
                 .verticalScroll(
                     rememberScrollState()
                 )
@@ -96,7 +96,7 @@ fun CreateNewAuthorScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_edit_note_24),
+                        painter = painterResource(id = R.drawable.authoricon),
                         contentDescription = null
                     )
                 },
@@ -108,14 +108,15 @@ fun CreateNewAuthorScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    cursorColor = PrimaryColor,
+                    containerColor = Color.White
                 ),
                 isError = isErrorRegister
             )
@@ -131,7 +132,7 @@ fun CreateNewAuthorScreen(
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_edit_note_24),
+                        painter = painterResource(id = R.drawable.authoricon),
                         contentDescription = null
                     )
                 },
@@ -143,14 +144,15 @@ fun CreateNewAuthorScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 ),
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .width(300.dp)
                     .height(60.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.Green
+                    cursorColor = PrimaryColor,
+                    containerColor = Color.White
                 ),
                 isError = isErrorRegister
             )
@@ -159,7 +161,7 @@ fun CreateNewAuthorScreen(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xB9FFFFFF))
+                    .background(Color(0xFFFFFFFF))
             ) {
                 Button(
                     onClick = { vm.addAuthor() },
@@ -170,7 +172,7 @@ fun CreateNewAuthorScreen(
                 ) {
                     Text(
                         text = stringResource(R.string.new_author_button),
-                        color = PrimaryColor,
+                        color = Color.Black,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
                         fontFamily = FontFamily(Font(R.font.exo2))
