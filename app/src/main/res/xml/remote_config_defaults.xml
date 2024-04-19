@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<defaults>
+  <entry>
+    <key>showBooks</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>showQuote</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>showPublishingCo</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>showProfile</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>showGenre</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>showHome</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>showAuthor</key>
+    <value>true</value>
+  </entry>
+</defaults>

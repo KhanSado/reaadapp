@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,18 +29,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import io.berson.reaad.ui.components.AppBottomBar
-import io.berson.reaad.ui.components.BackButton
 import io.berson.reaad.ui.components.GradientSurface
 import io.berson.reaad.ui.components.HeaderSections
 import io.berson.reaad.ui.navigation.DestinationScreen
 import io.berson.reaad.ui.profileUser.RoundedImageFromUrl
 import io.berson.reaad.ui.utils.mountAuthorList
-import io.berson.reaad.ui.utils.mountBookList
 import io.berson.reaad.ui.utils.mountLiteraryGenreList
 import io.berson.reaad.ui.utils.mountPublishingCoList
 import io.berson.reaad.ui.viewmodel.AuthViewModel
 import io.berson.reaad.ui.viewmodel.AuthorViewModel
 import io.berson.reaad.ui.viewmodel.BookViewModel
+import io.berson.reaad.ui.viewmodel.BottomBarViewModel
+import io.berson.reaad.ui.viewmodel.HomeViewModel
 import io.berson.reaad.ui.viewmodel.LiteraryGenreViewModel
 import io.berson.reaad.ui.viewmodel.PublishingCoViewModel
 
@@ -59,7 +58,6 @@ fun HomeScreen(
     val authorUiState = authorVm.authorUiState
     val publishingCoUiState = publishingCoVm.publisingCoUiState
     val literaryGenreUiState = literaryGenreVm.literaryGenreUiState
-    val bookUiState = bookVm.bookUiState
     val loginUiState = authVm.loginUiState
 
     authorVm.getAuthorsList()
@@ -68,6 +66,7 @@ fun HomeScreen(
     bookVm.getAllBooks()
     authVm.getUser()
 
+    val homeVm = HomeViewModel()
 
     Scaffold(
         bottomBar = {
@@ -112,105 +111,111 @@ fun HomeScreen(
                     .padding(top = 65.dp)
             ) {
 
-                Divider(
-                    modifier = Modifier
-                        .padding(start = 24.dp, end = 24.dp, top = 10.dp)
-                )
+                if (homeVm._showAuthor) {
+                    Divider(
+                        modifier = Modifier
+                            .padding(start = 24.dp, end = 24.dp, top = 10.dp)
+                    )
 
-                HeaderSections(
-                    viewMoreIsVisible = true,
-                    title = "Autores"
-                ) {
-                    navController.navigate(DestinationScreen.MainAuthorsScreen.name)
+                    HeaderSections(
+                        viewMoreIsVisible = true,
+                        title = "Autores"
+                    ) {
+                        navController.navigate(DestinationScreen.MainAuthorsScreen.name)
+                    }
+
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(start = 23.dp, end = 23.dp),
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        items(
+                            items = mountAuthorList(authorUiState.authorList).take(4),
+                            itemContent = { item ->
+                                ItemScreen(
+                                    item.firstname,
+                                    item.lastname
+                                ) {
+                                    navController.navigate("${DestinationScreen.AuthorDetailScreen.name}/${item.documentId}")
+                                }
+                                Spacer(modifier = Modifier.width(12.dp))
+                            })
+                    }
                 }
 
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(start = 23.dp, end = 23.dp),
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    items(
-                        items = mountAuthorList(authorUiState.authorList).take(4),
-                        itemContent = { item ->
-                            ItemScreen(
-                                item.firstname,
-                                item.lastname
-                            ) {
-                                navController.navigate("${DestinationScreen.AuthorDetailScreen.name}/${item.documentId}")
-                            }
-                            Spacer(modifier = Modifier.width(12.dp))
-                        })
+                if (homeVm._showPublishingCo) {
+                    Divider(
+                        modifier = Modifier
+                            .padding(start = 24.dp, end = 24.dp, top = 10.dp)
+                    )
+                    Spacer(modifier = Modifier.height(30.dp))
+
+                    HeaderSections(
+                        viewMoreIsVisible = true,
+                        title = "Editoras"
+                    ) {
+                        navController.navigate(DestinationScreen.MainPublishingCoScreen.name)
+                    }
+
+
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(start = 23.dp, end = 23.dp),
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        items(
+                            items = mountPublishingCoList(publishingCoUiState.publishingCoList).take(
+                                4
+                            ),
+                            itemContent = { item ->
+                                CardItem(
+                                    item.name,
+                                ) {
+                                    navController.navigate("${DestinationScreen.PublishingCoDetailScreen.name}/${item.documentId}")
+                                }
+                                Spacer(modifier = Modifier.width(12.dp))
+                            })
+                    }
                 }
 
-                Divider(
-                    modifier = Modifier
-                        .padding(start = 24.dp, end = 24.dp, top = 10.dp)
-                )
-                Spacer(modifier = Modifier.height(30.dp))
+                if (homeVm._showGenre) {
+                    Divider(
+                        modifier = Modifier
+                            .padding(start = 24.dp, end = 24.dp, top = 10.dp)
+                    )
+                    Spacer(modifier = Modifier.height(30.dp))
 
-                HeaderSections(
-                    viewMoreIsVisible = true,
-                    title = "Editoras"
-                ) {
-                    navController.navigate(DestinationScreen.MainPublishingCoScreen.name)
-                }
-
-
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(start = 23.dp, end = 23.dp),
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    items(
-                        items = mountPublishingCoList(publishingCoUiState.publishingCoList).take(
-                            4
-                        ),
-                        itemContent = { item ->
-                            CardItem(
-                                item.name,
-                            ) {
-                                navController.navigate("${DestinationScreen.PublishingCoDetailScreen.name}/${item.documentId}")
-                            }
-                            Spacer(modifier = Modifier.width(12.dp))
-                        })
-                }
-
-                Divider(
-                    modifier = Modifier
-                        .padding(start = 24.dp, end = 24.dp, top = 10.dp)
-                )
-                Spacer(modifier = Modifier.height(30.dp))
-
-                HeaderSections(
-                    viewMoreIsVisible = true,
-                    title = "Gêneros Literários"
-                ) {
-                    navController.navigate(DestinationScreen.MainLiteraryGenreScreen.name)
-                }
+                    HeaderSections(
+                        viewMoreIsVisible = true,
+                        title = "Gêneros Literários"
+                    ) {
+                        navController.navigate(DestinationScreen.MainLiteraryGenreScreen.name)
+                    }
 
 
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(start = 23.dp, end = 23.dp),
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    items(
-                        items = mountLiteraryGenreList(literaryGenreUiState.literaryGenreList).take(
-                            4
-                        ), itemContent = { item ->
-                            CardItem(
-                                item.name,
-                            ) {
-                                navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${item.documentId}")
-                            }
-                            Spacer(modifier = Modifier.width(12.dp))
-                        })
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(start = 23.dp, end = 23.dp),
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        items(
+                            items = mountLiteraryGenreList(literaryGenreUiState.literaryGenreList).take(
+                                4
+                            ), itemContent = { item ->
+                                CardItem(
+                                    item.name,
+                                ) {
+                                    navController.navigate("${DestinationScreen.LiteraryGenreDetailScreen.name}/${item.documentId}")
+                                }
+                                Spacer(modifier = Modifier.width(12.dp))
+                            })
+                    }
                 }
 
                 Divider(

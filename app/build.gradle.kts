@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -70,6 +71,8 @@ android {
 
 dependencies {
     implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("com.google.firebase:firebase-config:21.6.3")
+    implementation("com.google.firebase:firebase-crashlytics:18.6.4")
     val cameraxVersion = "1.3.1"
 
     implementation("androidx.core:core-ktx:1.9.0")
