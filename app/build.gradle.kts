@@ -22,8 +22,8 @@ android {
         applicationId = "io.berson.reaad"
         minSdk = 27
         targetSdk = 34
-        versionCode = 114
-        versionName = "1.1.4"
+        versionCode = 120
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
