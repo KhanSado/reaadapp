@@ -138,7 +138,8 @@ fun CreateNewQuoteScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = PrimaryColor,
-                    containerColor = Color.White
+                    containerColor = Color.White,
+                    textColor = PrimaryColor
                 ),
                 isError = isErrorRegister
             )
@@ -157,16 +158,21 @@ fun CreateNewQuoteScreen(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xFFFFFFFF))
+                    .background(Color.Transparent)
             ) {
+                val buttonIsEnable = quoteUiState.quoteDescription.isNotEmpty() && quoteUiState.bookId.isNotEmpty()
                 Button(
                     onClick = {
                         vm.addQuote()
                     },
                     colors = ButtonDefaults.buttonColors(
-                        Color.Transparent
+                        disabledContentColor = Color.LightGray,
+                        disabledContainerColor = Color.LightGray,
+                        contentColor = Color.White,
+                        containerColor = Color.White
                     ),
                     modifier = Modifier.width(300.dp),
+                    enabled = buttonIsEnable
                 ) {
                         Text(
                             text = "nova citação",

@@ -92,7 +92,9 @@ fun CreateNewAuthorScreen(
                 value = authorUiState.firstName,
                 onValueChange = { vm.onFirstNameChange(it) },
                 label = {
-                    Text(text = stringResource(R.string.author_name_label))
+                    Text(
+                        text = stringResource(R.string.author_name_label),
+                    )
                 },
                 leadingIcon = {
                     Icon(
@@ -116,7 +118,8 @@ fun CreateNewAuthorScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = PrimaryColor,
-                    containerColor = Color.White
+                    containerColor = Color.White,
+                    textColor = PrimaryColor
                 ),
                 isError = isErrorRegister
             )
@@ -152,7 +155,8 @@ fun CreateNewAuthorScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = PrimaryColor,
-                    containerColor = Color.White
+                    containerColor = Color.White,
+                    textColor = PrimaryColor
                 ),
                 isError = isErrorRegister
             )
@@ -161,14 +165,21 @@ fun CreateNewAuthorScreen(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xFFFFFFFF))
+                    .background(Color.Transparent)
             ) {
+
+                val buttonIsEnable = authorUiState.firstName.isNotEmpty() && authorUiState.lastName.isNotEmpty()
+
                 Button(
                     onClick = { vm.addAuthor() },
                     colors = ButtonDefaults.buttonColors(
-                        Color.Transparent
+                        disabledContentColor = Color.LightGray,
+                        disabledContainerColor = Color.LightGray,
+                        contentColor = Color.White,
+                        containerColor = Color.White
                     ),
-                    modifier = Modifier.width(300.dp)
+                    modifier = Modifier.width(300.dp),
+                    enabled = buttonIsEnable
                 ) {
                     Text(
                         text = stringResource(R.string.new_author_button),

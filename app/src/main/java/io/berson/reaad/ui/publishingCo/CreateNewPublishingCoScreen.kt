@@ -117,7 +117,8 @@ fun CreateNewPublishingCoScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = PrimaryColor,
-                    containerColor = Color.White
+                    containerColor = Color.White,
+                    textColor = PrimaryColor
                 ),
                 isError = isErrorRegister
             )
@@ -127,14 +128,19 @@ fun CreateNewPublishingCoScreen(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xFFFFFFFF))
+                    .background(Color.Transparent)
             ) {
+                val buttonIsEnable = publisingCoUiState.name.isNotEmpty()
                 Button(
                     onClick = { vm.addPublishingCo() },
                     colors = ButtonDefaults.buttonColors(
-                        Color.Transparent
+                        disabledContentColor = Color.LightGray,
+                        disabledContainerColor = Color.LightGray,
+                        contentColor = Color.White,
+                        containerColor = Color.White
                     ),
-                    modifier = Modifier.width(300.dp)
+                    modifier = Modifier.width(300.dp),
+                    enabled = buttonIsEnable
                 ) {
                     Text(
                         text = stringResource(R.string.new_publishing_co_button),

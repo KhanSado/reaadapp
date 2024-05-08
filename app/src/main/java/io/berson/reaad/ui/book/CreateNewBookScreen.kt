@@ -128,7 +128,8 @@ fun CreateNewBookScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = PrimaryColor,
-                    containerColor = Color.White
+                    containerColor = Color.White,
+                    textColor = PrimaryColor
                 ),
                 isError = isErrorRegister
             )
@@ -163,7 +164,8 @@ fun CreateNewBookScreen(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = PrimaryColor,
-                    containerColor = Color.White
+                    containerColor = Color.White,
+                    textColor = PrimaryColor
                 ),
             )
 
@@ -172,16 +174,21 @@ fun CreateNewBookScreen(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
-                    .background(Color(0xFFFFFFFF))
+                    .background(Color.Transparent)
             ) {
+                val buttonIsEnable = bookUiState.title.isNotEmpty() && bookUiState.subtitle.isNotEmpty()
                 Button(
                     onClick = {
                         navController.navigate(DestinationScreen.CreateNewBookStep2Screen.name)
                     },
                     colors = ButtonDefaults.buttonColors(
-                        Color.Transparent
+                        disabledContentColor = Color.LightGray,
+                        disabledContainerColor = Color.LightGray,
+                        contentColor = Color.White,
+                        containerColor = Color.White,
                     ),
                     modifier = Modifier.width(300.dp),
+                    enabled = buttonIsEnable
                 ) {
                     Text(
                         text = stringResource(id = R.string.continue_button),
