@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "245016133",
-    "firebase_url": "https://reaad-app-default-rtdb.firebaseio.com",
-    "project_id": "reaad-app",
-    "storage_bucket": "reaad-app.appspot.com"
+    "project_number": "375483717504",
+    "project_id": "reaad-prod-21a1e",
+    "storage_bucket": "reaad-prod-21a1e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:245016133:android:adb83f1f4461e482b5e52c",
+        "mobilesdk_app_id": "1:375483717504:android:b65713880aa56b3b349365",
         "android_client_info": {
           "package_name": "io.berson.reaad.app"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBKtR3LK67qMq9UyWuROls6iBvMGtoW8II"
+          "current_key": "AIzaSyBSKGqJKamh_WyrFZoVUjAQtqUOMTNPTmI"
         }
       ],
       "services": {

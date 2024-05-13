@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:375483717504:android:b65713880aa56b3b349365",
+        "mobilesdk_app_id": "1:375483717504:android:2aae3319ce2312cc349365",
         "android_client_info": {
-          "package_name": "io.berson.reaad"
+          "package_name": "io.berson.reaad.app"
         }
       },
       "oauth_client": [],

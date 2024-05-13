@@ -9,9 +9,9 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("/Users/berson/Desktop/app-reaad.jks")
+            storeFile = file("/Users/berson/Documents/chavesApp/app-reaad.jks")
             storePassword = "gc123147"
-            keyAlias = "reaadapp"
+            keyAlias = "reaad-app"
             keyPassword = "gc123147"
         }
     }
@@ -19,7 +19,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "io.berson.reaad"
+        applicationId = "io.berson.reaad.app"
         minSdk = 27
         targetSdk = 34
         versionCode = 120
